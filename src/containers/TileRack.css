@@ -3,7 +3,11 @@
 	border: 2px solid black;
 }
 
-.column {
+.row {
 	display: inline-flex;
+}
+
+.column {
+	width: 60px;
 }
 

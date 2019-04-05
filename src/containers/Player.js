@@ -6,7 +6,7 @@ export default class Player extends Component {
 		return (
 			<div>
 				<h3>{this.props.name}</h3>
-				<TileRack tiles={this.props.tiles} direction='column' />
+				<TileRack tiles={this.props.tiles} direction={this.props.direction} tileRotation={this.props.tileRotation} />
 			</div>
 		);
 	}

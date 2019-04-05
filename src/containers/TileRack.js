@@ -8,10 +8,18 @@ export default class TileRack extends Component {
 		const direction = valid.has(this.props.direction) ? this.props.direction : '';
 		return (
 			<div className={'tileRackDiv ' + direction}>
-				{ this.props.tiles.map((item, index) => <Tile key={index} suit={item.suit} type={item.type} />) }
+				{
+					this.props.tiles.map((item, index) => (
+						<Tile
+							key={index}
+							suit={item.suit}
+							type={item.type}
+							tileRotation={this.props.tileRotation}
+						/>
+					))
+				}
 			</div>
 		);
 	}
 }
-
 

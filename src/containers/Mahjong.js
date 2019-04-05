@@ -42,10 +42,30 @@ export default class Mahjong extends Component {
 	initializeRandomPlayers() {
 		this.setState({
 			players: [
-				{ name: 'Player 1', tiles: [] },
-				{ name: 'Player 2', tiles: [] },
-				{ name: 'Player 3', tiles: [] },
-				{ name: 'Player 4', tiles: [] }
+				{
+					name: 'Player 1',
+					tiles: [],
+					tileRotation: 0,
+					direction: 'row'
+				},
+				{
+					name: 'Player 2',
+					tiles: [],
+					tileRotation: .75,
+					direction: 'column'
+				},
+				{
+					name: 'Player 3',
+					tiles: [],
+					tileRotation: .25,
+					direction: 'column'
+				},
+				{
+					name: 'Player 4',
+					tiles: [],
+					tileRotation: .5,
+					direction: 'row'
+				}
 			],
 		});
 	}
@@ -114,11 +134,29 @@ export default class Mahjong extends Component {
 		});
 	}
 
+	renderPlayer(player) {
+			return <Player name={player.name} tiles={player.tiles} tileRotation={player.tileRotation} direction={player.direction} />;
+	}
+
 	render() {
 		return (
 			<div>
-				<p>{this.state.tiles.size} available tiles</p>
-				{ this.state.players.map((item, index) => <Player key={index} name={item.name} tiles={item.tiles} />) }
+				{
+					this.state.players.length > 0 && (
+						<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+							<div>
+								{ this.renderPlayer(this.state.players[2]) }
+							</div>
+							<div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+								{ this.renderPlayer(this.state.players[3]) }
+								{ this.renderPlayer(this.state.players[0]) }
+							</div>
+							<div>
+								{ this.renderPlayer(this.state.players[1]) }
+							</div>
+						</div>
+					)
+				}
 			</div>
 		);
 	}
