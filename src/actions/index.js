@@ -1,5 +1,5 @@
-export const swapTile = (src_id, dest_id) => ({
+export const swapTile = (src_index, dst_index) => ({
 	type: 'SWAP_TILE',
-	src_id,
-	dest_id,
+	src_index,
+	dst_index,
 })
