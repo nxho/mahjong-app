@@ -39,16 +39,17 @@ export default class Mahjong extends Component {
 	dealRandomTiles() {
 		const currentPlayerState = this.state.players;
 		const currentTileState = this.state.tiles;
+		let currentTileIndex = this.state.tiles.length - 1;
 		for (let player of currentPlayerState) {
 			for (let i = 0; i < 14; i++) {
-				while(true) {
-					const randIndex = Math.floor((Math.random() * 1000) % 144);
-					if (currentTileState.has(randIndex)) {
-						player.tiles.push(currentTileState.get(randIndex));
-						currentTileState.delete(randIndex);
-						break;
-					}
+				const randIndex = Math.floor((Math.random() * 1000) % (currentTileIndex + 1));
+				if (randIndex != currentTileIndex) {
+					const temp = currentTileState[currentTileIndex];
+					currentTileState[currentTileIndex] = currentTileState[randIndex];
+					currentTileState[randIndex] = temp;
 				}
+				player.tiles.push(currentTileState.pop());
+				currentTileIndex--;
 			}
 		}
 
@@ -134,17 +135,17 @@ export default class Mahjong extends Component {
 			},
 		];
 
-		const tiles = new Map()
+		const tiles = [];
 
 		let count = 0
 		for (let set of [...honor, ...numeric, ...bonus]) {
 			for (let i = 0; i < set.count; i++) {
 				for (let type of set.types) {
-					tiles.set(count, {
+					tiles[count] = {
 						suit: set.suit,
 						type: type,
 						img: set.imgs != null ? set.imgs[type - 1] : null,
-					});
+					};
 
 					count++;
 				}
@@ -157,7 +158,12 @@ export default class Mahjong extends Component {
 	}
 
 	renderPlayer(player) {
-			return <Player name={player.name} tiles={player.tiles} tileRotation={player.tileRotation} direction={player.direction} />;
+		return <Player
+			name={player.name}
+			tiles={player.tiles}
+			tileRotation={player.tileRotation}
+			direction={player.direction}
+		/>;
 	}
 
 	render() {
