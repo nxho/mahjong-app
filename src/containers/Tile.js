@@ -38,7 +38,7 @@ class Tile extends Component {
 				}}
 				onDragOver={(e) => e.preventDefault()}
 				onDrop={(e) => {
-					this.props.swapTile(e.dataTransfer.getData('src_index'), this.props.index);
+					this.props.swapTile(this.props.playerId, parseInt(e.dataTransfer.getData('src_index')), this.props.index);
 				}}
 			>
 				{
@@ -50,7 +50,7 @@ class Tile extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-	swapTile: (src_index, dst_index) => dispatch(swapTile(src_index, dst_index)),
+	swapTile: (playerId, src_index, dst_index) => dispatch(swapTile(playerId, src_index, dst_index)),
 });
 
 export default connect(

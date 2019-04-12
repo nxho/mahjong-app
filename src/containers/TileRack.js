@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import Tile from './Tile';
 import './TileRack.css';
 
@@ -12,6 +11,7 @@ export default class TileRack extends Component {
 				{
 					this.props.tiles.map((item, index) => (
 						<Tile
+							playerId={this.props.playerId}
 							key={index}
 							index={index}
 							suit={item.suit}
@@ -25,15 +25,4 @@ export default class TileRack extends Component {
 		);
 	}
 }
-
-/*
-const mapStateToProps = state => ({
-	tiles: state.tiles,
-});
-
-export default connect(
-	mapStateToProps,
-	null,
-)(TileRack);
-*/
 
