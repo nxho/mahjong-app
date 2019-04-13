@@ -1,11 +1,24 @@
 import React, { Component } from 'react';
-import Player from './Player';
-
 import { connect } from 'react-redux';
 import { dealTilesToPlayers } from '../actions';
+import Player from './Player';
+
+import io from 'socket.io-client';
 
 class Mahjong extends Component {
-	componentWillMount() {
+	constructor(props) {
+		super(props);
+
+		this.socket = io('http://localhost:5000', {transports: ['websocket']});
+	}
+
+	componentDidMount() {
+		this.socket.on('message', (message) => {
+			console.log("message:", message);
+		});
+
+		this.socket.emit('message', 'test message');
+
 		this.props.dealTilesToPlayers(this.props.players.allIds);
 	}
 

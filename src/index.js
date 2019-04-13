@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import rootReducer from './reducers';
 import './index.css';
-import App from './containers/App';
+import Mahjong from './containers/Mahjong';
 import initPlayersAndTiles from './util/initPlayersAndTiles';
 import * as serviceWorker from './serviceWorker';
 
@@ -12,7 +12,7 @@ const store = createStore(rootReducer, initPlayersAndTiles());
 
 ReactDOM.render(
 	<Provider store={store}>
-		<App />
+		<Mahjong />
 	</Provider>,
 	document.getElementById('root')
 );
