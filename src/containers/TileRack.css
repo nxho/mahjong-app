@@ -5,9 +5,11 @@
 
 .row {
 	display: inline-flex;
+	align-items: center;
 }
 
 .column {
 	width: 60px;
+	align-items: center;
 }
 

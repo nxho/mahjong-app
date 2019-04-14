@@ -32,10 +32,12 @@ class Tile extends Component {
 	render() {
 		return (
 			<div
+				style={{ margin: 5 }}
 				draggable='true'
 				onDragStart={(e) => {
 					e.dataTransfer.setData('src_index', this.props.index);
 				}}
+				onDragEnter={(e) => e.preventDefault()}
 				onDragOver={(e) => e.preventDefault()}
 				onDrop={(e) => {
 					this.props.swapTile(this.props.playerId, parseInt(e.dataTransfer.getData('src_index')), this.props.index);
