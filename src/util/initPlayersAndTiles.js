@@ -18,6 +18,16 @@ import b7 from '../images/tiles/bamb_7.png';
 import b8 from '../images/tiles/bamb_8.png';
 import b9 from '../images/tiles/bamb_9.png';
 
+import c1 from '../images/tiles/char_1.png';
+import c2 from '../images/tiles/char_2.png';
+import c3 from '../images/tiles/char_3.png';
+// import c4 from '../images/tiles/char_4.png';
+// import c5 from '../images/tiles/char_5.png';
+// import c6 from '../images/tiles/char_6.png';
+// import c7 from '../images/tiles/char_7.png';
+// import c8 from '../images/tiles/char_8.png';
+// import c9 from '../images/tiles/char_9.png';
+
 const initPlayers = () => {
 	console.log('Initializing players');
 
@@ -79,6 +89,7 @@ const initTiles = (playerIds) => {
 		{
 			suit: 'character',
 			types: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+			imgs: [c1, c2, c3, /*c4, c5, c6, c7, c8, c9*/],
 			count: 4,
 		},
 	];
