@@ -10,10 +10,7 @@ class Tile extends Component {
 				src={this.props.img}
 				alt={`${this.props.suit}_${this.props.type}`}
 				style={{
-					maxWidth: 60,
-					maxHeight: 60,
-					transform: `rotate(${this.props.tileRotation}turn)`,
-					transformOrigin: 'center',
+					maxWidth: 51.5,
 				}}
 			/>
 		);
@@ -22,7 +19,11 @@ class Tile extends Component {
 		return (
 			<div
 				className='tileDiv'
-				style={{ transform: `rotate(${this.props.tileRotation}turn)` }}
+				style={{
+					padding: 5,
+					width: 40,
+					height: 62.48,
+				}}
 			>
 				<div>{this.props.suit.slice(0, 4)}</div>
 				<div>{this.props.type}</div>
@@ -32,7 +33,10 @@ class Tile extends Component {
 	render() {
 		return (
 			<div
-				style={{ margin: 5 }}
+				style={{
+					margin: 5,
+					transform: `rotate(${this.props.tileRotation}turn)`,
+				}}
 				draggable='true'
 				onDragStart={(e) => {
 					e.dataTransfer.setData('src_index', this.props.index);

@@ -4,16 +4,30 @@ import eventlet
 sio = socketio.Server()
 app = socketio.WSGIApp(sio, static_files={
     '/': {'content_type': 'text/html', 'filename': 'index.html'}
-})
+    })
 
 @sio.on('connect')
 def connect(sid, environ):
     print('connect ', sid)
 
-@sio.on('message')
+@sio.on('text_message')
 def message(sid, data):
-    sio.emit('message', data)
-    print('message ', data)
+    session = sio.get_session(sid)
+    sio.emit('text_message', data);
+    print(f'{session["username"]} says:', data)
+
+@sio.on('update_tiles')
+def update_tiles(sid, data):
+    sio.emit('update_tiles', skip_sid=sid, data);
+
+@sio.on('enter_game')
+def enter_game(sid, username):
+    sio.save_session(sid, {'username': username})
+    sio.enter_room(sid, 'game')
+
+@sio.on('leave_game')
+def leave_game(sid):
+    sio.leave_room(sid, 'game')
 
 @sio.on('disconnect')
 def disconnect(sid):

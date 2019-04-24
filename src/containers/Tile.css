@@ -1,7 +1,9 @@
 .tileDiv {
-	padding: 5px;
-	width: 40px;
 	border: .75px solid black;
 	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	transform-origin: center;
 }
 

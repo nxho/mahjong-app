@@ -10,3 +10,8 @@ export const swapTile = (playerId, src_index, dst_index) => ({
 	dst_index,
 });
 
+export const setUsername = (username) => ({
+	type: 'SET_USERNAME',
+	username,
+});
+

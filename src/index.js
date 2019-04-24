@@ -7,8 +7,12 @@ import './index.css';
 import Mahjong from './containers/Mahjong';
 import initPlayersAndTiles from './util/initPlayersAndTiles';
 import * as serviceWorker from './serviceWorker';
+import io from 'socket.io-client';
 
-const store = createStore(rootReducer, initPlayersAndTiles());
+const store = createStore(rootReducer, {
+	...initPlayersAndTiles(),
+	socket: io('http://localhost:5000', {transports: ['websocket']}),
+});
 
 ReactDOM.render(
 	<Provider store={store}>

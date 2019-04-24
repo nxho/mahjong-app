@@ -6,10 +6,15 @@
 .row {
 	display: inline-flex;
 	align-items: center;
+	margin: 10px 0px;
 }
 
 .column {
-	width: 60px;
+	padding-top: 5px;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-bottom: 20px;
 	align-items: center;
+	margin: 0px 10px;
 }
 
