@@ -6,12 +6,11 @@ app = socketio.WSGIApp(sio, static_files={
     '/': {'content_type': 'text/html', 'filename': 'index.html'}
     })
 
-players = []
+players = set()
 
 def deal_tiles():
-    for i in range(0, 4):
-        player_sid = players[i]
-        sio.call('update_tiles', 'asdf', player_sid);
+    for player_sid in players:
+        sio.call('update_tiles', [], player_sid);
 
 @sio.on('connect')
 def connect(sid, environ):
@@ -29,20 +28,26 @@ def update_tiles(sid, data):
 
 @sio.on('enter_game')
 def enter_game(sid, username):
-    print(f'{sid} entered game as {username}')
+    print(f'{sid} joined game as {username}')
     sio.save_session(sid, {'username': username})
     sio.enter_room(sid, 'game')
-    players.append(sid)
+    players.add(sid)
 
     if len(players) == 4:
         deal_tiles()
 
 @sio.on('leave_game')
 def leave_game(sid):
+    username = sio.get_session(sid)['username']
+    print(f'{sid} left game as {username}')
+    players.remove(sid)
     sio.leave_room(sid, 'game')
 
 @sio.on('disconnect')
 def disconnect(sid):
+    # on page reload, remove players from game pool
+    if sid in players:
+        players.remove(sid)
     print('disconnect ', sid)
 
 if __name__ == '__main__':

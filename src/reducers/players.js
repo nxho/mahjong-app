@@ -6,7 +6,7 @@ const players = (players = {}, action) => {
 				...players,
 				byId: {
 					...players.byId,
-					['1']: {
+					'1': {
 						...player,
 						name: action.username,
 					}

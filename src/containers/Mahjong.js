@@ -12,6 +12,10 @@ class Mahjong extends Component {
 		}
 	}
 
+	// TODO: initialize socketio event listeners here?? or in index.js vis store.dispatch()?
+	componentDidMount() {
+	}
+
 	hideForm = () => {
 		this.setState({
 			isUsernameFormVisible: false,
