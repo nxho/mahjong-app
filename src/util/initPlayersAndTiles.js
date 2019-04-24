@@ -40,7 +40,6 @@ const initTiles = (playerIds) => {
 	 *  {
 	 *  	suit: 'char',
 	 *  	type: 1,
-	 *  	img: <img object>
 	 *  }
 	 */
 	for (let set of [...honor, ...numeric, ...bonus]) {
@@ -49,7 +48,6 @@ const initTiles = (playerIds) => {
 				gameTiles.push({
 					suit: set.suit,
 					type: type,
-					img: set.imgs != null ? set.imgs[type - 1] : null,
 				});
 			}
 		}

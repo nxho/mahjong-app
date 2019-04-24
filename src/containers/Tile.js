@@ -4,10 +4,22 @@ import { swapTile } from '../actions';
 import './Tile.css'
 
 class Tile extends Component {
-	renderImg() {
+	tryRequire() {
+		let img = null;
+
+		try {
+			img = require(`../images/tiles/${this.props.suit.slice(0, 4)}_${this.props.type}.png`)
+		} catch (e) {
+			// handle silently
+		}
+
+		return img;
+	}
+
+	renderImg(img_src) {
 		return (
 			<img
-				src={this.props.img}
+				src={img_src}
 				alt={`${this.props.suit}_${this.props.type}`}
 				style={{
 					maxWidth: 51.5,
@@ -15,6 +27,7 @@ class Tile extends Component {
 			/>
 		);
 	}
+
 	renderText() {
 		return (
 			<div
@@ -30,7 +43,9 @@ class Tile extends Component {
 			</div>
 		);
 	}
+
 	render() {
+		let img_src = this.tryRequire();
 		return (
 			<div
 				style={{
@@ -48,7 +63,7 @@ class Tile extends Component {
 				}}
 			>
 				{
-					(this.props.img != null && this.renderImg()) || this.renderText()
+					(img_src && this.renderImg(img_src)) || this.renderText()
 				}
 			</div>
 		);

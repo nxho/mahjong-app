@@ -13,12 +13,12 @@ def connect(sid, environ):
 @sio.on('text_message')
 def message(sid, data):
     session = sio.get_session(sid)
-    sio.emit('text_message', data);
+    sio.emit('text_message', room='game', data);
     print(f'{session["username"]} says:', data)
 
 @sio.on('update_tiles')
 def update_tiles(sid, data):
-    sio.emit('update_tiles', skip_sid=sid, data);
+    sio.emit('update_tiles', room='game', skip_sid=sid, data);
 
 @sio.on('enter_game')
 def enter_game(sid, username):
