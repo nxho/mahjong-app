@@ -1,10 +1,30 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import Board from './Board';
 import Chatroom from './Chatroom';
+import UsernameForm from './UsernameForm';
 
 class Mahjong extends Component {
-	render() {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			isUsernameFormVisible: true,
+		}
+	}
+
+	hideForm = () => {
+		this.setState({
+			isUsernameFormVisible: false,
+		});
+	}
+
+	renderUsernameForm() {
+		return (
+			<UsernameForm onSubmit={this.hideForm}/>
+		);
+	}
+
+	renderGame() {
 		return (
 			<div style={
 				{
@@ -18,6 +38,14 @@ class Mahjong extends Component {
 				<Chatroom />
 			</div>
 		);
+	}
+
+	render() {
+		if (this.state.isUsernameFormVisible) {
+			return this.renderUsernameForm();
+		}
+
+		return this.renderGame();
 	}
 }
 

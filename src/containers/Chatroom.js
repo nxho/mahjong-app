@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import './Chatroom.css';
 
 class Chatroom extends Component {
