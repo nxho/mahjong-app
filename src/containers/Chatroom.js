@@ -11,6 +11,9 @@ class Chatroom extends Component {
 	constructor(props) {
 		super(props);
 
+		// TODO: store messages on server?
+		// or at least update messages from server so that messages sent before
+		// auser joins can be seen as well
 		this.state = {
 			messages: [],
 		}
