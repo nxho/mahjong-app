@@ -20,6 +20,10 @@ class UsernameForm extends Component {
 
 		this.props.setUsername(this.state.username);
 
+		this.setState({
+			username: '',
+		});
+
 		if (this.props.onSubmit != null) {
 			this.props.onSubmit();
 		}
