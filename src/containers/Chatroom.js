@@ -5,8 +5,6 @@ import './Chatroom.css';
 import MessageList from './MessageList';
 import MessageForm from './MessageForm';
 
-import { registerEventHandler } from '../actions';
-
 class Chatroom extends Component {
 	constructor(props) {
 		super(props);
