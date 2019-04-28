@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { setUsername } from '../actions';
 
+import './UsernameForm.css';
+
 class UsernameForm extends Component {
 	constructor(props) {
 		super(props);
@@ -37,7 +39,7 @@ class UsernameForm extends Component {
 
 	render() {
 		return (
-			<form onSubmit={this.handleSubmit}>
+			<form className='container' onSubmit={this.handleSubmit}>
 				<label>
 					Name:
 					<input
