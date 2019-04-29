@@ -1,11 +1,13 @@
 import { combineReducers } from 'redux';
 import tiles from './tiles';
-import players from './players';
+import opponents from './opponents';
+import player from './player';
 import socket from './socket';
 
 export default combineReducers({
 	tiles,
-	players,
+	opponents,
+	player,
 	socket,
 });
 

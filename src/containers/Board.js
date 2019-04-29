@@ -2,62 +2,71 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { dealTilesToPlayers } from '../actions';
 import Player from './Player';
+import Opponent from '../components/Opponent';
 
 class Board extends Component {
 
 	componentDidMount() {
-		this.props.dealTilesToPlayers(this.props.players.allIds);
+		// TODO: disable dealing tiles from JS temporarily, moving code to Python
+		// this.props.dealTilesToPlayers(this.props.players.allIds);
 	}
 
-	renderPlayer(id) {
-		const player = this.props.players.byId[id];
+	renderPlayer() {
+		const player = this.props.player;
 		return <Player
-			id={id}
+			id={0}
 			name={player.name}
-			tiles={this.props.tiles.byId[id]}
+			tiles={player.tiles}
 			tileRotation={player.tileRotation}
 			direction={player.direction}
 		/>;
 	}
 
+	renderOpponent(id) {
+		const opponent = this.props.opponents[id];
+		const direction = id % 2 == 0 ? 'column' : 'row';
+		return <Opponent
+			name={opponent.name}
+			direction={direction}
+		/>;
+	}
+
 	render() {
 		return (
-			Object.keys(this.props.players.byId).length > 0 && (
-				<div style={
-					{
-						display: 'flex',
-						flex: 3,
-						flexDirection: 'row',
-						justifyContent: 'space-between'
-					}
-				}>
-					<div>
-						{ this.renderPlayer('3') }
-					</div>
-					<div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-						{ this.renderPlayer('4') }
-						{ this.renderPlayer('1') }
-					</div>
-					<div>
-						{ this.renderPlayer('2') }
-					</div>
-				</div>
-			)
-		);
+			<div style={
+				{
+					display: 'flex',
+					flex: 3,
+					flexDirection: 'row',
+					justifyContent: 'space-between'
+				}
+			}>
+			<div>
+				{ this.renderOpponent(2) }
+			</div>
+			<div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+				{ this.renderOpponent(1) }
+				{ this.renderPlayer() }
+			</div>
+			<div>
+				{ this.renderOpponent(0) }
+			</div>
+		</div>
+		)
 	}
 }
 
 const mapStateToProps = state => ({
 	tiles: state.tiles,
-	players: state.players,
+	player: state.player,
+	opponents: state.opponents,
 });
 
 const mapDispatchToProps = dispatch => ({
-	dealTilesToPlayers: (playerIds) => dispatch(dealTilesToPlayers(playerIds)),
 });
 
 export default connect(
 	mapStateToProps,
-	mapDispatchToProps,
+	null,
 )(Board);
 

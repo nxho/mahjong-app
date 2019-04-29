@@ -20,3 +20,8 @@ export const sendMessage = (message) => ({
 	message,
 });
 
+export const updateOpponents = (opponents) => ({
+	type: 'UPDATE_OPPONENTS',
+	opponents,
+});
+
