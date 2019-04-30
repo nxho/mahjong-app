@@ -1,0 +1,22 @@
+.boardContainer {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	flex: 3;
+}
+
+.leftColumn {
+	display: flex;
+	align-self: center;
+}
+
+.middleColumn {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.rightColumn {
+	display: flex;
+	align-self: center;
+}

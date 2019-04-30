@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import Player from './Player';
 import Opponent from '../components/Opponent';
 
+import './Board.css';
+
 class Board extends Component {
 	renderPlayer() {
 		const player = this.props.player;
@@ -26,25 +28,18 @@ class Board extends Component {
 
 	render() {
 		return (
-			<div style={
-				{
-					display: 'flex',
-					flex: 3,
-					flexDirection: 'row',
-					justifyContent: 'space-between'
-				}
-			}>
-			<div>
-				{ this.renderOpponent(2) }
+			<div className='boardContainer'>
+				<div className='leftColumn'>
+					{ this.renderOpponent(2) }
+				</div>
+				<div className='middleColumn'>
+					{ this.renderOpponent(1) }
+					{ this.renderPlayer() }
+				</div>
+				<div className='rightColumn'>
+					{ this.renderOpponent(0) }
+				</div>
 			</div>
-			<div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-				{ this.renderOpponent(1) }
-				{ this.renderPlayer() }
-			</div>
-			<div>
-				{ this.renderOpponent(0) }
-			</div>
-		</div>
 		)
 	}
 }
