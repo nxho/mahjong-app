@@ -9,13 +9,7 @@ import * as serviceWorker from './serviceWorker';
 import io from 'socket.io-client';
 
 const store = createStore(rootReducer, {
-	// ...initPlayersAndTiles(),
 	socket: io('http://localhost:5000', {transports: ['websocket']}),
-	player: {
-		name: '',
-		tiles: [],
-	},
-	opponents: [],
 });
 
 ReactDOM.render(

@@ -1,4 +1,4 @@
-const player = (player = {}, action) => {
+const player = (player = { name: '', tiles: [] }, action) => {
 	switch (action.type) {
 		case 'SET_USERNAME':
 			return {
