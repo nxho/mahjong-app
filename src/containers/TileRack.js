@@ -11,7 +11,6 @@ export default class TileRack extends Component {
 				{
 					this.props.tiles.map((item, index) => (
 						<Tile
-							playerId={this.props.playerId}
 							key={index}
 							index={index}
 							suit={item.suit}

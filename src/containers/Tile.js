@@ -59,7 +59,7 @@ class Tile extends Component {
 				onDragEnter={(e) => e.preventDefault()}
 				onDragOver={(e) => e.preventDefault()}
 				onDrop={(e) => {
-					this.props.swapTile(this.props.playerId, parseInt(e.dataTransfer.getData('src_index')), this.props.index);
+					this.props.swapTile(parseInt(e.dataTransfer.getData('src_index')), this.props.index);
 				}}
 			>
 				{

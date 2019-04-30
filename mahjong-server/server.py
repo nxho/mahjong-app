@@ -77,7 +77,7 @@ def enter_game(sid, username):
         }
         player_sids.append(i)
 
-    sio.emit('text_message', f'Server: {username} joined the game', room='game')
+    sio.emit('text_message', f'{username} joined the game', room='game')
 
     update_opponents()
 

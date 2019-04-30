@@ -14,7 +14,6 @@ class Board extends Component {
 		const player = this.props.player;
 		console.log('rendering player', player.tiles);
 		return <Player
-			id={0}
 			name={player.name}
 			tiles={player.tiles}
 			tileRotation={0}
