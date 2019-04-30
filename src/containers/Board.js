@@ -4,12 +4,6 @@ import Player from './Player';
 import Opponent from '../components/Opponent';
 
 class Board extends Component {
-
-	componentDidMount() {
-		// TODO: disable dealing tiles from JS temporarily, moving code to Python
-		// this.props.dealTilesToPlayers(this.props.players.allIds);
-	}
-
 	renderPlayer() {
 		const player = this.props.player;
 		console.log('rendering player', player.tiles);
