@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { dealTilesToPlayers } from '../actions';
 import Player from './Player';
 import Opponent from '../components/Opponent';
 
@@ -13,18 +12,19 @@ class Board extends Component {
 
 	renderPlayer() {
 		const player = this.props.player;
+		console.log('rendering player', player.tiles);
 		return <Player
 			id={0}
 			name={player.name}
 			tiles={player.tiles}
-			tileRotation={player.tileRotation}
-			direction={player.direction}
+			tileRotation={0}
+			direction={'row'}
 		/>;
 	}
 
 	renderOpponent(id) {
 		const opponent = this.props.opponents[id];
-		const direction = id % 2 == 0 ? 'column' : 'row';
+		const direction = id % 2 === 0 ? 'column' : 'row';
 		return <Opponent
 			name={opponent.name}
 			direction={direction}
@@ -60,9 +60,6 @@ const mapStateToProps = state => ({
 	tiles: state.tiles,
 	player: state.player,
 	opponents: state.opponents,
-});
-
-const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(

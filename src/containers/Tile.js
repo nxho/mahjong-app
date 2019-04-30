@@ -35,7 +35,7 @@ class Tile extends Component {
 				style={{
 					padding: 5,
 					width: 40,
-					height: 62.48,
+					height: 60.98,
 				}}
 			>
 				<div>{this.props.suit.slice(0, 4)}</div>

@@ -5,7 +5,6 @@ import { createStore } from 'redux';
 import rootReducer from './reducers';
 import './index.css';
 import Mahjong from './containers/Mahjong';
-import initPlayersAndTiles from './util/initPlayersAndTiles';
 import * as serviceWorker from './serviceWorker';
 import io from 'socket.io-client';
 
@@ -14,9 +13,9 @@ const store = createStore(rootReducer, {
 	socket: io('http://localhost:5000', {transports: ['websocket']}),
 	player: {
 		name: '',
+		tiles: [],
 	},
-	opponents: [
-	],
+	opponents: [],
 });
 
 ReactDOM.render(

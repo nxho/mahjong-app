@@ -25,3 +25,8 @@ export const updateOpponents = (opponents) => ({
 	opponents,
 });
 
+export const updateTiles = (tiles) => ({
+	type: 'UPDATE_TILES',
+	tiles,
+});
+

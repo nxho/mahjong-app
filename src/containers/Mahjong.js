@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { sendMessage, updateOpponents } from '../actions';
+import { updateOpponents, updateTiles } from '../actions';
 
 import Board from './Board';
 import Chatroom from './Chatroom';
@@ -25,12 +25,13 @@ class Mahjong extends Component {
 
 	// TODO: initialize socketio event listeners here?? or in index.js via store.dispatch()?
 	componentDidMount() {
-		this.props.socket.on('enter_game', (username) => {
-			console.log(`Received "enter_game" event from server, new player ${username} joined`);
-		});
 		this.props.socket.on('update_opponents', (opponents) => {
-			console.log(`Received "update_opponents" event from server, updating ${this.props.opponents} to ${opponents}`);
+			console.log('Received "update_opponents" event from server, updating opponents to:', opponents);
 			this.props.updateOpponents(opponents);
+		});
+		this.props.socket.on('update_tiles', (tiles) => {
+			console.log('Received "update_tiles" event from server, updating tiles to:', tiles);
+			this.props.updateTiles(tiles);
 		});
 	}
 
@@ -78,8 +79,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	sendMessage: (message) => dispatch(sendMessage(message)),
 	updateOpponents: (opponents) => dispatch(updateOpponents(opponents)),
+	updateTiles: (tiles) => dispatch(updateTiles(tiles)),
 });
 
 export default connect(

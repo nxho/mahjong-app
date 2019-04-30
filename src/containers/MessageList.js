@@ -5,8 +5,8 @@ export default class MessageList extends Component {
 		return (
 			<div>
 				{
-					this.props.messages.map(message => (
-						<div>{message}</div>
+					this.props.messages.map((message, index) => (
+						<div key={index}>{message}</div>
 					))
 				}
 			</div>

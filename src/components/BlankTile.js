@@ -2,22 +2,23 @@ import React from 'react';
 
 const styles = {
 	container: {
+		margin: 5,
 		borderWidth: .75,
 		borderStyle: 'solid',
 		borderColor: 'black',
 	},
 	row: {
-		width: 40,
-		height: 62.48,
+		width: 50.75,
+		height: 71.73,
 	},
 	column: {
-		width: 62.48,
-		height: 40,
+		width: 71.73,
+		height: 50.75,
 	},
 };
 
 const BlankTile = ({direction}) => (
-	<div style={[styles.container, styles[direction]]}>
+	<div style={{...styles.container, ...styles[direction]}}>
 	</div>
 );
 

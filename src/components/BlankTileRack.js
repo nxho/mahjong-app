@@ -7,10 +7,12 @@ const BlankTileRack = ({direction}) => {
 	for (let i = 0; i < 14; i++) {
 		tiles.push(
 			<BlankTile
+				key={i}
 				direction={direction}
 			/>
 		);
 	}
+	console.log('opponent tiles', tiles);
 	return (
 		<div className={'tileRackDiv ' + direction}>
 			{tiles}

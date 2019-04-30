@@ -5,6 +5,11 @@ const player = (player = {}, action) => {
 				...player,
 				name: action.username,
 			};
+		case 'UPDATE_TILES':
+			return {
+				...player,
+				tiles: action.tiles,
+			};
 		default:
 			return player;
 	}

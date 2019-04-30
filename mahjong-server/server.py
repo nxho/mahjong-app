@@ -35,11 +35,14 @@ def deal_tiles():
 
             player_tiles.append(game_tiles.pop())
 
-        sio.call('update_tiles', player_tiles, player_sid)
+        sio.emit('update_tiles', player_tiles, sid)
 
 def update_opponents():
     for sid in player_sids:
-        sio.call('update_opponents', list(filter(lambda other_sid: other_sid != sid, player_sids)), sid)
+        sio.emit('update_opponents',
+                 list(map(lambda sid: { 'name': players[sid]['name'] },
+                          list(filter(lambda other_sid: other_sid != sid, player_sids)))),
+                 room=sid)
 
 @sio.on('connect')
 def connect(sid, environ):
@@ -47,21 +50,33 @@ def connect(sid, environ):
 
 @sio.on('text_message')
 def message(sid, msg):
-    username = sio.get_session(sid)['username']
+    username = players[sid]['name']
     sio.emit('text_message', f'{username}: {msg}', room='game')
     print(f'{username} says: {msg}')
 
 @sio.on('enter_game')
 def enter_game(sid, username):
     print(f'{sid} joined game as {username}')
-    sio.save_session(sid, {'username': username})
     sio.enter_room(sid, 'game')
+
+    # TODO: only for testing purposes
+    players.clear()
+    player_sids.clear()
+    game_tiles.clear()
+
     players[sid] = {
+        'name': username,
         'tiles': []
     }
     player_sids.append(sid)
 
-    sio.emit('enter_game', username, room='game', skip_sid=sid)
+    for i in range(3):
+        players[i] = {
+            'name': f'opponent_{i}',
+            'tiles': []
+        }
+        player_sids.append(i)
+
     sio.emit('text_message', f'Server: {username} joined the game', room='game')
 
     update_opponents()
