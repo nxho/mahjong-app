@@ -19,25 +19,16 @@ class Tile extends Component {
 	renderImg(img_src) {
 		return (
 			<img
+				className='imgTile'
 				src={img_src}
 				alt={`${this.props.suit}_${this.props.type}`}
-				style={{
-					maxWidth: 51.5,
-				}}
 			/>
 		);
 	}
 
 	renderText() {
 		return (
-			<div
-				className='tileDiv'
-				style={{
-					padding: 5,
-					width: 40,
-					height: 60.98,
-				}}
-			>
+			<div className='textTileDiv'>
 				<div>{this.props.suit.slice(0, 4)}</div>
 				<div>{this.props.type}</div>
 			</div>
@@ -48,8 +39,8 @@ class Tile extends Component {
 		let img_src = this.tryRequire();
 		return (
 			<div
+				className='tileDiv'
 				style={{
-					margin: 5,
 					transform: `rotate(${this.props.tileRotation}turn)`,
 				}}
 				draggable='true'

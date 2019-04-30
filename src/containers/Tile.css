@@ -1,9 +1,20 @@
 .tileDiv {
+	margin: 5px;
+}
+
+.imgTile {
+	max-width: 51.5px;
+}
+
+.textTileDiv {
 	border: .75px solid black;
 	text-align: center;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	transform-origin: center;
+	padding: 5px;
+	width: 40px;
+	height: 60.98px;
 }
 
