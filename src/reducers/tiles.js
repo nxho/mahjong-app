@@ -36,26 +36,6 @@ const tiles = (tiles = {}, action) => {
 		case 'DEAL_TILES_TO_PLAYERS':
 			console.log('Dealing tiles to players');
 			return dealTilesToPlayers(tiles, action.playerIds);
-		case 'SWAP_TILE':
-			const { playerId, src_index, dst_index } = action;
-			const playerTiles = tiles.byId[playerId];
-			console.log(`swapping tile index ${src_index} with ${dst_index} for player ${playerId}`);
-
-			return {
-				...tiles,
-				byId: {
-					...tiles.byId,
-					[playerId]: playerTiles.map((item, index) => {
-						if (index === src_index) {
-							return { ...playerTiles[dst_index] };
-						} else if (index === dst_index) {
-							return { ...playerTiles[src_index] };
-						} else {
-							return item;
-						}
-					})
-				}
-			};
 		default:
 			return tiles;
 	}
