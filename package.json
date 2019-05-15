@@ -16,7 +16,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "server": "nodemon mahjong-server/server.py"
+    "server": "nodemon mahjong-server/server.py",
+    "cypress": "cypress open"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -28,6 +29,8 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "cypress": "^3.2.0",
+    "cypress-testing-library": "^3.0.1",
     "react-test-renderer": "^16.8.6",
     "react-testing-library": "^7.0.0"
   }
