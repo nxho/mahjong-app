@@ -39,7 +39,7 @@ class UsernameForm extends Component {
 
 	render() {
 		return (
-			<form className='container' onSubmit={this.handleSubmit}>
+			<form className='container' onSubmit={this.handleSubmit} data-testid='username-form'>
 				<label>
 					Name:
 					<input

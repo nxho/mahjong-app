@@ -12,7 +12,6 @@ const BlankTileRack = ({direction}) => {
 			/>
 		);
 	}
-	console.log('opponent tiles', tiles);
 	return (
 		<div className={'tileRackDiv ' + direction}>
 			{tiles}

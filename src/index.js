@@ -4,13 +4,11 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import rootReducer from './reducers';
 import './index.css';
+import initialState from './initialState';
 import Mahjong from './containers/Mahjong';
 import * as serviceWorker from './serviceWorker';
-import io from 'socket.io-client';
 
-const store = createStore(rootReducer, {
-	socket: io('http://localhost:5000', {transports: ['websocket']}),
-});
+const store = createStore(rootReducer, initialState);
 
 ReactDOM.render(
 	<Provider store={store}>

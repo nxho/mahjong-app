@@ -8,7 +8,6 @@ import './Board.css';
 class Board extends Component {
 	renderPlayer() {
 		const player = this.props.player;
-		console.log('rendering player', player.tiles);
 		return <Player
 			name={player.name}
 			tiles={player.tiles}
@@ -28,7 +27,7 @@ class Board extends Component {
 
 	render() {
 		return (
-			<div className='boardContainer'>
+			<div className='boardContainer' data-testid='board'>
 				<div className='leftColumn'>
 					{ this.renderOpponent(2) }
 				</div>
