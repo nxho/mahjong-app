@@ -4,6 +4,18 @@ import { swapTile } from '../actions';
 import './Tile.css'
 
 class Tile extends Component {
+	handleEventPreventDefault = (e) => {
+		e.preventDefault()
+	}
+
+	handleDragStart = (e) => {
+		e.dataTransfer.setData('src_index', this.props.index);
+	}
+
+	handleDrop = (e) => {
+		this.props.swapTile(parseInt(e.dataTransfer.getData('src_index')), this.props.index);
+	}
+
 	tryRequire() {
 		let img = null;
 
@@ -43,15 +55,11 @@ class Tile extends Component {
 				style={{
 					transform: `rotate(${this.props.tileRotation}turn)`,
 				}}
-				draggable='true'
-				onDragStart={(e) => {
-					e.dataTransfer.setData('src_index', this.props.index);
-				}}
-				onDragEnter={(e) => e.preventDefault()}
-				onDragOver={(e) => e.preventDefault()}
-				onDrop={(e) => {
-					this.props.swapTile(parseInt(e.dataTransfer.getData('src_index')), this.props.index);
-				}}
+				draggable={`${this.props.dragEnabled}`}
+				onDragStart={this.props.dragEnabled ? this.handleDragStart : this.handleEventPreventDefault}
+				onDragEnter={this.handleEventPreventDefault}
+				onDragOver={this.handleEventPreventDefault}
+				onDrop={this.props.dragEnabled ? this.handleDrop : this.handleEventPreventDefault}
 			>
 				{
 					(img_src && this.renderImg(img_src)) || this.renderText()

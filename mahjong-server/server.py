@@ -13,6 +13,7 @@ app = socketio.WSGIApp(sio, static_files={
 players = {}
 player_sids = []
 game_tiles = []
+current_player_idx = 0
 
 def init_tiles():
     for tile_set in [*honor, *numeric, *bonus]:
@@ -36,6 +37,16 @@ def deal_tiles():
             player_tiles.append(game_tiles.pop())
 
         sio.emit('update_tiles', player_tiles, sid)
+
+# notify player to start turn
+def start_turn():
+    sio.emit('start_turn', room=player_sids[current_player_idx])
+
+# player notifies server to end their turn and start next player's turn
+@sio.on('end_turn')
+def end_turn():
+    current_player_idx = (current_player_idx + 1) % 4
+    start_turn()
 
 def update_opponents():
     for sid in player_sids:
@@ -69,7 +80,8 @@ def enter_game(sid, username):
 
     players[sid] = {
         'name': username,
-        'tiles': []
+        'tiles': [],
+        'isCurrentTurn': False,
     }
     player_sids.append(sid)
 
@@ -88,9 +100,11 @@ def enter_game(sid, username):
 
     update_opponents()
 
+    # if enough players, start game
     if len(players) == 4:
         init_tiles()
         deal_tiles()
+        start_turn()
 
 @sio.on('leave_game')
 def leave_game(sid):

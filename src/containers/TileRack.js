@@ -17,6 +17,7 @@ export default class TileRack extends Component {
 							type={item.type}
 							img={item.img}
 							tileRotation={this.props.tileRotation}
+							dragEnabled={this.props.tileDragEnabled}
 						/>
 					))
 				}

@@ -1,5 +1,15 @@
-const player = (player = { name: '', tiles: [] }, action) => {
+const player = (player = { name: '', tiles: [], isCurrentTurn: false }, action) => {
 	switch (action.type) {
+		case 'START_TURN':
+			return {
+				...player,
+				isCurrentTurn: true,
+			};
+		case 'END_TURN':
+			return {
+				...player,
+				isCurrentTurn: false,
+			};
 		case 'SET_USERNAME':
 			return {
 				...player,

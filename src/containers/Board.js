@@ -13,6 +13,7 @@ class Board extends Component {
 			tiles={player.tiles}
 			tileRotation={0}
 			direction={'row'}
+			isCurrentTurn={player.isCurrentTurn}
 		/>;
 	}
 

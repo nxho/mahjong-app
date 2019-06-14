@@ -24,3 +24,11 @@ export const updateTiles = (tiles) => ({
 	tiles,
 });
 
+export const startTurn = () => ({
+	type: 'START_TURN',
+});
+
+export const endTurn = () => ({
+	type: 'END_TURN',
+});
+
