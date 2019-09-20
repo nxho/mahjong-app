@@ -6,7 +6,7 @@ const local = {
 
 const dev = {
 	socketio: {
-		SERVER: 'https://desolate-scrubland-56031.herokuapp.com:15503',
+		SERVER: 'https://desolate-scrubland-56031.herokuapp.com',
 	}
 }
 
