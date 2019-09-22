@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateOpponents, updateTiles, startTurn } from '../actions';
 
 import Board from './Board';
 import Chatroom from './Chatroom';
@@ -21,22 +20,6 @@ class Mahjong extends Component {
 		this.state = {
 			isUsernameFormVisible: true,
 		}
-	}
-
-	// TODO: initialize socketio event listeners here?? or in index.js via store.dispatch()?
-	componentDidMount() {
-		this.props.socket.on('update_opponents', (opponents) => {
-			console.log('Received "update_opponents" event from server, updating opponents to:', opponents);
-			this.props.updateOpponents(opponents);
-		});
-		this.props.socket.on('update_tiles', (tiles) => {
-			console.log('Received "update_tiles" event from server, updating tiles to:', tiles);
-			this.props.updateTiles(tiles);
-		});
-		this.props.socket.on('start_turn', () => {
-			console.log('Received "start_turn" event from server, enabling tile movement for player');
-			this.props.startTurn();
-		});
 	}
 
 	hideForm = () => {
@@ -79,17 +62,10 @@ class Mahjong extends Component {
 
 const mapStateToProps = state => ({
 	opponents: state.opponents,
-	socket: state.socket,
-});
-
-const mapDispatchToProps = dispatch => ({
-	updateOpponents: (opponents) => dispatch(updateOpponents(opponents)),
-	updateTiles: (tiles) => dispatch(updateTiles(tiles)),
-	startTurn: () => dispatch(startTurn()),
 });
 
 export default connect(
 	mapStateToProps,
-	mapDispatchToProps,
+	null,
 )(Mahjong);
 

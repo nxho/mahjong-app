@@ -1,12 +1,12 @@
 const local = {
-	socketio: {
-		SERVER: 'http://localhost:5000',
+	socket: {
+		SERVER_URL: 'http://localhost:5000',
 	}
 }
 
 const dev = {
-	socketio: {
-		SERVER: 'https://desolate-scrubland-56031.herokuapp.com',
+	socket: {
+		SERVER_URL: 'https://desolate-scrubland-56031.herokuapp.com',
 	}
 }
 

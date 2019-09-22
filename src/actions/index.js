@@ -32,3 +32,8 @@ export const endTurn = () => ({
 	type: 'END_TURN',
 });
 
+export const updateMessages = (message) => ({
+	type: 'UPDATE_MESSAGES',
+	message,
+});
+

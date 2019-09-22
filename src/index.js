@@ -1,14 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import rootReducer from './reducers';
 import './index.css';
-import initialState from './initialState';
 import Mahjong from './containers/Mahjong';
 import * as serviceWorker from './serviceWorker';
 
-const store = createStore(rootReducer, initialState);
+import createSocketMiddleware from './middleware';
+import config from './config';
+
+const store = createStore(
+	rootReducer,
+	// TODO: modify to take in a socketio instance, so we can override for testing?
+	applyMiddleware(createSocketMiddleware(config.socket.SERVER_URL))
+);
 
 ReactDOM.render(
 	<Provider store={store}>

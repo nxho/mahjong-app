@@ -5,32 +5,15 @@ import './Chatroom.css';
 import MessageList from './MessageList';
 import MessageForm from './MessageForm';
 
+// can convert into functional component,
+// possibly also use hooks to get messages from state? not sure
 class Chatroom extends Component {
-	constructor(props) {
-		super(props);
-
-		// TODO: store messages on server?
-		// or at least update messages from server so that messages sent before
-		// a user joins can be seen as well
-		this.state = {
-			messages: [],
-		}
-	}
-
-	componentDidMount = () => {
-		this.props.socket.on('text_message', (message) => {
-			this.setState({
-				messages: [...this.state.messages, message]
-			});
-		});
-	}
-
 	render() {
 		return (
 			<div className='chatroom'>
 				<div>
 					<div className='header'>Chatroom</div>
-					<MessageList messages={this.state.messages} />
+					<MessageList messages={this.props.messages} />
 				</div>
 				<MessageForm />
 			</div>
@@ -39,7 +22,7 @@ class Chatroom extends Component {
 }
 
 const mapStateToProps = state => ({
-	socket: state.socket,
+	messages: state.messages,
 });
 
 export default connect(
