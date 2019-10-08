@@ -1,10 +1,7 @@
-import io from 'socket.io-client';
 import { updateOpponents, updateTiles, startTurn, updateMessages } from '../actions';
 
-const createSocketMiddleware = (url) => {
+const createSocketMiddleware = (socket) => {
 	return store => {
-		let socket = io(url);
-
 		// initialize socketio listeners
 		socket.on('update_opponents', (opponents) => {
 			console.log('Received "update_opponents" event from server, updating opponents to:', opponents);

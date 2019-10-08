@@ -7,13 +7,14 @@ import './index.css';
 import Mahjong from './containers/Mahjong';
 import * as serviceWorker from './serviceWorker';
 
+import io from 'socket.io-client';
 import createSocketMiddleware from './middleware';
 import config from './config';
 
+const socket = io(config.socket.SERVER_URL);
 const store = createStore(
 	rootReducer,
-	// TODO: modify to take in a socketio instance, so we can override for testing?
-	applyMiddleware(createSocketMiddleware(config.socket.SERVER_URL))
+	applyMiddleware(createSocketMiddleware(socket))
 );
 
 ReactDOM.render(

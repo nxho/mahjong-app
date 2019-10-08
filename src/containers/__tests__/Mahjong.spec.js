@@ -1,15 +1,23 @@
 import React from 'react';
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import { render, fireEvent, cleanup, waitForElement } from 'react-testing-library'
 import io from 'socket.io-client';
+import config from '../../config';
+import createSocketMiddleware from '../../middleware';
 
 import reducer from '../../reducers';
 import Mahjong from '../Mahjong';
 
 const initSocket = () => {
 	return new Promise((resolve, reject) => {
-		const socket = io('http://localhost:5000', {
+		const socket = io(config.socket.SERVER_URL, {
+			// for testing purposes, we need to force this upgrade to websocket connection
+			// without this, I ran into problems such as:
+			//  - the board would not be rendered
+			// 	- we wouldn't receive logs from the middleware
+			// the server would receive the events emitted by the socket successfully, but I guess
+			// the client wasn't receiving certain events (assumption based on the above problems)
 			transports: ['websocket'],
 		});
 
@@ -18,7 +26,7 @@ const initSocket = () => {
 		});
 
 		setTimeout(() => {
-      reject(new Error("Failed to connect wihtin 5 seconds."));
+      reject(new Error("Failed to connect within 5 seconds."));
     }, 5000);
 	});
 }
@@ -38,10 +46,10 @@ const renderWithRedux = (
 })
 
 const renderMahjongWithUsername = async (username) => {
+	const socket = await initSocket();
+	const store = createStore(reducer, applyMiddleware(createSocketMiddleware(socket)))
 	const { getByLabelText, getAllByTestId, getByTestId, debug } = renderWithRedux(<Mahjong />, {
-		initialState: {
-			socket: await initSocket()
-		}
+		store,
 	});
 	const usernameInput = getByLabelText('Name:', {
 		selector: 'input',
