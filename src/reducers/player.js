@@ -3,7 +3,7 @@ const player = (
 		name: '',
 		tiles: [],
 		isCurrentTurn: false,
-		discardedTile: '',
+		discardedTile: null,
 		// discardedTileCandidate: '',
 	},
 	action) => {
