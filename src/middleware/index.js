@@ -15,6 +15,10 @@ const createSocketMiddleware = (socket) => {
 			console.log('Received "start_turn" event from server, enabling tile movement for player');
 			store.dispatch(startTurn());
 		});
+		socket.on('update_discarded_tile', (tile) => {
+			console.log('Received "update_discarded_tile" event from server, updating discarded tile to:', tile);
+			// store.dispatch(updateDiscardedTile());
+		});
 
 		// TODO: store messages on server?
 		// or at least update messages from server so that messages sent before

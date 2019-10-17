@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Tile from './Tile';
+import PlayerTile from './PlayerTile';
 import './TileRack.css';
 
-export default class TileRack extends Component {
+class TileRack extends Component {
 	render() {
 		const valid = new Set(['row', 'column']);
 		const direction = valid.has(this.props.direction) ? this.props.direction : '';
@@ -10,7 +10,7 @@ export default class TileRack extends Component {
 			<div className={'tileRackDiv ' + direction}>
 				{
 					this.props.tiles.map((item, index) => (
-						<Tile
+						<PlayerTile
 							key={index}
 							index={index}
 							suit={item.suit}
@@ -25,4 +25,6 @@ export default class TileRack extends Component {
 		);
 	}
 }
+
+export default TileRack;
 

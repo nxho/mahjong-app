@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { swapTile } from '../actions';
-import './Tile.css'
+import TileContent from './TileContent';
+import './PlayerTile.css'
 
-class Tile extends Component {
+class PlayerTile extends Component {
 	handleEventPreventDefault = (e) => {
 		e.preventDefault()
 	}
@@ -16,39 +17,7 @@ class Tile extends Component {
 		this.props.swapTile(parseInt(e.dataTransfer.getData('src_index')), this.props.index);
 	}
 
-	tryRequire() {
-		let img = null;
-
-		try {
-			img = require(`../images/tiles/${this.props.suit.slice(0, 4)}_${this.props.type}.png`)
-		} catch (e) {
-			// handle silently
-		}
-
-		return img;
-	}
-
-	renderImg(img_src) {
-		return (
-			<img
-				className='imgTile'
-				src={img_src}
-				alt={`${this.props.suit}_${this.props.type}`}
-			/>
-		);
-	}
-
-	renderText() {
-		return (
-			<div className='textTileDiv'>
-				<div>{this.props.suit.slice(0, 4)}</div>
-				<div>{this.props.type}</div>
-			</div>
-		);
-	}
-
 	render() {
-		let img_src = this.tryRequire();
 		return (
 			<div
 				className='tileDiv'
@@ -61,9 +30,10 @@ class Tile extends Component {
 				onDragOver={this.handleEventPreventDefault}
 				onDrop={this.props.dragEnabled ? this.handleDrop : this.handleEventPreventDefault}
 			>
-				{
-					(img_src && this.renderImg(img_src)) || this.renderText()
-				}
+				<TileContent
+					suit={this.props.suit}
+					type={this.props.type}
+				/>
 			</div>
 		);
 	}
@@ -76,5 +46,5 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
 	null,
 	mapDispatchToProps,
-)(Tile);
+)(PlayerTile);
 

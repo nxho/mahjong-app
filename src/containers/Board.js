@@ -45,7 +45,6 @@ class Board extends Component {
 }
 
 const mapStateToProps = state => ({
-	tiles: state.tiles,
 	player: state.player,
 	opponents: state.opponents,
 });
