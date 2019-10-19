@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { swapTile } from '../actions';
+import { swapTile, selectTile } from '../actions';
 import TileContent from './TileContent';
 import './PlayerTile.css'
 
@@ -18,9 +18,10 @@ class PlayerTile extends Component {
 	}
 
 	render() {
+		const selected = this.props.index === this.props.selectedTileIndex;
 		return (
 			<div
-				className='tileDiv'
+				className={selected ? ' selected' : 'tileDiv'}
 				style={{
 					transform: `rotate(${this.props.tileRotation}turn)`,
 				}}
@@ -29,6 +30,7 @@ class PlayerTile extends Component {
 				onDragEnter={this.handleEventPreventDefault}
 				onDragOver={this.handleEventPreventDefault}
 				onDrop={this.props.dragEnabled ? this.handleDrop : this.handleEventPreventDefault}
+				onMouseUp={() => this.props.selectTile(this.props.index)}
 			>
 				<TileContent
 					suit={this.props.suit}
@@ -39,12 +41,17 @@ class PlayerTile extends Component {
 	}
 }
 
+const mapStateToProps = state => ({
+	selectedTileIndex: state.player.selectedTileIndex,
+});
+
 const mapDispatchToProps = dispatch => ({
 	swapTile: (playerId, src_index, dst_index) => dispatch(swapTile(playerId, src_index, dst_index)),
+	selectTile: (index) => dispatch(selectTile(index)),
 });
 
 export default connect(
-	null,
+	mapStateToProps,
 	mapDispatchToProps,
 )(PlayerTile);
 

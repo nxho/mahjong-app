@@ -4,7 +4,7 @@ const player = (
 		tiles: [],
 		isCurrentTurn: false,
 		discardedTile: null,
-		// discardedTileCandidate: '',
+		selectedTileIndex: null,
 	},
 	action) => {
 		switch (action.type) {
@@ -31,6 +31,15 @@ const player = (
 			case 'SWAP_TILE':
 				const { src_index, dst_index } = action;
 				const playerTiles = player.tiles;
+				let selectedTileIndex = player.selectedTileIndex;
+
+				// Have to update the selectedTileIndex every time we swap
+				if (src_index === selectedTileIndex) {
+					selectedTileIndex = dst_index;
+				} else if (dst_index === selectedTileIndex) {
+					selectedTileIndex = src_index;
+				}
+
 				console.log(`swapping tile index ${src_index} with ${dst_index} for player`);
 
 				return {
@@ -44,7 +53,13 @@ const player = (
 						} else {
 							return item;
 						}
-					})
+					}),
+					selectedTileIndex,
+				}
+			case 'SELECT_TILE':
+				return {
+					...player,
+					selectedTileIndex: action.tileIndex,
 				}
 			default:
 				return player;

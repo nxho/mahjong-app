@@ -37,3 +37,8 @@ export const updateMessages = (message) => ({
 	message,
 });
 
+export const selectTile = (tileIndex) => ({
+	type: 'SELECT_TILE',
+	tileIndex,
+});
+

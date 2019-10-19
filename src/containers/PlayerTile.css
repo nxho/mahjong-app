@@ -2,3 +2,7 @@
 	margin: 5px;
 }
 
+.selected {
+	border: 5px solid red;
+}
+
