@@ -47,7 +47,7 @@ describe('Player component', () => {
 		const endTurnButton = await waitForElement(() => getByText('End Turn'));
 		fireEvent.click(endTurnButton);
 
-		expect(mockSocket.emit).toBeCalledWith('end_turn');
+		expect(mockSocket.emit.mock.calls[0][0]).toBe('end_turn');
 	});
 });
 

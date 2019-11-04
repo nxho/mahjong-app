@@ -1,4 +1,10 @@
-import { updateOpponents, updateTiles, startTurn, updateMessages } from '../actions';
+import {
+	updateDiscardedTile,
+	updateMessages,
+	updateOpponents,
+	updateTiles,
+	startTurn,
+} from '../actions';
 
 const createSocketMiddleware = (socket) => {
 	return store => {
@@ -11,13 +17,13 @@ const createSocketMiddleware = (socket) => {
 			console.log('Received "update_tiles" event from server, updating tiles to:', tiles);
 			store.dispatch(updateTiles(tiles));
 		});
+		socket.on('update_discarded_tile', (tile) => {
+			console.log('Received "update_discarded_tile" event from server, updating discarded tile to:', tile);
+			store.dispatch(updateDiscardedTile(tile));
+		});
 		socket.on('start_turn', () => {
 			console.log('Received "start_turn" event from server, enabling tile movement for player');
 			store.dispatch(startTurn());
-		});
-		socket.on('update_discarded_tile', (tile) => {
-			console.log('Received "update_discarded_tile" event from server, updating discarded tile to:', tile);
-			// store.dispatch(updateDiscardedTile());
 		});
 
 		// TODO: store messages on server?
@@ -31,7 +37,7 @@ const createSocketMiddleware = (socket) => {
 		return next => action => {
 			switch (action.type) {
 				case 'END_TURN':
-					socket.emit('end_turn');
+					socket.emit('end_turn', action.discardedTile);
 					break;
 				case 'SET_USERNAME':
 					socket.emit('enter_game', action.username);

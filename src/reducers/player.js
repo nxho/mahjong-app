@@ -1,3 +1,13 @@
+import {
+	START_TURN,
+	END_TURN,
+	SET_USERNAME,
+	UPDATE_TILES,
+	SWAP_TILE,
+	SELECT_TILE,
+	UPDATE_DISCARDED_TILE,
+} from '../actions';
+
 const player = (
 	player = {
 		name: '',
@@ -8,27 +18,33 @@ const player = (
 	},
 	action) => {
 		switch (action.type) {
-			case 'START_TURN':
+			case START_TURN:
 				return {
 					...player,
 					isCurrentTurn: true,
 				};
-			case 'END_TURN':
+			case END_TURN:
 				return {
 					...player,
 					isCurrentTurn: false,
+					selectedTileIndex: null,
 				};
-			case 'SET_USERNAME':
+			case SET_USERNAME:
 				return {
 					...player,
 					name: action.username,
 				};
-			case 'UPDATE_TILES':
+			case UPDATE_TILES:
 				return {
 					...player,
 					tiles: action.tiles,
 				};
-			case 'SWAP_TILE':
+			case UPDATE_DISCARDED_TILE:
+				return {
+					...player,
+					discardedTile: action.discardedTile,
+				};
+			case SWAP_TILE:
 				const { src_index, dst_index } = action;
 				const playerTiles = player.tiles;
 				let selectedTileIndex = player.selectedTileIndex;
@@ -56,7 +72,7 @@ const player = (
 					}),
 					selectedTileIndex,
 				}
-			case 'SELECT_TILE':
+			case SELECT_TILE:
 				return {
 					...player,
 					selectedTileIndex: action.tileIndex,
