@@ -1,4 +1,4 @@
-export const SET_USERNAME = 'SET_USERNAME';
+export const UPDATE_USERNAME = 'UPDATE_USERNAME';
 export const UPDATE_MESSAGES = 'UPDATE_MESSAGES';
 export const SEND_MESSAGE = 'SEND_MESSAGE';
 
@@ -18,8 +18,8 @@ export const swapTile = (src_index, dst_index) => ({
 	dst_index,
 });
 
-export const setUsername = (username) => ({
-	type: SET_USERNAME,
+export const updateUsername = (username) => ({
+	type: UPDATE_USERNAME,
 	username,
 });
 

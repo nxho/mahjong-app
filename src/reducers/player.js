@@ -1,7 +1,7 @@
 import {
 	START_TURN,
 	END_TURN,
-	SET_USERNAME,
+	UPDATE_USERNAME,
 	UPDATE_TILES,
 	SWAP_TILE,
 	SELECT_TILE,
@@ -29,7 +29,7 @@ const player = (
 					isCurrentTurn: false,
 					selectedTileIndex: null,
 				};
-			case SET_USERNAME:
+			case UPDATE_USERNAME:
 				return {
 					...player,
 					name: action.username,

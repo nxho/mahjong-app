@@ -1,61 +1,54 @@
-import React, { Component } from 'react';
+import React, {
+	useEffect,
+	useRef,
+	useState
+} from 'react';
 import { connect } from 'react-redux';
-import { setUsername } from '../actions';
+import { updateUsername } from '../actions';
 
 import './UsernameForm.css';
 
-class UsernameForm extends Component {
-	constructor(props) {
-		super(props);
+function UsernameForm({ onSubmit, updateUsername }) {
 
-		this.state = {
-			username: '',
-		}
-	}
+	const [username, setUsername] = useState('');
+	const usernameInput = useRef(null);
 
-	componentDidMount() {
-		this.usernameInput.focus();
-	}
-	
-	handleSubmit = (e) => {
+	useEffect(() => {
+		usernameInput.current.focus();
+	});
+
+	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		this.props.setUsername(this.state.username);
+		updateUsername(username);
 
-		this.setState({
-			username: '',
-		});
-
-		if (this.props.onSubmit != null) {
-			this.props.onSubmit();
+		if (onSubmit != null) {
+			onSubmit();
 		}
 	}
 
-	handleChange = (e) => {
-		this.setState({
-			username: e.target.value,
-		});
+	const handleChange = (e) => {
+		setUsername(e.target.value);
 	}
 
-	render() {
-		return (
-			<form className='container' onSubmit={this.handleSubmit} data-testid='username-form'>
-				<label>
-					Name:
-					<input
-						ref={(input) => { this.usernameInput = input; }}
-						type="text"
-						value={this.state.username}
-						onChange={this.handleChange} />
-				</label>
-				<input type="submit" value="Submit" />
-			</form>
-		);
-	}
+	return (
+		<form className='container' onSubmit={handleSubmit} data-testid='username-form'>
+			<label>
+				Name:
+				<input
+					ref={usernameInput}
+					type="text"
+					value={username}
+					onChange={handleChange}
+				/>
+			</label>
+			<input type="submit" value="Submit" />
+		</form>
+	);
 }
 
 const mapDispatchToProps = dispatch => ({
-	setUsername: (username) => dispatch(setUsername(username)),
+	updateUsername: (username) => dispatch(updateUsername(username)),
 });
 
 export default connect(

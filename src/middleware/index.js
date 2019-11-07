@@ -1,4 +1,7 @@
 import {
+	END_TURN,
+	UPDATE_USERNAME,
+	SEND_MESSAGE,
 	updateDiscardedTile,
 	updateMessages,
 	updateOpponents,
@@ -25,6 +28,14 @@ const createSocketMiddleware = (socket) => {
 			console.log('Received "start_turn" event from server, enabling tile movement for player');
 			store.dispatch(startTurn());
 		});
+		socket.on('pull_existing_game_data', (payload) => {
+			if (!payload) {
+				console.log('No game in progress, display default username form');
+			} else {
+				const { username } = payload;
+				console.log(`Player ${username} is in ongoing game, provide option to rejoin game`);
+			}
+		});
 
 		// TODO: store messages on server?
 		// or at least update messages from server so that messages sent before
@@ -36,14 +47,21 @@ const createSocketMiddleware = (socket) => {
 
 		return next => action => {
 			switch (action.type) {
-				case 'END_TURN':
-					socket.emit('end_turn', action.discardedTile);
+				case END_TURN:
+					socket.emit('end_turn', {
+						discarded_tile: action.discardedTile,
+					});
 					break;
-				case 'SET_USERNAME':
-					socket.emit('enter_game', action.username);
+				case UPDATE_USERNAME:
+					socket.emit('enter_game', {
+						username: action.username,
+						player_uuid: localStorage.getItem('mahjong-player-uuid'),
+					});
 					break;
-				case 'SEND_MESSAGE':
-					socket.emit('text_message', action.message);
+				case SEND_MESSAGE:
+					socket.emit('text_message', {
+						message: action.message,
+					});
 					break;
 				default:
 			}
