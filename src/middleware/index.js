@@ -32,8 +32,9 @@ const createSocketMiddleware = (socket) => {
 			if (!payload) {
 				console.log('No game in progress, display default username form');
 			} else {
-				const { username } = payload;
-				console.log(`Player ${username} is in ongoing game, provide option to rejoin game`);
+				const { username, room_id } = payload;
+				console.log(payload);
+				console.log(`Player ${username} is in active room_id=${room_id}, provide option to rejoin game`);
 			}
 		});
 
@@ -57,6 +58,9 @@ const createSocketMiddleware = (socket) => {
 						username: action.username,
 						player_uuid: localStorage.getItem('mahjong-player-uuid'),
 					});
+					break;
+				case 'REJOIN_GAME':
+					socket.emit('rejoin_game');
 					break;
 				case SEND_MESSAGE:
 					socket.emit('text_message', {

@@ -1,8 +1,9 @@
-.username-form {
+.landing-page {
 	flex: 1;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	align-content: center;
 	flex-direction: row;
 }
 

@@ -8,7 +8,7 @@ import { updateUsername } from '../actions';
 
 import './UsernameForm.css';
 
-function UsernameForm({ onSubmit, updateUsername }) {
+function UsernameForm({ onBack, onSubmit, updateUsername }) {
 
 	const [username, setUsername] = useState('');
 	const usernameInput = useRef(null);
@@ -32,7 +32,7 @@ function UsernameForm({ onSubmit, updateUsername }) {
 	}
 
 	return (
-		<form className='container' onSubmit={handleSubmit} data-testid='username-form'>
+		<form className='username-form' onSubmit={handleSubmit} data-testid='username-form'>
 			<label>
 				Name:
 				<input
@@ -42,7 +42,8 @@ function UsernameForm({ onSubmit, updateUsername }) {
 					onChange={handleChange}
 				/>
 			</label>
-			<input type="submit" value="Submit" />
+			<input type="submit" value="Join Game" />
+			<button className='back-btn' type="button" onClick={onBack}>Back</button>
 		</form>
 	);
 }

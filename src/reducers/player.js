@@ -10,6 +10,7 @@ import {
 
 const player = (
 	player = {
+		roomId: null,
 		name: '',
 		tiles: [],
 		isCurrentTurn: false,
