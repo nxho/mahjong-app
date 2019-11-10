@@ -1,30 +1,85 @@
 import React, {
-	useState
+	useRef,
+	useState,
 } from 'react';
 import { connect } from 'react-redux';
 
-import UsernameForm from './UsernameForm';
+import LandingPageForm from './LandingPageForm';
 import './LandingPage.css';
 
 function LandingPage({ onSubmit }) {
-	const [isUsernameFormVisible, setUsernameFormVisible] = useState(false);
-	const [isRoomFormVisible, setRoomFormVisible] = useState(false);
+	const [isFormVisible, setFormVisible] = useState(false);
+	const [isRoomInputVisible, setRoomInputVisible] = useState(false);
+	const [roomId, setRoomId] = useState('');
+	const [username, setUsername] = useState('');
+	const inputRef = useRef(null);
+
+	const hideForm = () => {
+		setFormVisible(false);
+		setRoomInputVisible(false);
+	};
+
+	const showForm = () => {
+		setFormVisible(true);
+	};
 
 	const createGame = (e) => {
-		setUsernameFormVisible(true);
+		showForm();
 	};
 
 	const joinRandomGame = (e) => {
 	};
 
 	const joinRoomId = (e) => {
+		showForm();
+		setRoomInputVisible(true);
 	};
 
-	if (isUsernameFormVisible) {
-		return <UsernameForm onBack={() => setUsernameFormVisible(false)} />
-	}
+	const handleFocusInput = () => {
+		if (inputRef.current) {
+			console.log('hye1');
+			inputRef.current.focus();
+		}
+	};
 
-	if (isRoomFormVisible) {
+	const handleSubmit = () => {
+		console.log(`handleSubmit called, need to submit username=${username} and roomId=${roomId}`);
+	};
+
+	if (isFormVisible) {
+		const inputs = [];
+
+		if (isRoomInputVisible) {
+			inputs.push(
+				<label key='room-id-input'>
+					Room ID:
+					<input
+						ref={inputRef}
+						type="text"
+						value={roomId}
+						onChange={(e) => setRoomId(e.target.value)}
+					/>
+				</label>
+			);
+		}
+
+		inputs.push(
+			<label key='username-input'>
+				Username:
+				<input
+					ref={inputRef}
+					type="text"
+					value={username}
+					onChange={(e) => setUsername(e.target.value)}
+				/>
+			</label>
+		);
+
+		return (
+			<LandingPageForm onSubmit={handleSubmit} onHide={hideForm} onFocusInput={handleFocusInput}>
+				{inputs}
+			</LandingPageForm>
+		);
 	}
 
 	return (

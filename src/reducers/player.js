@@ -10,6 +10,7 @@ import {
 
 const player = (
 	player = {
+		inGame: false,
 		roomId: null,
 		name: '',
 		tiles: [],

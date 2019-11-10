@@ -1,7 +1,7 @@
 import React, {
 	useEffect,
 	useRef,
-	useState
+	useState,
 } from 'react';
 import { connect } from 'react-redux';
 import { updateUsername } from '../actions';
