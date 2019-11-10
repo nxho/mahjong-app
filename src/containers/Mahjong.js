@@ -18,14 +18,14 @@ function Mahjong({ opponents, player }) {
 
 	if (!player.inGame) {
 		return (
-			<div className='container' style={containerStyle}>
+			<div className='mahjong-container' style={containerStyle}>
 				<LandingPage />
 			</div>
 		);
 	}
 
 	return (
-		<div className='container' style={containerStyle}>
+		<div className='mahjong-container' style={containerStyle}>
 			{
 				(isEnoughPlayers() && <Board />) || <WaitingRoom />
 			}

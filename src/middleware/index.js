@@ -1,12 +1,13 @@
 import {
 	END_TURN,
-	UPDATE_USERNAME,
+	JOIN_GAME,
 	SEND_MESSAGE,
 	updateDiscardedTile,
 	updateMessages,
 	updateOpponents,
 	updateTiles,
 	startTurn,
+	rejoinGame,
 } from '../actions';
 
 const createSocketMiddleware = (socket) => {
@@ -29,12 +30,21 @@ const createSocketMiddleware = (socket) => {
 			store.dispatch(startTurn());
 		});
 		socket.on('pull_existing_game_data', (payload) => {
-			if (!payload) {
-				console.log('No game in progress, display default username form');
+			if (!payload.room_id) {
+				console.log('No game in progress, display landing page');
 			} else {
 				const { username, room_id } = payload;
-				console.log(payload);
-				console.log(`Player ${username} is in active room_id=${room_id}, provide option to rejoin game`);
+				console.log(`Player ${username} is in active room_id=${room_id}, rejoining game in progress`);
+
+				// Rename fields for destructuring later
+				payload.name = payload.username
+				payload.roomId = payload.room_id;
+				delete payload.username;
+				delete payload.room_id;
+
+				console.log('payload: ', payload);
+
+				store.dispatch(rejoinGame(payload));
 			}
 		});
 
@@ -53,9 +63,10 @@ const createSocketMiddleware = (socket) => {
 						discarded_tile: action.discardedTile,
 					});
 					break;
-				case UPDATE_USERNAME:
+				case JOIN_GAME:
 					socket.emit('enter_game', {
 						username: action.username,
+						room_id: action.roomId,
 						player_uuid: localStorage.getItem('mahjong-player-uuid'),
 					});
 					break;

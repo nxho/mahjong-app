@@ -4,10 +4,11 @@ import React, {
 } from 'react';
 import { connect } from 'react-redux';
 
+import { joinGame } from '../actions';
 import LandingPageForm from './LandingPageForm';
 import './LandingPage.css';
 
-function LandingPage({ onSubmit }) {
+function LandingPage({ onSubmit, joinGame }) {
 	const [isFormVisible, setFormVisible] = useState(false);
 	const [isRoomInputVisible, setRoomInputVisible] = useState(false);
 	const [roomId, setRoomId] = useState('');
@@ -17,6 +18,8 @@ function LandingPage({ onSubmit }) {
 	const hideForm = () => {
 		setFormVisible(false);
 		setRoomInputVisible(false);
+		setRoomId('');
+		setUsername('');
 	};
 
 	const showForm = () => {
@@ -37,13 +40,13 @@ function LandingPage({ onSubmit }) {
 
 	const handleFocusInput = () => {
 		if (inputRef.current) {
-			console.log('hye1');
 			inputRef.current.focus();
 		}
 	};
 
 	const handleSubmit = () => {
 		console.log(`handleSubmit called, need to submit username=${username} and roomId=${roomId}`);
+		joinGame(username, roomId);
 	};
 
 	if (isFormVisible) {
@@ -91,9 +94,12 @@ function LandingPage({ onSubmit }) {
 	);
 }
 
+const mapDispatchToProps = dispatch => ({
+	joinGame: (username, roomId) => dispatch(joinGame(username, roomId)),
+});
 
 export default connect(
 	null,
-	null,
+	mapDispatchToProps,
 )(LandingPage);
 

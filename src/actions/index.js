@@ -1,4 +1,5 @@
-export const UPDATE_USERNAME = 'UPDATE_USERNAME';
+export const JOIN_GAME = 'JOIN_GAME';
+export const REJOIN_GAME = 'REJOIN_GAME';
 export const UPDATE_MESSAGES = 'UPDATE_MESSAGES';
 export const SEND_MESSAGE = 'SEND_MESSAGE';
 
@@ -18,9 +19,14 @@ export const swapTile = (src_index, dst_index) => ({
 	dst_index,
 });
 
-export const updateUsername = (username) => ({
-	type: UPDATE_USERNAME,
+export const joinGame = (username) => ({
+	type: JOIN_GAME,
 	username,
+});
+
+export const rejoinGame = (payload) => ({
+	type: REJOIN_GAME,
+	payload,
 });
 
 export const sendMessage = (message) => ({

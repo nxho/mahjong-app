@@ -1,7 +1,8 @@
 import {
 	START_TURN,
 	END_TURN,
-	UPDATE_USERNAME,
+	JOIN_GAME,
+	REJOIN_GAME,
 	UPDATE_TILES,
 	SWAP_TILE,
 	SELECT_TILE,
@@ -31,10 +32,17 @@ const player = (
 					isCurrentTurn: false,
 					selectedTileIndex: null,
 				};
-			case UPDATE_USERNAME:
+			case JOIN_GAME:
 				return {
 					...player,
 					name: action.username,
+					inGame: true,
+				};
+			case REJOIN_GAME:
+				return {
+					...player,
+					...action.payload,
+					inGame: true,
 				};
 			case UPDATE_TILES:
 				return {
