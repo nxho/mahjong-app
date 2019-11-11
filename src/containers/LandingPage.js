@@ -1,10 +1,10 @@
 import React, {
-	useRef,
 	useState,
 } from 'react';
 import { connect } from 'react-redux';
 
 import { joinGame } from '../actions';
+import LandingPageInput from './LandingPageInput';
 import LandingPageForm from './LandingPageForm';
 import './LandingPage.css';
 
@@ -13,7 +13,6 @@ function LandingPage({ onSubmit, joinGame }) {
 	const [isRoomInputVisible, setRoomInputVisible] = useState(false);
 	const [roomId, setRoomId] = useState('');
 	const [username, setUsername] = useState('');
-	const inputRef = useRef(null);
 
 	const hideForm = () => {
 		setFormVisible(false);
@@ -61,13 +60,9 @@ function LandingPage({ onSubmit, joinGame }) {
 		setRoomInputVisible(true);
 	};
 
-	const handleFocusInput = () => {
-		if (inputRef.current) {
-			inputRef.current.focus();
-		}
-	};
+	const handleSubmit = (e) => {
+		e.preventDefault();
 
-	const handleSubmit = () => {
 		console.log(`handleSubmit called, need to submit username=${username} and roomId=${roomId}`);
 		joinGame(username, roomId);
 	};
@@ -77,32 +72,26 @@ function LandingPage({ onSubmit, joinGame }) {
 
 		if (isRoomInputVisible) {
 			inputs.push(
-				<label key='room-id-input'>
-					Room ID:
-					<input
-						ref={inputRef}
-						type="text"
-						value={roomId}
-						onChange={(e) => setRoomId(e.target.value)}
-					/>
-				</label>
+				<LandingPageInput
+					key='room-id-input'
+					labelText='Room ID:'
+					value={roomId}
+					onChange={(e) => setRoomId(e.target.value)}
+				/>
 			);
 		}
 
 		inputs.push(
-			<label key='username-input'>
-				Username:
-				<input
-					ref={inputRef}
-					type="text"
-					value={username}
-					onChange={(e) => setUsername(e.target.value)}
-				/>
-			</label>
+			<LandingPageInput
+				key='username-input'
+				labelText='Username:'
+				value={username}
+				onChange={(e) => setUsername(e.target.value)}
+			/>
 		);
 
 		return (
-			<LandingPageForm onSubmit={handleSubmit} onHide={hideForm} onFocusInput={handleFocusInput}>
+			<LandingPageForm onSubmit={handleSubmit} onHide={hideForm}>
 				{inputs}
 			</LandingPageForm>
 		);

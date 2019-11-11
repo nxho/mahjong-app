@@ -25,10 +25,6 @@ class MessageForm extends Component {
 		this.setState({
 			message: '',
 		});
-
-		if (this.props.onSubmit != null) {
-			this.props.onSubmit();
-		}
 	}
 
 	handleChange = (e) => {
