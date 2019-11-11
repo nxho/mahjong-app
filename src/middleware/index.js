@@ -1,10 +1,12 @@
 import {
 	END_TURN,
 	JOIN_GAME,
+	REJOIN_GAME,
 	SEND_MESSAGE,
 	updateDiscardedTile,
 	updateMessages,
 	updateOpponents,
+	updateRoomId,
 	updateTiles,
 	startTurn,
 	rejoinGame,
@@ -47,6 +49,10 @@ const createSocketMiddleware = (socket) => {
 				store.dispatch(rejoinGame(payload));
 			}
 		});
+		socket.on('update_room_id', (roomId) => {
+			console.log('Received "update_room_id" event from server, updating room ID to:', roomId);
+			store.dispatch(updateRoomId(roomId));
+		});
 
 		// TODO: store messages on server?
 		// or at least update messages from server so that messages sent before
@@ -70,8 +76,12 @@ const createSocketMiddleware = (socket) => {
 						player_uuid: localStorage.getItem('mahjong-player-uuid'),
 					});
 					break;
-				case 'REJOIN_GAME':
-					socket.emit('rejoin_game');
+				case REJOIN_GAME:
+					socket.emit('enter_game', {
+						username: action.payload.name,
+						room_id: action.payload.roomId,
+						player_uuid: localStorage.getItem('mahjong-player-uuid'),
+					});
 					break;
 				case SEND_MESSAGE:
 					socket.emit('text_message', {

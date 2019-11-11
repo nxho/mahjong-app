@@ -3,6 +3,7 @@ import {
 	END_TURN,
 	JOIN_GAME,
 	REJOIN_GAME,
+	UPDATE_ROOM_ID,
 	UPDATE_TILES,
 	SWAP_TILE,
 	SELECT_TILE,
@@ -43,6 +44,11 @@ const player = (
 					...player,
 					...action.payload,
 					inGame: true,
+				};
+			case UPDATE_ROOM_ID:
+				return {
+					...player,
+					roomId: action.roomId,
 				};
 			case UPDATE_TILES:
 				return {

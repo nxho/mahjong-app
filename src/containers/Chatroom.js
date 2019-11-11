@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import './Chatroom.css';
 
@@ -7,22 +7,24 @@ import MessageForm from './MessageForm';
 
 // can convert into functional component,
 // possibly also use hooks to get messages from state? not sure
-class Chatroom extends Component {
-	render() {
-		return (
-			<div className='chatroom'>
-				<div>
-					<div className='header'>Chatroom</div>
-					<MessageList messages={this.props.messages} />
+function Chatroom({ messages, player, }) {
+	return (
+		<div className='chatroom'>
+			<div>
+				<div className='header'>
+					<div>Chatroom</div>
+					<div>Room ID: {player.roomId}</div>
 				</div>
-				<MessageForm />
+				<MessageList messages={messages} />
 			</div>
-		);
-	}
+			<MessageForm />
+		</div>
+	);
 }
 
 const mapStateToProps = state => ({
 	messages: state.messages,
+	player: state.player,
 });
 
 export default connect(

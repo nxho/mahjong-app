@@ -28,9 +28,32 @@ function LandingPage({ onSubmit, joinGame }) {
 
 	const createGame = (e) => {
 		showForm();
+
+		// Generate random 6-char room id
+		let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'.split('');
+		const charsLength = chars.length;
+
+		// Shuffle chars first
+		for (let i = 0; i < chars.length - 1; i++) {
+			const j = Math.floor(Math.random() * (chars.length - 1 - i))
+			if (j > 0) {
+				[chars[i], chars[i + j]] = [chars[i + j], chars[i]]
+			}
+		}
+		chars = chars.join('');
+		console.log('shuffled chars:', chars);
+
+		let res = '';
+		for (let i = 0; i < 8; i++) {
+			res += chars.charAt(Math.floor(Math.random() * charsLength));
+		}
+		console.log('generated room id:', res);
+
+		setRoomId(res);
 	};
 
 	const joinRandomGame = (e) => {
+		showForm();
 	};
 
 	const joinRoomId = (e) => {
