@@ -77,7 +77,7 @@ const createSocketMiddleware = (socket) => {
 					});
 					break;
 				case REJOIN_GAME:
-					socket.emit('enter_game', {
+					socket.emit('rejoin_game', {
 						username: action.payload.name,
 						room_id: action.payload.roomId,
 						player_uuid: localStorage.getItem('mahjong-player-uuid'),
