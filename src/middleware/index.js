@@ -1,9 +1,15 @@
 import {
+	END_TURN,
+	JOIN_GAME,
+	REJOIN_GAME,
+	SEND_MESSAGE,
 	updateDiscardedTile,
 	updateMessages,
 	updateOpponents,
+	updateRoomId,
 	updateTiles,
 	startTurn,
+	rejoinGame,
 } from '../actions';
 
 const createSocketMiddleware = (socket) => {
@@ -25,6 +31,28 @@ const createSocketMiddleware = (socket) => {
 			console.log('Received "start_turn" event from server, enabling tile movement for player');
 			store.dispatch(startTurn());
 		});
+		socket.on('pull_existing_game_data', (payload) => {
+			if (!payload.room_id) {
+				console.log('No game in progress, display landing page');
+			} else {
+				const { username, room_id } = payload;
+				console.log(`Player ${username} is in active room_id=${room_id}, rejoining game in progress`);
+
+				// Rename fields for destructuring later
+				payload.name = payload.username
+				payload.roomId = payload.room_id;
+				delete payload.username;
+				delete payload.room_id;
+
+				console.log('payload: ', payload);
+
+				store.dispatch(rejoinGame(payload));
+			}
+		});
+		socket.on('update_room_id', (roomId) => {
+			console.log('Received "update_room_id" event from server, updating room ID to:', roomId);
+			store.dispatch(updateRoomId(roomId));
+		});
 
 		// TODO: store messages on server?
 		// or at least update messages from server so that messages sent before
@@ -36,14 +64,29 @@ const createSocketMiddleware = (socket) => {
 
 		return next => action => {
 			switch (action.type) {
-				case 'END_TURN':
-					socket.emit('end_turn', action.discardedTile);
+				case END_TURN:
+					socket.emit('end_turn', {
+						discarded_tile: action.discardedTile,
+					});
 					break;
-				case 'SET_USERNAME':
-					socket.emit('enter_game', action.username);
+				case JOIN_GAME:
+					socket.emit('enter_game', {
+						username: action.username,
+						room_id: action.roomId,
+						player_uuid: localStorage.getItem('mahjong-player-uuid'),
+					});
 					break;
-				case 'SEND_MESSAGE':
-					socket.emit('text_message', action.message);
+				case REJOIN_GAME:
+					socket.emit('rejoin_game', {
+						username: action.payload.name,
+						room_id: action.payload.roomId,
+						player_uuid: localStorage.getItem('mahjong-player-uuid'),
+					});
+					break;
+				case SEND_MESSAGE:
+					socket.emit('text_message', {
+						message: action.message,
+					});
 					break;
 				default:
 			}

@@ -1,7 +1,9 @@
-export const SET_USERNAME = 'SET_USERNAME';
+export const JOIN_GAME = 'JOIN_GAME';
+export const REJOIN_GAME = 'REJOIN_GAME';
 export const UPDATE_MESSAGES = 'UPDATE_MESSAGES';
 export const SEND_MESSAGE = 'SEND_MESSAGE';
 
+export const UPDATE_ROOM_ID = 'UPDATE_ROOM_ID';
 export const UPDATE_OPPONENTS = 'UPDATE_OPPONENTS';
 
 export const START_TURN = 'START_TURN';
@@ -18,9 +20,15 @@ export const swapTile = (src_index, dst_index) => ({
 	dst_index,
 });
 
-export const setUsername = (username) => ({
-	type: SET_USERNAME,
+export const joinGame = (username, roomId) => ({
+	type: JOIN_GAME,
 	username,
+	roomId,
+});
+
+export const rejoinGame = (payload) => ({
+	type: REJOIN_GAME,
+	payload,
 });
 
 export const sendMessage = (message) => ({
@@ -60,5 +68,10 @@ export const selectTile = (tileIndex) => ({
 export const updateDiscardedTile = (discardedTile) => ({
 	type: UPDATE_DISCARDED_TILE,
 	discardedTile,
+});
+
+export const updateRoomId = (roomId) => ({
+	type: UPDATE_ROOM_ID,
+	roomId,
 });
 

@@ -1,7 +1,9 @@
 import {
 	START_TURN,
 	END_TURN,
-	SET_USERNAME,
+	JOIN_GAME,
+	REJOIN_GAME,
+	UPDATE_ROOM_ID,
 	UPDATE_TILES,
 	SWAP_TILE,
 	SELECT_TILE,
@@ -10,6 +12,8 @@ import {
 
 const player = (
 	player = {
+		inGame: false,
+		roomId: null,
 		name: '',
 		tiles: [],
 		isCurrentTurn: false,
@@ -29,10 +33,22 @@ const player = (
 					isCurrentTurn: false,
 					selectedTileIndex: null,
 				};
-			case SET_USERNAME:
+			case JOIN_GAME:
 				return {
 					...player,
 					name: action.username,
+					inGame: true,
+				};
+			case REJOIN_GAME:
+				return {
+					...player,
+					...action.payload,
+					inGame: true,
+				};
+			case UPDATE_ROOM_ID:
+				return {
+					...player,
+					roomId: action.roomId,
 				};
 			case UPDATE_TILES:
 				return {
