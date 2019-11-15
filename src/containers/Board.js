@@ -10,7 +10,7 @@ class Board extends Component {
 	renderPlayer() {
 		const player = this.props.player;
 		return <Player
-			name={player.name}
+			username={player.username}
 			tiles={player.tiles}
 			tileRotation={0}
 			direction={'row'}

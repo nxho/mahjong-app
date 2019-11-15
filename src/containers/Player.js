@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import TileRack from './TileRack';
 import { endTurn } from '../actions';
 
-const Player = ({name, tiles, direction, tileRotation, isCurrentTurn, endTurn, selectedTileIndex}) => (
+const Player = ({username, tiles, direction, tileRotation, isCurrentTurn, endTurn, selectedTileIndex}) => (
 	<div>
-		<h3>{name}{isCurrentTurn ? ' - | YOUR TURN |' : ''}</h3>
+		<h3>{username}{isCurrentTurn ? ' - | YOUR TURN |' : ''}</h3>
 		{isCurrentTurn &&
 			<button onClick={() => endTurn(tiles[selectedTileIndex])}>End Turn</button>
 		}

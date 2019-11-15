@@ -14,11 +14,12 @@ const player = (
 	player = {
 		inGame: false,
 		roomId: null,
-		name: '',
+		username: '',
 		tiles: [],
 		isCurrentTurn: false,
 		discardedTile: null,
 		selectedTileIndex: null,
+		currentState: 'NO_ACTION',
 	},
 	action) => {
 		switch (action.type) {
@@ -36,7 +37,7 @@ const player = (
 			case JOIN_GAME:
 				return {
 					...player,
-					name: action.username,
+					username: action.username,
 					inGame: true,
 				};
 			case REJOIN_GAME:
