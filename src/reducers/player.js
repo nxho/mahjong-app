@@ -5,9 +5,12 @@ import {
 	REJOIN_GAME,
 	UPDATE_ROOM_ID,
 	UPDATE_TILES,
+	UPDATE_CURRENT_STATE,
 	SWAP_TILE,
 	SELECT_TILE,
 	UPDATE_DISCARDED_TILE,
+	EXTEND_TILES,
+	DRAW_TILE,
 } from '../actions';
 
 const player = (
@@ -32,7 +35,13 @@ const player = (
 				return {
 					...player,
 					isCurrentTurn: false,
+					currentState: 'NO_ACTION',
 					selectedTileIndex: null,
+				};
+			case DRAW_TILE:
+				return {
+					...player,
+					currentState: 'DISCARD_TILE',
 				};
 			case JOIN_GAME:
 				return {
@@ -45,6 +54,11 @@ const player = (
 					...player,
 					...action.payload,
 					inGame: true,
+				};
+			case UPDATE_CURRENT_STATE:
+				return {
+					...player,
+					currentState: action.newState,
 				};
 			case UPDATE_ROOM_ID:
 				return {
@@ -60,6 +74,11 @@ const player = (
 				return {
 					...player,
 					discardedTile: action.discardedTile,
+				};
+			case EXTEND_TILES:
+				return {
+					...player,
+					tiles: [...player.tiles, action.newTile],
 				};
 			case SWAP_TILE:
 				const { src_index, dst_index } = action;

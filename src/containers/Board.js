@@ -15,6 +15,8 @@ class Board extends Component {
 			tileRotation={0}
 			direction={'row'}
 			isCurrentTurn={player.isCurrentTurn}
+			selectedTileIndex={player.selectedTileIndex}
+			currentState={player.currentState}
 		/>;
 	}
 

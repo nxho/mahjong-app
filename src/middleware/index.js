@@ -1,8 +1,11 @@
 import {
+	DRAW_TILE,
 	END_TURN,
 	JOIN_GAME,
 	REJOIN_GAME,
 	SEND_MESSAGE,
+	extendTiles,
+	updateCurrentState,
 	updateDiscardedTile,
 	updateMessages,
 	updateOpponents,
@@ -20,10 +23,10 @@ const createSocketMiddleware = (socket) => {
 			socket.emit('get_possible_states', (payload) => {
 				console.log('states payload:', payload);
 			});
-			const req_payload = {
+			const request = {
 				'player-uuid': localStorage.getItem('mahjong-player-uuid'),
 			};
-			socket.emit('get_existing_game_data', req_payload, (playerData) => {
+			socket.emit('get_existing_game_data', request, (playerData) => {
 				const { username, roomId } = playerData;
 				if (!roomId) {
 					console.log('No game in progress, display landing page');
@@ -44,6 +47,10 @@ const createSocketMiddleware = (socket) => {
 			console.log('Received "update_tiles" event from server, updating tiles to:', tiles);
 			store.dispatch(updateTiles(tiles));
 		});
+		socket.on('extend_tiles', (tile) => {
+			console.log('Received "extend_tiles" event from server, adding tile:', tile);
+			store.dispatch(extendTiles(tile));
+		});
 		socket.on('update_discarded_tile', (tile) => {
 			console.log('Received "update_discarded_tile" event from server, updating discarded tile to:', tile);
 			store.dispatch(updateDiscardedTile(tile));
@@ -56,6 +63,10 @@ const createSocketMiddleware = (socket) => {
 			console.log('Received "update_room_id" event from server, updating room ID to:', roomId);
 			store.dispatch(updateRoomId(roomId));
 		});
+		socket.on('update_current_state', (state) => {
+			console.log('Received "update_state" event from server, updating player action state to:', state);
+			store.dispatch(updateCurrentState(state));
+		});
 
 		// TODO: store messages on server?
 		// or at least update messages from server so that messages sent before
@@ -67,6 +78,9 @@ const createSocketMiddleware = (socket) => {
 
 		return next => action => {
 			switch (action.type) {
+				case DRAW_TILE:
+					socket.emit('draw_tile');
+					break;
 				case END_TURN:
 					socket.emit('end_turn', {
 						discarded_tile: action.discardedTile,
