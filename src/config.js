@@ -7,7 +7,7 @@ const local = {
 
 const dev = {
 	socket: {
-		SERVER_URL: 'https://desolate-scrubland-56031.herokuapp.com',
+		SERVER_URL: 'https://mahjong-server.herokuapp.com',
 	}
 }
 
