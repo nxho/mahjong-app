@@ -18,11 +18,7 @@ if (!localStorage.getItem(uuidKey)) {
 	localStorage.setItem(uuidKey, uuidv1());
 }
 
-const socket = io(config.socket.SERVER_URL, {
-	query: {
-		'mahjong-player-uuid': localStorage.getItem(uuidKey),
-	},
-});
+const socket = io(config.socket.SERVER_URL);
 const store = createStore(
 	rootReducer,
 	applyMiddleware(createSocketMiddleware(socket))
