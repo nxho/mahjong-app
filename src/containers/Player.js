@@ -12,7 +12,12 @@ const Player = ({username, tiles, direction, tileRotation, isCurrentTurn, endTur
 				case 'DRAW_TILE':
 					return <button onClick={() => drawTile()}>Draw Tile</button>;
 				case 'DISCARD_TILE':
-					return <button onClick={() => endTurn(tiles[selectedTileIndex])}>End Turn</button>;
+					const handleClick = () => {
+						if (selectedTileIndex != null) {
+							endTurn(tiles[selectedTileIndex]);
+						}
+					};
+					return <button onClick={handleClick}>End Turn</button>;
 				default:
 			}
 		}
