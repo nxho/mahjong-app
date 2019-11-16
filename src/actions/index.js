@@ -3,12 +3,15 @@ export const REJOIN_GAME = 'REJOIN_GAME';
 export const UPDATE_MESSAGES = 'UPDATE_MESSAGES';
 export const SEND_MESSAGE = 'SEND_MESSAGE';
 
+export const UPDATE_CURRENT_STATE = 'UPDATE_CURRENT_STATE';
 export const UPDATE_ROOM_ID = 'UPDATE_ROOM_ID';
 export const UPDATE_OPPONENTS = 'UPDATE_OPPONENTS';
 
 export const START_TURN = 'START_TURN';
 export const END_TURN = 'END_TURN';
 
+export const EXTEND_TILES = 'EXTEND_TILES';
+export const DRAW_TILE = 'DRAW_TILE';
 export const UPDATE_TILES = 'UPDATE_TILES';
 export const SWAP_TILE = 'SWAP_TILE';
 export const SELECT_TILE = 'SELECT_TILE';
@@ -73,5 +76,19 @@ export const updateDiscardedTile = (discardedTile) => ({
 export const updateRoomId = (roomId) => ({
 	type: UPDATE_ROOM_ID,
 	roomId,
+});
+
+export const updateCurrentState = (newState) => ({
+	type: UPDATE_CURRENT_STATE,
+	newState,
+});
+
+export const drawTile = () => ({
+	type: DRAW_TILE,
+});
+
+export const extendTiles = (newTile) => ({
+	type: EXTEND_TILES,
+	newTile,
 });
 

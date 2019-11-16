@@ -1,8 +1,11 @@
 import {
+	DRAW_TILE,
 	END_TURN,
 	JOIN_GAME,
 	REJOIN_GAME,
 	SEND_MESSAGE,
+	extendTiles,
+	updateCurrentState,
 	updateDiscardedTile,
 	updateMessages,
 	updateOpponents,
@@ -14,7 +17,28 @@ import {
 
 const createSocketMiddleware = (socket) => {
 	return store => {
-		// initialize socketio listeners
+		// Initialize socketio listeners
+		socket.on('connect', () => {
+			// Data to retrieve from server when socket is initialized
+			socket.emit('get_possible_states', (payload) => {
+				console.log('states payload:', payload);
+			});
+			const request = {
+				'player-uuid': localStorage.getItem('mahjong-player-uuid'),
+			};
+			socket.emit('get_existing_game_data', request, (playerData) => {
+				const { username, roomId } = playerData;
+				if (!roomId) {
+					console.log('No game in progress, display landing page');
+				} else {
+					console.log(`Player ${username} is in active room_id=${roomId}, rejoining game in progress`);
+
+					console.log('Player data:', playerData);
+
+					store.dispatch(rejoinGame(playerData));
+				}
+			});
+		});
 		socket.on('update_opponents', (opponents) => {
 			console.log('Received "update_opponents" event from server, updating opponents to:', opponents);
 			store.dispatch(updateOpponents(opponents));
@@ -22,6 +46,10 @@ const createSocketMiddleware = (socket) => {
 		socket.on('update_tiles', (tiles) => {
 			console.log('Received "update_tiles" event from server, updating tiles to:', tiles);
 			store.dispatch(updateTiles(tiles));
+		});
+		socket.on('extend_tiles', (tile) => {
+			console.log('Received "extend_tiles" event from server, adding tile:', tile);
+			store.dispatch(extendTiles(tile));
 		});
 		socket.on('update_discarded_tile', (tile) => {
 			console.log('Received "update_discarded_tile" event from server, updating discarded tile to:', tile);
@@ -31,27 +59,13 @@ const createSocketMiddleware = (socket) => {
 			console.log('Received "start_turn" event from server, enabling tile movement for player');
 			store.dispatch(startTurn());
 		});
-		socket.on('pull_existing_game_data', (payload) => {
-			if (!payload.room_id) {
-				console.log('No game in progress, display landing page');
-			} else {
-				const { username, room_id } = payload;
-				console.log(`Player ${username} is in active room_id=${room_id}, rejoining game in progress`);
-
-				// Rename fields for destructuring later
-				payload.name = payload.username
-				payload.roomId = payload.room_id;
-				delete payload.username;
-				delete payload.room_id;
-
-				console.log('payload: ', payload);
-
-				store.dispatch(rejoinGame(payload));
-			}
-		});
 		socket.on('update_room_id', (roomId) => {
 			console.log('Received "update_room_id" event from server, updating room ID to:', roomId);
 			store.dispatch(updateRoomId(roomId));
+		});
+		socket.on('update_current_state', (state) => {
+			console.log('Received "update_state" event from server, updating player action state to:', state);
+			store.dispatch(updateCurrentState(state));
 		});
 
 		// TODO: store messages on server?
@@ -64,6 +78,9 @@ const createSocketMiddleware = (socket) => {
 
 		return next => action => {
 			switch (action.type) {
+				case DRAW_TILE:
+					socket.emit('draw_tile');
+					break;
 				case END_TURN:
 					socket.emit('end_turn', {
 						discarded_tile: action.discardedTile,
