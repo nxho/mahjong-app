@@ -13,6 +13,7 @@ const Player = ({username, tiles, direction, tileRotation, isCurrentTurn, endTur
 					return <button onClick={() => drawTile()}>Draw Tile</button>;
 				case 'DISCARD_TILE':
 					const handleClick = () => {
+						console.log(`Dispatching END_TURN for selectedTileIndex=${selectedTileIndex}`);
 						if (selectedTileIndex != null) {
 							endTurn(tiles[selectedTileIndex]);
 						}

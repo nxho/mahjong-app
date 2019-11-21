@@ -1,5 +1,7 @@
 .imgTile {
-	max-width: 51.5px;
+	display: block;
+	width: 100%;
+	height: auto;
 }
 
 .textTileDiv {

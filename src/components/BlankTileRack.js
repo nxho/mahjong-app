@@ -13,7 +13,7 @@ const BlankTileRack = ({direction}) => {
 		);
 	}
 	return (
-		<div className={'tileRackDiv ' + direction}>
+		<div className={`blank-tile-rack blank-${direction}`}>
 			{tiles}
 		</div>
 	);

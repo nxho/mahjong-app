@@ -15,6 +15,8 @@ import {
 	rejoinGame,
 } from '../actions';
 
+import uuidv1 from 'uuid/v1';
+
 const createSocketMiddleware = (socket) => {
 	return store => {
 		// Initialize socketio listeners
@@ -35,6 +37,9 @@ const createSocketMiddleware = (socket) => {
 
 					console.log('Player data:', playerData);
 
+					// Assign key to each tile for stable rendering
+					playerData.tiles.map((item) => item.key = uuidv1());
+
 					store.dispatch(rejoinGame(playerData));
 				}
 			});
@@ -45,10 +50,15 @@ const createSocketMiddleware = (socket) => {
 		});
 		socket.on('update_tiles', (tiles) => {
 			console.log('Received "update_tiles" event from server, updating tiles to:', tiles);
+			tiles.map((item) => item.key = uuidv1());
 			store.dispatch(updateTiles(tiles));
 		});
 		socket.on('extend_tiles', (tile) => {
 			console.log('Received "extend_tiles" event from server, adding tile:', tile);
+
+			// Assign key to new tile for stable rendering
+			tile.key = uuidv1();
+
 			store.dispatch(extendTiles(tile));
 		});
 		socket.on('update_discarded_tile', (tile) => {
@@ -82,8 +92,13 @@ const createSocketMiddleware = (socket) => {
 					socket.emit('draw_tile');
 					break;
 				case END_TURN:
+					// Ignore 'key' prop on discardedTile
+					const { suit, type } = action.discardedTile;
 					socket.emit('end_turn', {
-						discarded_tile: action.discardedTile,
+						discarded_tile: {
+							suit,
+							type,
+						},
 					});
 					break;
 				case JOIN_GAME:
