@@ -7,6 +7,8 @@ import './index.css';
 import Mahjong from './containers/Mahjong';
 import * as serviceWorker from './serviceWorker';
 import uuidv1 from 'uuid/v1';
+import { DndProvider } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
 import io from 'socket.io-client';
 import createSocketMiddleware from './middleware';
@@ -26,7 +28,9 @@ const store = createStore(
 
 ReactDOM.render(
 	<Provider store={store}>
-		<Mahjong />
+		<DndProvider backend={HTML5Backend}>
+			<Mahjong />
+		</DndProvider>
 	</Provider>,
 	document.getElementById('root')
 );

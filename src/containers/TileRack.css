@@ -1,16 +1,11 @@
-.tileRackDiv {
+.player-tile-rack {
 	padding: 10px;
 	border: 2px solid black;
 }
 
-.row {
+.player-tile-rack-row {
 	display: flex;
-	align-items: center;
+	flex-direction: row;
 	margin: 10px 0px;
-}
-
-.column {
-	align-items: center;
-	margin: 0px 10px;
 }
 

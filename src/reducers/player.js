@@ -6,7 +6,7 @@ import {
 	UPDATE_ROOM_ID,
 	UPDATE_TILES,
 	UPDATE_CURRENT_STATE,
-	SWAP_TILE,
+	MOVE_TILE,
 	SELECT_TILE,
 	UPDATE_DISCARDED_TILE,
 	EXTEND_TILES,
@@ -80,32 +80,37 @@ const player = (
 					...player,
 					tiles: [...player.tiles, action.newTile],
 				};
-			case SWAP_TILE:
-				const { src_index, dst_index } = action;
+			case MOVE_TILE:
+				const { srcIndex, dstIndex } = action;
 				const playerTiles = player.tiles;
 				let selectedTileIndex = player.selectedTileIndex;
 
-				// Have to update the selectedTileIndex every time we swap
-				if (src_index === selectedTileIndex) {
-					selectedTileIndex = dst_index;
-				} else if (dst_index === selectedTileIndex) {
-					selectedTileIndex = src_index;
+				if (selectedTileIndex != null) {
+					if (srcIndex === selectedTileIndex) {
+						// Update selectedTileIndex if it matches index of tile being dragged
+						selectedTileIndex = dstIndex;
+					} else if (selectedTileIndex <= Math.max(srcIndex, dstIndex)
+						&& selectedTileIndex >= Math.min(srcIndex, dstIndex)) {
+						// Update selectedTileIndex if it is in between the src and dst indices
+						if (srcIndex < dstIndex) {
+							selectedTileIndex--;
+						} else {
+							selectedTileIndex++;
+						}
+					}
 				}
 
-				console.log(`swapping tile index ${src_index} with ${dst_index} for player`);
+				console.log(`Removing tile at index=${srcIndex} and re-inserting at index=${dstIndex}`);
+
+				const newPlayerTiles = playerTiles.slice();
+				const tileToMove = newPlayerTiles[srcIndex];
+
+				newPlayerTiles.splice(srcIndex, 1);
+				newPlayerTiles.splice(dstIndex, 0, tileToMove);
 
 				return {
 					...player,
-					// TODO: should tiles be its own slice of state?
-					tiles: playerTiles.map((item, index) => {
-						if (index === src_index) {
-							return { ...playerTiles[dst_index] };
-						} else if (index === dst_index) {
-							return { ...playerTiles[src_index] };
-						} else {
-							return item;
-						}
-					}),
+					tiles: newPlayerTiles,
 					selectedTileIndex,
 				}
 			case SELECT_TILE:

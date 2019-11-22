@@ -6,15 +6,17 @@ class DiscardedTileContainer extends Component {
 	render() {
 		const tileProps = this.props.tileProps;
 		return (
-			<div className='containerDiv'>
+			<div className='discarded-tile-container'>
 				<p>Last Discarded Tile</p>
-				{
-					tileProps &&
-						<TileContent
-							suit={tileProps.suit}
-							type={tileProps.type}
-						/>
-				}
+				<div className='tile-container'>
+					{
+						tileProps &&
+							<TileContent
+								suit={tileProps.suit}
+								type={tileProps.type}
+							/>
+					}
+				</div>
 			</div>
 		);
 	}

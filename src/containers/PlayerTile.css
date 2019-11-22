@@ -1,8 +1,10 @@
 .tileDiv {
 	margin: 5px;
+	display: block;
 }
 
 .selected {
 	border: 5px solid red;
+	display: block;
 }
 

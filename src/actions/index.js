@@ -13,14 +13,14 @@ export const END_TURN = 'END_TURN';
 export const EXTEND_TILES = 'EXTEND_TILES';
 export const DRAW_TILE = 'DRAW_TILE';
 export const UPDATE_TILES = 'UPDATE_TILES';
-export const SWAP_TILE = 'SWAP_TILE';
+export const MOVE_TILE = 'MOVE_TILE';
 export const SELECT_TILE = 'SELECT_TILE';
 export const UPDATE_DISCARDED_TILE = 'UPDATE_DISCARDED_TILE';
 
-export const swapTile = (src_index, dst_index) => ({
-	type: SWAP_TILE,
-	src_index,
-	dst_index,
+export const moveTile = (srcIndex, dstIndex) => ({
+	type: MOVE_TILE,
+	srcIndex,
+	dstIndex,
 });
 
 export const joinGame = (username, roomId) => ({
