@@ -11,6 +11,8 @@ import {
 	UPDATE_DISCARDED_TILE,
 	EXTEND_TILES,
 	DRAW_TILE,
+	CLAIM_TILE,
+	PRE_REVEAL_MELD,
 } from '../actions';
 
 const player = (
@@ -23,6 +25,7 @@ const player = (
 		discardedTile: null,
 		selectedTileIndex: null,
 		currentState: 'NO_ACTION',
+		validMeldSubsets: null,
 	},
 	action) => {
 		switch (action.type) {
@@ -31,17 +34,33 @@ const player = (
 					...player,
 					isCurrentTurn: true,
 				};
+			// TODO: rename END_TURN and endTurn to discardTile
 			case END_TURN:
+				// Remove discarded tile from tiles
+				let newTiles = player.tiles.slice();
+				newTiles.splice(player.selectedTileIndex, 1)
+
 				return {
 					...player,
 					isCurrentTurn: false,
 					currentState: 'NO_ACTION',
 					selectedTileIndex: null,
+					tiles: newTiles,
 				};
 			case DRAW_TILE:
 				return {
 					...player,
 					currentState: 'DISCARD_TILE',
+				};
+			case CLAIM_TILE:
+				return {
+					...player,
+					currentState: action.claimType ? 'CLAIM_TILE' : 'NO_ACTION',
+				};
+			case PRE_REVEAL_MELD:
+				return {
+					...player,
+					validMeldSubsets: action.validMeldSubsets,
 				};
 			case JOIN_GAME:
 				return {

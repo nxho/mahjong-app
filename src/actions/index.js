@@ -16,6 +16,8 @@ export const UPDATE_TILES = 'UPDATE_TILES';
 export const MOVE_TILE = 'MOVE_TILE';
 export const SELECT_TILE = 'SELECT_TILE';
 export const UPDATE_DISCARDED_TILE = 'UPDATE_DISCARDED_TILE';
+export const CLAIM_TILE = 'CLAIM_TILE';
+export const PRE_REVEAL_MELD = 'PRE_REVEAL_MELD';
 
 export const moveTile = (srcIndex, dstIndex) => ({
 	type: MOVE_TILE,
@@ -90,5 +92,15 @@ export const drawTile = () => ({
 export const extendTiles = (newTile) => ({
 	type: EXTEND_TILES,
 	newTile,
+});
+
+export const claimTile = (claimType) => ({
+	type: CLAIM_TILE,
+	claimType,
+});
+
+export const showTilesForRevealedMeld = (validMeldSubsets) => ({
+	type: PRE_REVEAL_MELD,
+	validMeldSubsets,
 });
 

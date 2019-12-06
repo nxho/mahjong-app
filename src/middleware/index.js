@@ -1,9 +1,10 @@
 import {
+	CLAIM_TILE,
 	DRAW_TILE,
 	END_TURN,
 	JOIN_GAME,
-	REJOIN_GAME,
 	SEND_MESSAGE,
+	claimTile,
 	extendTiles,
 	updateCurrentState,
 	updateDiscardedTile,
@@ -13,11 +14,13 @@ import {
 	updateTiles,
 	startTurn,
 	rejoinGame,
+	showTilesForRevealedMeld,
 } from '../actions';
 
 import uuidv1 from 'uuid/v1';
 
 const createSocketMiddleware = (socket) => {
+	let declareClaimTimer = null;
 	return store => {
 		// Initialize socketio listeners
 		socket.on('connect', () => {
@@ -28,19 +31,23 @@ const createSocketMiddleware = (socket) => {
 			const request = {
 				'player-uuid': localStorage.getItem('mahjong-player-uuid'),
 			};
-			socket.emit('get_existing_game_data', request, (playerData) => {
-				const { username, roomId } = playerData;
-				if (!roomId) {
-					console.log('No game in progress, display landing page');
+			socket.emit('rejoin_game', request, (playerData) => {
+				if (playerData) {
+					const { username, roomId } = playerData;
+					if (!roomId) {
+						console.log('No game in progress, display landing page');
+					} else {
+						console.log(`Player ${username} is in active room_id=${roomId}, rejoining game in progress`);
+
+						console.log('Player data:', playerData);
+
+						// Assign key to each tile for stable rendering
+						playerData.tiles.map((item) => item.key = uuidv1());
+
+						store.dispatch(rejoinGame(playerData));
+					}
 				} else {
-					console.log(`Player ${username} is in active room_id=${roomId}, rejoining game in progress`);
-
-					console.log('Player data:', playerData);
-
-					// Assign key to each tile for stable rendering
-					playerData.tiles.map((item) => item.key = uuidv1());
-
-					store.dispatch(rejoinGame(playerData));
+					console.log('Something went horribly wrong');
 				}
 			});
 		});
@@ -77,6 +84,32 @@ const createSocketMiddleware = (socket) => {
 			console.log('Received "update_state" event from server, updating player action state to:', state);
 			store.dispatch(updateCurrentState(state));
 		});
+		socket.on('declare_claim_with_timer', (startTime) => {
+			let msDuration = 2000;
+			if (!startTime) {
+				socket.emit('declare_claim_start', {
+					declareClaimStartTime: new Date().toISOString(),
+				});
+			} else {
+				msDuration -= Date.now() - new Date(Date.parse(startTime));
+			}
+
+			if (msDuration <= 0) {
+				store.dispatch(claimTile(null));
+			} else {
+				declareClaimTimer = setTimeout(() => {
+					store.dispatch(claimTile(null));
+				}, msDuration);
+			}
+		});
+		socket.on('valid_tile_sets_for_meld', (payload) => {
+			let { validMeldSubsets, declaredMeld } = payload;
+			console.log('before -- declaredMeld:', declaredMeld);
+			console.log('before -- validMeldSubsets:', validMeldSubsets);
+			validMeldSubsets = validMeldSubsets.map((subset) => (new Set(subset.map(({suit, type}) => `${suit.slice(0, 4)}_${type}`))));
+			console.log('after -- validMeldSubsets:', validMeldSubsets);
+			store.dispatch(showTilesForRevealedMeld(validMeldSubsets));
+		});
 
 		// TODO: store messages on server?
 		// or at least update messages from server so that messages sent before
@@ -90,6 +123,16 @@ const createSocketMiddleware = (socket) => {
 			switch (action.type) {
 				case DRAW_TILE:
 					socket.emit('draw_tile');
+					break;
+				case CLAIM_TILE:
+					// TODO: clean up maybe
+					if (declareClaimTimer) {
+						clearTimeout(declareClaimTimer);
+					}
+					socket.emit('update_claim_state', {
+						new_state: action.claimType ? 'CLAIM_TILE' : 'NO_ACTION',
+						declared_meld: action.claimType,
+					});
 					break;
 				case END_TURN:
 					// Ignore 'key' prop on discardedTile
@@ -105,13 +148,6 @@ const createSocketMiddleware = (socket) => {
 					socket.emit('enter_game', {
 						username: action.username,
 						room_id: action.roomId,
-						player_uuid: localStorage.getItem('mahjong-player-uuid'),
-					});
-					break;
-				case REJOIN_GAME:
-					socket.emit('rejoin_game', {
-						username: action.payload.name,
-						room_id: action.payload.roomId,
 						player_uuid: localStorage.getItem('mahjong-player-uuid'),
 					});
 					break;
