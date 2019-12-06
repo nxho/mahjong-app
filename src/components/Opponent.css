@@ -1,0 +1,34 @@
+.div__opponent {
+	display: flex;
+}
+
+.div__opponent-top {
+	flex-direction: column;
+}
+
+.div__opponent-left {
+	flex-direction: row;
+}
+
+.div__opponent-right {
+	flex-direction: row-reverse;
+	align-items: center;
+}
+
+.h3__opponent-name-top {
+	margin: 0.5em 0em;
+	align-self: flex-end;
+}
+
+.h3__opponent-name-left {
+	margin: 1.25em -0.5em;
+	align-self: flex-start;
+	transform: rotate(90deg);
+}
+
+.h3__opponent-name-right {
+	margin: 1.25em -0.5em;
+	align-self: flex-end;
+	transform: rotate(-90deg);
+}
+

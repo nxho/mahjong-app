@@ -1,47 +1,42 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './TileContent.css'
 
-class TileContent extends Component {
-	tryRequire() {
+const TileContent = ({ suit, type }) => {
+	const tryRequire = () => {
 		let img = null;
 
 		try {
-			img = require(`../images/tiles/${this.props.suit.slice(0, 4)}_${this.props.type}.png`)
+			// TODO: maybe we should just rename the images as the full suit+type name
+			img = require(`../images/tiles/${suit.slice(0, 4)}_${type}.png`)
 		} catch (e) {
 			// handle silently
 		}
 
 		return img;
-	}
+	};
 
-	renderImg(img_src) {
-		return (
-			<img
-				className='imgTile'
-				src={img_src}
-				alt={`${this.props.suit}_${this.props.type}`}
-			/>
-		);
-	}
+	const renderImg = (img_src) => (
+		<img
+			className='imgTile'
+			src={img_src}
+			alt={`${suit}_${type}`}
+		/>
+	);
 
-	renderText() {
-		return (
-			<div className='textTileDiv'>
-				<div>{this.props.suit.slice(0, 4)}</div>
-				<div>{this.props.type}</div>
-			</div>
-		);
-	}
+	const renderText = () => (
+		<div className='textTileDiv'>
+			<div>{suit.slice(0, 4)}</div>
+			<div>{type}</div>
+		</div>
+	);
 
-	render() {
-		let img_src = this.tryRequire();
-		if (img_src) {
-			return this.renderImg(img_src);
-		} else {
-			return this.renderText();
-		}
+	let img_src = tryRequire();
+	if (img_src) {
+		return renderImg(img_src);
+	} else {
+		return renderText();
 	}
-}
+};
 
 export default TileContent;
 

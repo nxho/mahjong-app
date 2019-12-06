@@ -1,10 +1,14 @@
 .tileDiv {
-	margin: 5px;
 	display: block;
+	margin: 5px;
+	transition: transform 0.6s;
 }
 
 .selected {
-	border: 5px solid red;
-	display: block;
+	outline: 3px solid rgba(66, 135, 245, 1);
+}
+
+.hoverTileDiv:hover {
+	transform: scale(1.1);
 }
 
