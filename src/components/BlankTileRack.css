@@ -1,6 +1,7 @@
 .blank-tile-rack {
 	padding: 10px;
 	border: 2px solid black;
+	border-radius: 7.5px;
 }
 
 .blank-row {

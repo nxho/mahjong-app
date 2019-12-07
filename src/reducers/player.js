@@ -13,7 +13,11 @@ import {
 	DRAW_TILE,
 	CLAIM_TILE,
 	PRE_REVEAL_MELD,
+	SHOW_MELDABLE_TILES,
+	EXTEND_REVEALED_MELDS,
+	SET_REVEALED_MELDS,
 } from '../actions';
+import update from 'immutability-helper';
 
 const player = (
 	player = {
@@ -26,6 +30,7 @@ const player = (
 		selectedTileIndex: null,
 		currentState: 'NO_ACTION',
 		validMeldSubsets: null,
+		revealedMelds: [],
 	},
 	action) => {
 		switch (action.type) {
@@ -57,10 +62,60 @@ const player = (
 					...player,
 					currentState: action.claimType ? 'CLAIM_TILE' : 'NO_ACTION',
 				};
+			case SHOW_MELDABLE_TILES:
+				// Consolidate newValidMeldSubsets based on chosen or not chosen tile
+				let newValidMeldSubsets = player.validMeldSubsets;
+				if (action.droppedTileIndex !== null) {
+					const { suit, type } = player.tiles[action.droppedTileIndex];
+					const tileKey = `${suit.slice(0, 4)}_${type}`;
+					newValidMeldSubsets = newValidMeldSubsets.map((subset) => {
+						const index = subset.indexOf(tileKey);
+						if (index >= 0) {
+							return update(subset, {
+								$splice: [[index, 1]],
+							});
+						}
+
+						return null;
+					}).filter(subset => !!subset && subset.length > 0);
+					console.log("dey should've changed", newValidMeldSubsets);
+				}
+
+				// Collect all tile keys that are valid
+				const meldableTiles = new Set();
+				newValidMeldSubsets.forEach((tile_set) => {
+					tile_set.forEach(tile => meldableTiles.add(tile));
+				});
+
+				// Update meldable property on each valid tile
+				return {
+					...player,
+					tiles: player.tiles.map((tile) => ({
+						...tile,
+						meldable: meldableTiles.has(`${tile.suit.slice(0, 4)}_${tile.type}`),
+					})),
+					validMeldSubsets: newValidMeldSubsets,
+				};
 			case PRE_REVEAL_MELD:
 				return {
 					...player,
 					validMeldSubsets: action.validMeldSubsets,
+					newMeldLength: action.validMeldSubsets[0].length + 1,
+				};
+			case EXTEND_REVEALED_MELDS:
+				const droppedTile = player.tiles[action.droppedTileIndex];
+
+				const lastElIndex = player.revealedMelds.length - 1;
+				return update(player, {
+					tiles: { $splice: [[action.droppedTileIndex, 1]] },
+					revealedMelds: {
+						[lastElIndex]: { $push: [droppedTile] }
+					},
+				});
+			case SET_REVEALED_MELDS:
+				return {
+					...player,
+					revealedMelds: [...action.revealedMelds],
 				};
 			case JOIN_GAME:
 				return {
@@ -101,7 +156,6 @@ const player = (
 				};
 			case MOVE_TILE:
 				const { srcIndex, dstIndex } = action;
-				const playerTiles = player.tiles;
 				let selectedTileIndex = player.selectedTileIndex;
 
 				if (selectedTileIndex != null) {
@@ -121,15 +175,12 @@ const player = (
 
 				console.log(`Removing tile at index=${srcIndex} and re-inserting at index=${dstIndex}`);
 
-				const newPlayerTiles = playerTiles.slice();
-				const tileToMove = newPlayerTiles[srcIndex];
-
-				newPlayerTiles.splice(srcIndex, 1);
-				newPlayerTiles.splice(dstIndex, 0, tileToMove);
-
+				const tileToMove = player.tiles[srcIndex];
 				return {
 					...player,
-					tiles: newPlayerTiles,
+					tiles: update(player.tiles, {
+						$splice: [[srcIndex, 1], [dstIndex, 0, tileToMove]],
+					}),
 					selectedTileIndex,
 				}
 			case SELECT_TILE:

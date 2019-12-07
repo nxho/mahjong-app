@@ -7,12 +7,17 @@ import { useDrag, useDrop } from 'react-dnd';
 
 import './PlayerTile.css'
 
-const PlayerTile = ({ index, selectedTileIndex, tileSuit, tileType, selectTile, moveTile }) => {
+const PlayerTile = ({ index, selectedTileIndex, tileSuit, tileType, meldable, currentState, selectTile, moveTile }) => {
 	const ref = useRef(null);
 
 	const [, drop] = useDrop({
 		accept: ItemTypes.PLAYER_TILE,
 		hover(item, monitor) {
+			// Disable hover if player is supposed to drag tiles to revealed melds
+			if (currentState === 'REVEAL_MELD') {
+				return;
+			}
+
 			const dragIndex = item.index;
 			const hoverIndex = index;
 			if (!ref.current || dragIndex === hoverIndex) {
@@ -42,24 +47,46 @@ const PlayerTile = ({ index, selectedTileIndex, tileSuit, tileType, selectTile, 
 		item: {
 			type: ItemTypes.PLAYER_TILE,
 			index,
+			tileSuit,
+			tileType,
+			meldable,
 		},
+		canDrag: () => currentState !== 'REVEAL_MELD' || meldable,
 		collect: monitor => ({
 			isDragging: monitor.isDragging(),
 		}),
 	});
 
-	const opacity = isDragging ? 0 : 1;
+	// Default opacity
+	let opacity = 1;
+
+	if (currentState === 'REVEAL_MELD' && !meldable) {
+		opacity = 0.5;
+	}
+
+	if (isDragging) {
+		opacity = 0;
+	}
 
 	drag(drop(ref));
 
-	const selected = index === selectedTileIndex;
+	let className = '';
+	let cursor = 'grab';
+	className += index === selectedTileIndex ? 'selected' : 'tileDiv';
+	if (currentState === 'REVEAL_MELD') {
+		if (meldable) {
+			className += ' hoverTileDiv';
+		} else {
+			cursor = 'default';
+		}
+	}
 	return (
 		<div
 			ref={ref}
-			className={selected ? ' selected' : 'tileDiv'}
+			className={className}
 			style={{
 				opacity,
-				cursor: 'grab',
+				cursor,
 			}}
 			onMouseUp={() => selectTile(index)}
 		>
@@ -73,6 +100,7 @@ const PlayerTile = ({ index, selectedTileIndex, tileSuit, tileType, selectTile, 
 
 const mapStateToProps = state => ({
 	selectedTileIndex: state.player.selectedTileIndex,
+	currentState: state.player.currentState,
 });
 
 const mapDispatchToProps = dispatch => ({

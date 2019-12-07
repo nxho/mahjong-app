@@ -1,10 +1,15 @@
 .tileDiv {
 	margin: 5px;
 	display: block;
+	transition: transform 0.6s;
 }
 
 .selected {
 	border: 5px solid red;
 	display: block;
+}
+
+.hoverTileDiv:hover {
+	transform: scale(1.1);
 }
 

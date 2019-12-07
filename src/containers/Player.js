@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import TileRack from './TileRack';
+import MeldsContainer from './MeldsContainer';
 import { drawTile, endTurn, claimTile } from '../actions';
 
 const Player = ({username, tiles, isCurrentTurn, endTurn, selectedTileIndex, currentState, drawTile, claimTile}) => {
@@ -53,7 +54,11 @@ const Player = ({username, tiles, isCurrentTurn, endTurn, selectedTileIndex, cur
 	);
 
 	return (
-		<div>
+		<div style={{
+			display: 'flex',
+			flexDirection: 'column',
+		}}>
+			<MeldsContainer />
 			<h3>{username}{isCurrentTurn ? ' - | YOUR TURN |' : ''}</h3>
 			{renderActionRow()}
 			<TileRack tiles={tiles} />

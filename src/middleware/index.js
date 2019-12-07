@@ -2,7 +2,9 @@ import {
 	CLAIM_TILE,
 	DRAW_TILE,
 	END_TURN,
+	FINALIZE_REVEALED_MELDS,
 	JOIN_GAME,
+	RECEIVE_PENDING_EVENTS,
 	SEND_MESSAGE,
 	claimTile,
 	extendTiles,
@@ -14,7 +16,10 @@ import {
 	updateTiles,
 	startTurn,
 	rejoinGame,
-	showTilesForRevealedMeld,
+	updateValidMeldSubsets,
+	setRevealedMelds,
+	receivePendingEvents,
+	showMeldableTiles,
 } from '../actions';
 
 import uuidv1 from 'uuid/v1';
@@ -41,10 +46,19 @@ const createSocketMiddleware = (socket) => {
 
 						console.log('Player data:', playerData);
 
+						// TODO: don't automatically copy playerdata, maybe should explicitly state which properties
+						// 			 to include. or on server side, pass revealedMelds in separate payload key
+
+						store.dispatch(setRevealedMelds(playerData.revealedMelds));
+						delete playerData.revealedMelds;
+
 						// Assign key to each tile for stable rendering
-						playerData.tiles.map((item) => item.key = uuidv1());
+						playerData.tiles.forEach((item) => {
+							item.key = uuidv1()
+						});
 
 						store.dispatch(rejoinGame(playerData));
+						store.dispatch(receivePendingEvents());
 					}
 				} else {
 					console.log('Something went horribly wrong');
@@ -57,7 +71,9 @@ const createSocketMiddleware = (socket) => {
 		});
 		socket.on('update_tiles', (tiles) => {
 			console.log('Received "update_tiles" event from server, updating tiles to:', tiles);
-			tiles.map((item) => item.key = uuidv1());
+			tiles.forEach((tile) => {
+				tile.key = uuidv1();
+			});
 			store.dispatch(updateTiles(tiles));
 		});
 		socket.on('extend_tiles', (tile) => {
@@ -103,12 +119,15 @@ const createSocketMiddleware = (socket) => {
 			}
 		});
 		socket.on('valid_tile_sets_for_meld', (payload) => {
-			let { validMeldSubsets, declaredMeld } = payload;
-			console.log('before -- declaredMeld:', declaredMeld);
-			console.log('before -- validMeldSubsets:', validMeldSubsets);
-			validMeldSubsets = validMeldSubsets.map((subset) => (new Set(subset.map(({suit, type}) => `${suit.slice(0, 4)}_${type}`))));
-			console.log('after -- validMeldSubsets:', validMeldSubsets);
-			store.dispatch(showTilesForRevealedMeld(validMeldSubsets));
+			let { validMeldSubsets } = payload;
+			validMeldSubsets = validMeldSubsets.map((subset) => (subset.map(({suit, type}) => `${suit.slice(0, 4)}_${type}`)));
+			console.log('Dispatching updateValidMeldSubsets');
+			store.dispatch(updateValidMeldSubsets(validMeldSubsets));
+			console.log('Dispatching showMeldableTiles');
+			store.dispatch(showMeldableTiles(null));
+		});
+		socket.on('update_revealed_melds', (revealedMelds) => {
+			store.dispatch(setRevealedMelds(revealedMelds));
 		});
 
 		// TODO: store messages on server?
@@ -121,6 +140,9 @@ const createSocketMiddleware = (socket) => {
 
 		return next => action => {
 			switch (action.type) {
+				case RECEIVE_PENDING_EVENTS:
+					socket.emit('reemit_events');
+					break;
 				case DRAW_TILE:
 					socket.emit('draw_tile');
 					break;
@@ -133,6 +155,14 @@ const createSocketMiddleware = (socket) => {
 						new_state: action.claimType ? 'CLAIM_TILE' : 'NO_ACTION',
 						declared_meld: action.claimType,
 					});
+					break;
+				case FINALIZE_REVEALED_MELDS:
+					console.log('emit that shit');
+					/*
+					socket.emit('finalize_revealed_melds', {
+						revealed_melds: action.revealedMelds,
+					});
+					*/
 					break;
 				case END_TURN:
 					// Ignore 'key' prop on discardedTile
