@@ -70,9 +70,10 @@ const PlayerTile = ({ index, selectedTileIndex, tileSuit, tileType, meldable, cu
 
 	drag(drop(ref));
 
-	let className = '';
+	let className = 'tileDiv';
 	let cursor = 'grab';
-	className += index === selectedTileIndex ? 'selected' : 'tileDiv';
+	className += currentState === 'DISCARD_TILE' && index === selectedTileIndex ? ' selected' : '';
+
 	if (currentState === 'REVEAL_MELD') {
 		if (meldable) {
 			className += ' hoverTileDiv';
