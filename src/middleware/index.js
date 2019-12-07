@@ -157,12 +157,11 @@ const createSocketMiddleware = (socket) => {
 					});
 					break;
 				case FINALIZE_REVEALED_MELDS:
-					console.log('emit that shit');
-					/*
+					// TODO: definitely something to consider in making the current revealed meld separate.
+					// 			 that way we don't need to send the whole list every time?
 					socket.emit('finalize_revealed_melds', {
-						revealed_melds: action.revealedMelds,
+						revealed_melds: action.revealedMelds.map((meld) => meld.map(({ suit, type }) => ({ suit, type }))),
 					});
-					*/
 					break;
 				case END_TURN:
 					// Ignore 'key' prop on discardedTile
