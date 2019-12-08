@@ -141,9 +141,11 @@ const createSocketMiddleware = (socket) => {
 		return next => action => {
 			switch (action.type) {
 				case RECEIVE_PENDING_EVENTS:
+					console.log('Emitting event reemit_events');
 					socket.emit('reemit_events');
 					break;
 				case DRAW_TILE:
+					console.log('Emitting event draw_tile');
 					socket.emit('draw_tile');
 					break;
 				case CLAIM_TILE:
@@ -151,6 +153,7 @@ const createSocketMiddleware = (socket) => {
 					if (declareClaimTimer) {
 						clearTimeout(declareClaimTimer);
 					}
+					console.log('Emitting event update_claim_state');
 					socket.emit('update_claim_state', {
 						new_state: action.claimType ? 'CLAIM_TILE' : 'NO_ACTION',
 						declared_meld: action.claimType,
@@ -159,6 +162,7 @@ const createSocketMiddleware = (socket) => {
 				case FINALIZE_REVEALED_MELDS:
 					// TODO: definitely something to consider in making the current revealed meld separate.
 					// 			 that way we don't need to send the whole list every time?
+					console.log('Emitting event finalize_revealed_melds');
 					socket.emit('finalize_revealed_melds', {
 						revealed_melds: action.revealedMelds.map((meld) => meld.map(({ suit, type }) => ({ suit, type }))),
 					});
@@ -166,6 +170,8 @@ const createSocketMiddleware = (socket) => {
 				case END_TURN:
 					// Ignore 'key' prop on discardedTile
 					const { suit, type } = action.discardedTile;
+
+					console.log('Emitting event end_turn');
 					socket.emit('end_turn', {
 						discarded_tile: {
 							suit,
@@ -174,6 +180,7 @@ const createSocketMiddleware = (socket) => {
 					});
 					break;
 				case JOIN_GAME:
+					console.log('Emitting event enter_game');
 					socket.emit('enter_game', {
 						username: action.username,
 						room_id: action.roomId,
@@ -181,6 +188,7 @@ const createSocketMiddleware = (socket) => {
 					});
 					break;
 				case SEND_MESSAGE:
+					console.log('Emitting event text_message');
 					socket.emit('text_message', {
 						message: action.message,
 					});
