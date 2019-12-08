@@ -13,7 +13,10 @@ function Chatroom({ messages, player, }) {
 			<div>
 				<div className='header'>
 					<div>Chatroom</div>
-					<div>Room ID: {player.roomId}</div>
+					<div style={{ display: 'flex', flexDirection: 'row' }}>
+						<div className='room-id-title'>Room ID:</div>
+						<div id='room-id'>{player.roomId}</div>
+					</div>
 				</div>
 				<MessageList messages={messages} />
 			</div>

@@ -42,7 +42,7 @@ class MessageForm extends Component {
 					value={this.state.message}
 					onChange={this.handleChange}
 					style={{ display: 'flex', flex: 1 }} />
-				<input type="submit" value="Send" style={{ display: 'flex' }} />
+				<button type="submit" style={{ display: 'flex' }}>Send</button>
 			</form>
 		);
 	}

@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import rootReducer from './reducers';
-import './index.css';
 import Mahjong from './containers/Mahjong';
 import * as serviceWorker from './serviceWorker';
 import uuidv1 from 'uuid/v1';
@@ -13,6 +12,8 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import io from 'socket.io-client';
 import createSocketMiddleware from './middleware';
 import config from './config';
+
+import './index.css';
 
 // Generate new uuid for this user session, if it doesn't exist
 const uuidKey = 'mahjong-player-uuid';
