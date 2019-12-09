@@ -13,15 +13,6 @@ code {
     monospace;
 }
 
-/*
-button {
-	display: block;
-	padding: 5px;
-	border: 1px solid black;
-	border-radius: 15px;
-}
-*/
-
 button {
 	display: block;
 	padding:0.2em 1.45em;
@@ -29,7 +20,7 @@ button {
 	border:0.15em solid #CCCCCC;
 	box-sizing: border-box;
 	text-decoration:none;
-	font-family:'Segoe UI','Roboto',sans-serif;
+	/* font-family:'Segoe UI','Roboto',sans-serif; */
 	font-weight:400;
 	color:#000000;
 	background-color:#CCCCCC;

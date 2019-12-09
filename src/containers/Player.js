@@ -4,6 +4,8 @@ import TileRack from './TileRack';
 import MeldsContainer from './MeldsContainer';
 import { drawTile, endTurn, claimTile } from '../actions';
 
+import './Player.css';
+
 const Player = ({username, tiles, isCurrentTurn, endTurn, selectedTileIndex, currentState, drawTile, claimTile}) => {
 	const renderButton = () => {
 		switch (currentState) {
@@ -19,22 +21,24 @@ const Player = ({username, tiles, isCurrentTurn, endTurn, selectedTileIndex, cur
 				return <button onClick={handleClick}>Discard Tile</button>;
 			default:
 		}
-		return null;
+		return <div></div>;
 	};
 
 	const renderDeclareButtons = () => {
-		if (currentState === 'DECLARE_CLAIM') {
-			return (
-				<div>
-					<label>Claim discard with </label>
-					<button onClick={() => claimTile('WIN')}>Win</button>
-					<button onClick={() => claimTile('PONG')}>Pong</button>
-					<button onClick={() => claimTile('KONG')}>Kong</button>
-					<button onClick={() => claimTile('CHOW')}>Chow</button>
-				</div>
-			);
+		const isDisabled = currentState !== 'DECLARE_CLAIM';
+		let buttonClass = '';
+		if (isDisabled) {
+			buttonClass = 'player-declare-button--state-disabled';
 		}
-		return null;
+		return (
+			<div className='player-declare-row'>
+				<label>Claim discard with </label>
+				<button className={buttonClass} disabled={isDisabled} onClick={() => claimTile('WIN')}>Win</button>
+				<button className={buttonClass} disabled={isDisabled} onClick={() => claimTile('PONG')}>Pong</button>
+				<button className={buttonClass} disabled={isDisabled} onClick={() => claimTile('KONG')}>Kong</button>
+				<button className={buttonClass} disabled={isDisabled} onClick={() => claimTile('CHOW')}>Chow</button>
+			</div>
+		);
 	};
 
 	let justifyContent = 'space-between';
