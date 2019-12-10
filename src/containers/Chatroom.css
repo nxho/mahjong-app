@@ -1,7 +1,7 @@
 .chatroom {
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
+	justify-content: flex-start;
 	flex: 1;
 	border: 1px solid black;
 	margin: 20px;
@@ -11,11 +11,19 @@
 	border-bottom: 1px solid black;
 	padding: 5px;
 	display: flex;
+	flex-shrink: 0;
 	flex-direction: row;
 	justify-content: space-between;
 }
 
 .room-id-title {
 	padding-right: 5px;
+}
+
+.div__message-container {
+	display: flex;
+	flex-grow: 1;
+	flex-direction: column;
+	justify-content: space-between;
 }
 

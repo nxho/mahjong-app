@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { sendMessage } from '../actions';
 
+import './MessageForm.css';
+
 // TODO: this is very similar to UsernameForm.js
 // create a root component and have each inherit from the root?
 class MessageForm extends Component {
@@ -35,14 +37,15 @@ class MessageForm extends Component {
 
 	render() {
 		return (
-			<form onSubmit={this.handleSubmit} style={{ display: 'flex', padding: 10, borderTop: 1, borderTopStyle: 'solid', }}>
+			<form className='form__message-form' onSubmit={this.handleSubmit}>
 				<input
 					ref={(input) => { this.messageInput = input; }}
+					className='input__message-form-text'
 					type="text"
 					value={this.state.message}
 					onChange={this.handleChange}
-					style={{ display: 'flex', flex: 1 }} />
-				<button type="submit" style={{ display: 'flex' }}>Send</button>
+				/>
+				<button className='button__message-form-submit' type="submit">Send</button>
 			</form>
 		);
 	}
