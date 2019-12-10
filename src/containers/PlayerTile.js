@@ -57,30 +57,29 @@ const PlayerTile = ({ index, selectedTileIndex, tileSuit, tileType, meldable, cu
 		}),
 	});
 
-	// Default opacity
+	drag(drop(ref));
+
+	// Default style options
 	let opacity = 1;
+	let cursor = 'grab';
 
 	if (currentState === 'REVEAL_MELD' && !meldable) {
 		opacity = 0.5;
+		cursor = 'not-allowed';
 	}
 
 	if (isDragging) {
 		opacity = 0;
 	}
 
-	drag(drop(ref));
-
 	let className = 'tileDiv';
-	let cursor = 'grab';
-	className += currentState === 'DISCARD_TILE' && index === selectedTileIndex ? ' selected' : '';
-
-	if (currentState === 'REVEAL_MELD') {
-		if (meldable) {
-			className += ' hoverTileDiv';
-		} else {
-			cursor = 'default';
-		}
+	if (currentState === 'DISCARD_TILE' && index === selectedTileIndex) {
+		className += ' selected';
 	}
+	if (currentState === 'REVEAL_MELD' && meldable) {
+		className += ' hoverTileDiv';
+	}
+
 	return (
 		<div
 			ref={ref}

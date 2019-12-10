@@ -100,8 +100,8 @@ const createSocketMiddleware = (socket) => {
 			console.log('Received "update_state" event from server, updating player action state to:', state);
 			store.dispatch(updateCurrentState(state));
 		});
-		socket.on('declare_claim_with_timer', (startTime) => {
-			let msDuration = 2000;
+		socket.on('declare_claim_with_timer', (payload) => {
+			let { startTime, msDuration } = payload;
 			if (!startTime) {
 				socket.emit('declare_claim_start', {
 					declareClaimStartTime: new Date().toISOString(),
