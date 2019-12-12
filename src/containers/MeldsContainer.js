@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { extendRevealedMelds, showMeldableTiles } from '../actions';
+import { extendNewMeld, showMeldableTiles } from '../actions';
 import { ItemTypes } from '../Constants';
 import { useDrop } from 'react-dnd';
 import Melds from './Melds';
@@ -10,7 +10,7 @@ import './MeldsContainer.css';
 const MeldsContainer = ({
 	currentState,
 	showMeldableTiles,
-	extendRevealedMelds,
+	extendNewMeld,
 }) => {
 	console.log('Rendering <MeldsContainer />');
 
@@ -20,8 +20,8 @@ const MeldsContainer = ({
 		drop(item, monitor) {
 			console.log('Dispatching showMeldableTiles');
 			showMeldableTiles(item.index);
-			console.log('Dispatching extendRevealedMelds');
-			extendRevealedMelds(item.index);
+			console.log('Dispatching extendNewMeld');
+			extendNewMeld(item.index);
 		},
 		collect: monitor => ({
 			isOver: !!monitor.isOver(),
@@ -50,7 +50,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
 	showMeldableTiles: (tileIndex) => dispatch(showMeldableTiles(tileIndex)),
-	extendRevealedMelds: (tileIndex) => dispatch(extendRevealedMelds(tileIndex)),
+	extendNewMeld: (tileIndex) => dispatch(extendNewMeld(tileIndex)),
 });
 
 export default connect(

@@ -14,8 +14,9 @@ import {
 	CLAIM_TILE,
 	PRE_REVEAL_MELD,
 	SHOW_MELDABLE_TILES,
-	EXTEND_REVEALED_MELDS,
 	SET_REVEALED_MELDS,
+	EXTEND_NEW_MELD,
+	COMPLETE_NEW_MELD,
 } from '../actions';
 import update from 'immutability-helper';
 
@@ -31,6 +32,8 @@ const player = (
 		currentState: 'NO_ACTION',
 		validMeldSubsets: null,
 		revealedMelds: [],
+		newMeld: [],
+		newMeldTargetLength: -1,
 	},
 	action) => {
 		switch (action.type) {
@@ -78,7 +81,7 @@ const player = (
 
 						return null;
 					}).filter(subset => !!subset && subset.length > 0);
-					console.log("dey should've changed", newValidMeldSubsets);
+					// console.log("dey should've changed", newValidMeldSubsets);
 				}
 
 				// Collect all tile keys that are valid
@@ -100,22 +103,27 @@ const player = (
 				return {
 					...player,
 					validMeldSubsets: action.validMeldSubsets,
-					newMeldLength: action.validMeldSubsets[0].length + 1,
+					newMeld: action.newMeld,
+					newMeldTargetLength: action.newMeldTargetLength,
 				};
-			case EXTEND_REVEALED_MELDS:
-				const droppedTile = player.tiles[action.droppedTileIndex];
-
-				const lastElIndex = player.revealedMelds.length - 1;
-				return update(player, {
-					tiles: { $splice: [[action.droppedTileIndex, 1]] },
-					revealedMelds: {
-						[lastElIndex]: { $push: [droppedTile] }
-					},
-				});
 			case SET_REVEALED_MELDS:
 				return {
 					...player,
 					revealedMelds: [...action.revealedMelds],
+				};
+			case EXTEND_NEW_MELD:
+				const droppedTile = player.tiles[action.droppedTileIndex];
+
+				return update(player, {
+					tiles: { $splice: [[action.droppedTileIndex, 1]] },
+					newMeld: { $push: [droppedTile] },
+				});
+			case COMPLETE_NEW_MELD:
+				return {
+					...player,
+					revealedMelds: update(player.revealedMelds, { $push: [player.newMeld] }),
+					newMeld: [],
+					newMeldTargetLength: -1,
 				};
 			case JOIN_GAME:
 				return {

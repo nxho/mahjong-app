@@ -21,8 +21,8 @@ export const PRE_REVEAL_MELD = 'PRE_REVEAL_MELD';
 export const SET_REVEALED_MELDS = 'SET_REVEALED_MELDS';
 export const RECEIVE_PENDING_EVENTS = 'RECEIVE_PENDING_EVENTS';
 export const SHOW_MELDABLE_TILES = 'SHOW_MELDABLE_TILES';
-export const EXTEND_REVEALED_MELDS = 'EXTEND_REVEALED_MELDS';
-export const FINALIZE_REVEALED_MELDS = 'FINALIZE_REVEALED_MELDS';
+export const EXTEND_NEW_MELD = 'EXTEND_NEW_MELD';
+export const COMPLETE_NEW_MELD = 'COMPLETE_NEW_MELD';
 
 export const moveTile = (srcIndex, dstIndex) => ({
 	type: MOVE_TILE,
@@ -104,9 +104,11 @@ export const claimTile = (claimType) => ({
 	claimType,
 });
 
-export const updateValidMeldSubsets = (validMeldSubsets) => ({
+export const updateValidMeldSubsets = (validMeldSubsets, newMeld, newMeldTargetLength) => ({
 	type: PRE_REVEAL_MELD,
 	validMeldSubsets,
+	newMeld,
+	newMeldTargetLength,
 });
 
 export const setRevealedMelds = (revealedMelds) => ({
@@ -123,13 +125,13 @@ export const showMeldableTiles = (droppedTileIndex) => ({
 	droppedTileIndex,
 });
 
-export const extendRevealedMelds = (droppedTileIndex) => ({
-	type: EXTEND_REVEALED_MELDS,
+export const extendNewMeld = (droppedTileIndex) => ({
+	type: EXTEND_NEW_MELD,
 	droppedTileIndex,
 });
 
-export const finalizeRevealedMelds = (revealedMelds) => ({
-	type: FINALIZE_REVEALED_MELDS,
-	revealedMelds,
+export const completeNewMeld = (newMeld) => ({
+	type: COMPLETE_NEW_MELD,
+	newMeld,
 });
 

@@ -1,8 +1,8 @@
 import {
 	CLAIM_TILE,
+	COMPLETE_NEW_MELD,
 	DRAW_TILE,
 	END_TURN,
-	FINALIZE_REVEALED_MELDS,
 	JOIN_GAME,
 	RECEIVE_PENDING_EVENTS,
 	SEND_MESSAGE,
@@ -46,17 +46,13 @@ const createSocketMiddleware = (socket) => {
 
 						console.log('Player data:', playerData);
 
-						// TODO: don't automatically copy playerdata, maybe should explicitly state which properties
-						// 			 to include. or on server side, pass revealedMelds in separate payload key
-
-						store.dispatch(setRevealedMelds(playerData.revealedMelds));
-						delete playerData.revealedMelds;
-
 						// Assign key to each tile for stable rendering
 						playerData.tiles.forEach((item) => {
 							item.key = uuidv1()
 						});
 
+						// TODO: don't automatically copy playerdata, maybe should explicitly state which properties
+						// 			 to include
 						store.dispatch(rejoinGame(playerData));
 						store.dispatch(receivePendingEvents());
 					}
@@ -119,10 +115,10 @@ const createSocketMiddleware = (socket) => {
 			}
 		});
 		socket.on('valid_tile_sets_for_meld', (payload) => {
-			let { validMeldSubsets } = payload;
+			let { validMeldSubsets, newMeld, newMeldTargetLength } = payload;
 			validMeldSubsets = validMeldSubsets.map((subset) => (subset.map(({suit, type}) => `${suit.slice(0, 4)}_${type}`)));
 			console.log('Dispatching updateValidMeldSubsets');
-			store.dispatch(updateValidMeldSubsets(validMeldSubsets));
+			store.dispatch(updateValidMeldSubsets(validMeldSubsets, newMeld, newMeldTargetLength));
 			console.log('Dispatching showMeldableTiles');
 			store.dispatch(showMeldableTiles(null));
 		});
@@ -155,17 +151,13 @@ const createSocketMiddleware = (socket) => {
 					}
 					console.log('Emitting event update_claim_state');
 					socket.emit('update_claim_state', {
-						new_state: action.claimType ? 'CLAIM_TILE' : 'NO_ACTION',
 						declared_meld: action.claimType,
 					});
 					break;
-				case FINALIZE_REVEALED_MELDS:
-					// TODO: definitely something to consider in making the current revealed meld separate.
-					// 			 that way we don't need to send the whole list every time?
-					console.log('Emitting event finalize_revealed_melds');
-					socket.emit('finalize_revealed_melds', {
-						revealed_melds: action.revealedMelds.map((meld) => meld.map(({ suit, type }) => ({ suit, type }))),
-					});
+				case COMPLETE_NEW_MELD:
+					const new_meld = action.newMeld.map(({ suit, type }) => ({ suit, type }));
+					console.log(`Emitting event complete_new_meld with new_meld=${new_meld}`);
+					socket.emit('complete_new_meld', { new_meld });
 					break;
 				case END_TURN:
 					// Ignore 'key' prop on discardedTile
