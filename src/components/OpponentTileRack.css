@@ -1,0 +1,36 @@
+.blank-tile-rack {
+	padding: 10px;
+	border: 2px solid black;
+	border-radius: 7.5px;
+	align-items: center;
+}
+
+.blank-top {
+	display: flex;
+	align-self: stretch;
+	justify-content: center;
+	margin: 10px 0px;
+}
+
+.blank-left, .blank-right {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin: 0px 10px;
+}
+
+.melds-container-left, .meld-container-left, .melds-container-right, .meld-container-right {
+	flex-direction: column;
+}
+
+.meld-tile-container-top {
+	margin: 6px;
+}
+
+.meld-tile-container-left, .meld-tile-container-right {
+	position: relative;
+	width: 70.36px;
+	height: 50px;
+	margin: 6px;
+}
+

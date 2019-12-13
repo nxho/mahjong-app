@@ -1,7 +1,7 @@
 import React from 'react';
 import './TileContent.css'
 
-const TileContent = ({ suit, type, selected }) => {
+const TileContent = ({ suit, type, selected, className }) => {
 	const tryRequire = () => {
 		let img = null;
 
@@ -16,13 +16,16 @@ const TileContent = ({ suit, type, selected }) => {
 	};
 
 	const renderImg = (img_src) => {
-		let className = 'imgTile';
+		let localClassName = 'imgTile';
+		if (!!className) {
+			localClassName += ` ${className}`;
+		}
 		if (selected) {
-			className += ' imgTile--state-selected';
+			localClassName += ' imgTile--state-selected';
 		}
 		return (
 			<img
-				className={className}
+				className={localClassName}
 				src={img_src}
 				alt={`${suit}_${type}`}
 			/>

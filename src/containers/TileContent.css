@@ -4,6 +4,42 @@
 	height: auto;
 	margin: 1px;
 	box-shadow: 2px 2px 2px 2px rgba(191, 191, 191, 1);
+	/*
+	test css for rotations
+	margin: 0;
+	position: absolute;
+	left: 10.18px;
+	top: -10.18px;
+	transform: rotate(90deg);
+
+	--- outer div ---
+	width: 70.36px;
+	height: 50px;
+	position: relative;
+	box-shadow: -2px 2px 2px 2px rgba(191, 191, 191, 1)
+
+	*/
+}
+
+.img--rotated-cw {
+	margin: 0;
+	position: absolute;
+	left: 10.18px;
+	top: -10.18px;
+	transform: rotate(90deg);
+}
+
+.img--rotated-ccw {
+	margin: 0;
+	position: absolute;
+	left: 10.18px;
+	top: -10.18px;
+	transform: rotate(-90deg);
+}
+
+.img--rotated-180 {
+	margin: 0;
+	transform: rotate(180deg);
 }
 
 .imgTile--state-selected {
