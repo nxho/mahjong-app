@@ -19,12 +19,13 @@ class Board extends Component {
 		/>;
 	}
 
-	renderOpponent(id) {
+	renderOpponent(id, position) {
 		const opponent = this.props.opponents[id];
-		const direction = id % 2 === 0 ? 'column' : 'row';
 		return <Opponent
 			name={opponent.name}
-			direction={direction}
+			melds={opponent.revealedMelds}
+			tileCount={opponent.tileCount}
+			position={position}
 		/>;
 	}
 
@@ -40,15 +41,15 @@ class Board extends Component {
 		return (
 			<div className='boardContainer' data-testid='board'>
 				<div className='leftColumn'>
-					{ this.renderOpponent(2) }
+					{ this.renderOpponent(2, 'left') }
 				</div>
 				<div className='middleColumn'>
-					{ this.renderOpponent(1) }
+					{ this.renderOpponent(1, 'top') }
 					{ this.renderDiscardedTile() }
 					{ this.renderPlayer() }
 				</div>
 				<div className='rightColumn'>
-					{ this.renderOpponent(0) }
+					{ this.renderOpponent(0, 'right') }
 				</div>
 			</div>
 		)

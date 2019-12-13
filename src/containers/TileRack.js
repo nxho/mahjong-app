@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PlayerTile from './PlayerTile';
 import './TileRack.css';
 
@@ -6,12 +7,13 @@ const TileRack = function({ tiles }) {
 	return (
 		<div className={'player-tile-rack player-tile-rack-row'}>
 			{
-				tiles.map((item, index) => (
+				tiles.map(({ key, suit, type, meldable }, index) => (
 					<PlayerTile
-						key={item.key}
+						key={key}
 						index={index}
-						tileSuit={item.suit}
-						tileType={item.type}
+						tileSuit={suit}
+						tileType={type}
+						meldable={meldable}
 					/>
 				))
 			}
@@ -19,5 +21,12 @@ const TileRack = function({ tiles }) {
 	);
 }
 
-export default TileRack;
+const mapStateToProps = state => ({
+	validMeldSubsets: state.player.validMeldSubsets,
+});
+
+export default connect(
+	mapStateToProps,
+	null,
+)(TileRack);
 

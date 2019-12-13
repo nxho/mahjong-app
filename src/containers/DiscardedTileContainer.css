@@ -1,5 +1,6 @@
 .discarded-tile-container {
 	border: 2px solid black;
+	border-radius: 7.5px;
 	width: 20%;
 	text-align: center;
 	display: flex;

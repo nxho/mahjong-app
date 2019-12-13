@@ -1,0 +1,19 @@
+.form__message-form {
+	display: flex;
+	flex-direction: row;
+	flex-shrink: 0;
+	padding: 5px;
+	border-top: 1px;
+	border-top-style: solid;
+}
+
+.input__message-form-text {
+	display: flex;
+	flex-grow: 1;
+	margin-right: 2px;
+}
+
+.button__message-form-submit {
+	margin: 0;
+}
+

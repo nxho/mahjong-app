@@ -1,12 +1,15 @@
 import React from 'react';
 import BlankTileRack from './BlankTileRack';
 
-const Opponent = ({name, direction}) => (
-	<div>
-		<h3>{name}</h3>
+import './Opponent.css';
+
+const Opponent = ({ name, tileCount, position}) => (
+	<div className={`div__opponent div__opponent-${position}`}>
 		<BlankTileRack
-			direction={direction}
+			position={position}
+			tileCount={tileCount}
 		/>
+		<h3 className={`h3__opponent-name-${position}`}>{name}</h3>
 	</div>
 );
 

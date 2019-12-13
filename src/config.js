@@ -7,13 +7,27 @@ const local = {
 
 const dev = {
 	socket: {
+		SERVER_URL: 'https://mahjong-server-dev.herokuapp.com',
+	}
+}
+
+const prod = {
+	socket: {
 		SERVER_URL: 'https://mahjong-server.herokuapp.com',
 	}
 }
 
-const config = process.env.REACT_APP_STAGE === 'dev'
-	? dev
-	: local;
+let config;
+switch(process.env.REACT_APP_STAGE) {
+	case 'dev':
+		config = dev;
+		break;
+	case 'prod':
+		config = prod;
+		break;
+	default:
+		config = local;
+}
 
 export default config;
 

@@ -1,45 +1,77 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import TileRack from './TileRack';
-import { drawTile, endTurn } from '../actions';
+import MeldsContainer from './MeldsContainer';
+import { drawTile, endTurn, claimTile } from '../actions';
 
-const Player = ({username, tiles, direction, tileRotation, isCurrentTurn, endTurn, selectedTileIndex, currentState, drawTile}) => {
-	const renderButton = () => {
-		// TODO: need to decide whether to use isCurrentTurn or currentState
-		// currently keeping isCurrentTurn for possible client side disabling of button, so we don't have wait for a server update of currentState, but it might be a non-issue
-		if (isCurrentTurn) {
-			switch (currentState) {
-				case 'DRAW_TILE':
-					return <button onClick={() => drawTile()}>Draw Tile</button>;
-				case 'DISCARD_TILE':
-					const handleClick = () => {
-						console.log(`Dispatching END_TURN for selectedTileIndex=${selectedTileIndex}`);
-						if (selectedTileIndex != null) {
-							endTurn(tiles[selectedTileIndex]);
-						}
-					};
-					return <button onClick={handleClick}>End Turn</button>;
-				default:
-			}
+import './Player.css';
+
+const Player = ({username, tiles, isCurrentTurn, endTurn, selectedTileIndex, currentState, drawTile, claimTile}) => {
+	const renderCurrentTurnButtons = () => {
+		switch (currentState) {
+			case 'DRAW_TILE':
+				return <button onClick={() => drawTile()}>Draw Tile</button>;
+			case 'DISCARD_TILE':
+				const handleClick = () => {
+					console.log(`Dispatching END_TURN for selectedTileIndex=${selectedTileIndex}`);
+					if (selectedTileIndex != null) {
+						endTurn(tiles[selectedTileIndex]);
+					}
+				};
+				return <button onClick={handleClick}>Discard Tile</button>;
+			default:
 		}
-		return null;
+		return <div></div>;
 	};
 
+	const renderDeclareButtons = () => {
+		const isDisabled = currentState !== 'DECLARE_CLAIM';
+		let buttonClass = '';
+		if (isDisabled) {
+			buttonClass = 'player-declare-button--state-disabled';
+		}
+		return (
+			<div className='player-declare-row'>
+				<label>Claim discard with </label>
+				<button className={buttonClass} disabled={isDisabled} onClick={() => claimTile('WIN')}>Win</button>
+				<button className={buttonClass} disabled={isDisabled} onClick={() => claimTile('PONG')}>Pong</button>
+				<button className={buttonClass} disabled={isDisabled} onClick={() => claimTile('KONG')}>Kong</button>
+				<button className={buttonClass} disabled={isDisabled} onClick={() => claimTile('CHOW')}>Chow</button>
+			</div>
+		);
+	};
+
+	let justifyContent = 'space-between';
+	if (currentState === 'DECLARE_CLAIM') {
+		justifyContent = 'flex-end';
+	}
+
+	const renderActionRow = () => (
+		<div style={{
+			display: 'flex',
+			flexDirection: 'row',
+			justifyContent,
+		}}>
+			{renderCurrentTurnButtons()}
+			{renderDeclareButtons()}
+		</div>
+	);
+
 	return (
-		<div>
-			<h3>{username}{isCurrentTurn ? ' - | YOUR TURN |' : ''}</h3>
-			{renderButton()}
-			<TileRack
-				tiles={tiles}
-				direction={direction}
-				tileRotation={tileRotation}
-				tileDragEnabled={isCurrentTurn}
-			/>
+		<div style={{
+			display: 'flex',
+			flexDirection: 'column',
+		}}>
+			<MeldsContainer />
+			<h3>{username}</h3>
+			{renderActionRow()}
+			<TileRack tiles={tiles} />
 		</div>
 	);
 };
 
 const mapDispatchToProps = dispatch => ({
+	claimTile: (claimType) => dispatch(claimTile(claimType)),
 	endTurn: (discardedTile) => dispatch(endTurn(discardedTile)),
 	drawTile: () => dispatch(drawTile()),
 });

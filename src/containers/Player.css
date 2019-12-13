@@ -1,0 +1,14 @@
+.player-declare-row {
+	display: flex;
+	flex-direction: row;
+}
+
+.player-declare-button--state-disabled {
+	opacity: 0.5;
+}
+
+.player-declare-button--state-disabled:hover {
+	border-color: transparent;
+	cursor: not-allowed;
+}
+
