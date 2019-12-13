@@ -1,7 +1,7 @@
 import React from 'react';
 import './TileContent.css'
 
-const TileContent = ({ suit, type }) => {
+const TileContent = ({ suit, type, selected }) => {
 	const tryRequire = () => {
 		let img = null;
 
@@ -15,13 +15,19 @@ const TileContent = ({ suit, type }) => {
 		return img;
 	};
 
-	const renderImg = (img_src) => (
-		<img
-			className='imgTile'
-			src={img_src}
-			alt={`${suit}_${type}`}
-		/>
-	);
+	const renderImg = (img_src) => {
+		let className = 'imgTile';
+		if (selected) {
+			className += ' imgTile--state-selected';
+		}
+		return (
+			<img
+				className={className}
+				src={img_src}
+				alt={`${suit}_${type}`}
+			/>
+		);
+	};
 
 	const renderText = () => (
 		<div className='textTileDiv'>
