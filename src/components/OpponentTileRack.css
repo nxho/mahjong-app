@@ -7,14 +7,19 @@
 	border-radius: 7.5px;
 }
 
-.opponent-tile-rack-row {
+.opponent-tile-rack-top {
 	flex-direction: row;
 	align-self: stretch;
 	margin: 10px 0px;
 }
 
-.opponent-tile-rack-column {
+.opponent-tile-rack-left,
+.opponent-tile-rack-right {
 	flex-direction: column;
 	margin: 0px 10px;
+}
+
+.opponent-tile-rack-left {
+	flex-direction: column-reverse;
 }
 

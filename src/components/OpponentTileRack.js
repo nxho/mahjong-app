@@ -26,7 +26,7 @@ const OpponentTileRack = ({ revealedMelds, tileCount, position }) => {
 	}
 
 	return (
-		<div className={`opponent-tile-rack opponent-tile-rack-${direction}`}>
+		<div className={`opponent-tile-rack opponent-tile-rack-${position}`}>
 			{tiles}
 			{
 				<Melds

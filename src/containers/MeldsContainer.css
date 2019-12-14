@@ -1,4 +1,4 @@
-.melds-container {
+.player-melds-container {
 	display: flex;
 	flex-direction: column;
 	border: 1px solid black;
@@ -7,12 +7,12 @@
 	min-height: 105px;
 }
 
-.melds-container-title {
+.player-melds-container-title {
 	display: block;
 	margin-bottom: 10px;
 }
 
-.melds-container--state-hover {
+.player-melds-container--state-hover {
 	box-shadow: 0 0 10px rgba(252, 186, 3, 1);
 }
 
