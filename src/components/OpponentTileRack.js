@@ -1,6 +1,7 @@
 import React from 'react';
 import BlankTile from './BlankTile';
-import TileContent from '../containers/TileContent';
+import Melds from './Melds';
+
 import './OpponentTileRack.css';
 
 const OpponentTileRack = ({ revealedMelds, tileCount, position }) => {
@@ -15,31 +16,23 @@ const OpponentTileRack = ({ revealedMelds, tileCount, position }) => {
 	}
 
 	let rotation = '180';
+	let direction = 'row';
 	if (position === 'left') {
 		rotation = 'cw'
+		direction = 'column';
 	} else if (position === 'right') {
 		rotation = 'ccw'
+		direction = 'column';
 	}
 
-	// TODO: using same class names from Melds.js, should probably fix
 	return (
-		<div className={`blank-tile-rack blank-${position}`}>
+		<div className={`opponent-tile-rack opponent-tile-rack-${direction}`}>
 			{tiles}
-			<div className={`melds-container-row melds-container-${position}`}>
-				{ revealedMelds.map((meld, meldIndex) => (
-					<div className={`meld-container melds-container-${position}`} key={meldIndex}>
-						{ meld.map(({ suit, type }, tileIndex) => (
-							<div className={`meld-tile-container meld-tile-container-${position}`} key={tileIndex}>
-								<TileContent
-									suit={suit}
-									type={type}
-									className={`img--rotated-${rotation}`}
-								/>
-							</div>
-						)) }
-					</div>
-				)) }
-			</div>
+			<Melds
+				melds={revealedMelds}
+				direction={direction}
+				tileRotation={rotation}
+			/>
 		</div>
 	);
 };

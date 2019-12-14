@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 import { extendNewMeld, showMeldableTiles } from '../actions';
 import { ItemTypes } from '../Constants';
 import { useDrop } from 'react-dnd';
-import Melds from './Melds';
+import PlayerMelds from './PlayerMelds';
 
 import './MeldsContainer.css';
 
+// TODO: rename to PlayerMeldsContainer?
 const MeldsContainer = ({
 	currentState,
 	showMeldableTiles,
@@ -39,7 +40,7 @@ const MeldsContainer = ({
 	return (
 		<div ref={drop} className={className}>
 			<div className='melds-container-title'>Your Revealed Melds</div>
-			<Melds />
+			<PlayerMelds />
 		</div>
 	);
 };

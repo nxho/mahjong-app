@@ -1,0 +1,34 @@
+.melds-container {
+	display: flex;
+	justify-content: flex-start;
+}
+
+.melds-container-row,
+.melds-container-row .meld-container {
+	flex-direction: row;
+}
+
+.melds-container-column,
+.melds-container-column .meld-container {
+	flex-direction: column;
+}
+
+.meld-container {
+	display: flex;
+	border: 0.5px solid black;
+	border-radius: 7.5px;
+	padding: 5px;
+}
+
+.meld-tile-container-row {
+	display: block;
+	margin: 6px;
+}
+
+.meld-tile-container-column {
+	position: relative;
+	width: 70.36px;
+	height: 50px;
+	margin: 6px;
+}
+

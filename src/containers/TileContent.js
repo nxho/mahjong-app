@@ -1,6 +1,7 @@
 import React from 'react';
 import './TileContent.css'
 
+// TODO: move to components folder?
 const TileContent = ({ suit, type, selected, className }) => {
 	const tryRequire = () => {
 		let img = null;
