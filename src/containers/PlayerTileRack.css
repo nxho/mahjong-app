@@ -1,0 +1,9 @@
+.player-tile-rack {
+	display: flex;
+	flex-direction: row;
+	margin: 10px 0px;
+	padding: 10px;
+	border: 2px solid black;
+	border-radius: 7.5px;
+}
+

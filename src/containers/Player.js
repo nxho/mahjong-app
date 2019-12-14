@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import TileRack from './TileRack';
+import PlayerTileRack from './PlayerTileRack';
 import MeldsContainer from './MeldsContainer';
 import { drawTile, endTurn, claimTile } from '../actions';
 
@@ -58,7 +58,7 @@ const Player = ({username, tiles, endTurn, selectedTileIndex, currentState, draw
 			<MeldsContainer />
 			<h3>{username}</h3>
 			{renderActionRow()}
-			<TileRack tiles={tiles} />
+			<PlayerTileRack tiles={tiles} />
 		</div>
 	);
 };
