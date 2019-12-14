@@ -13,8 +13,8 @@ const NewMeld = ({ newMeld, newMeldTargetLength, completeNewMeld }) => {
 	});
 
 	return (
-		// TODO: this is repeated in Melds.js, consolidate into separate component?
-		<div className='meld-container'>
+		// FIXME: this is using styling from src/components/Melds.css, consolidate or something
+		<div className='meld-container-row'>
 			{ newMeld.map(({ suit, type }, tileIndex) => (
 				<div className='meld-tile-container' key={tileIndex}>
 					<TileContent suit={suit} type={type} />

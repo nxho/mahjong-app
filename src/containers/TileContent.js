@@ -1,13 +1,14 @@
 import React from 'react';
 import './TileContent.css'
 
-const TileContent = ({ suit, type }) => {
+// TODO: move to components folder?
+const TileContent = ({ suit, type, selected, className }) => {
 	const tryRequire = () => {
 		let img = null;
 
 		try {
 			// TODO: maybe we should just rename the images as the full suit+type name
-			img = require(`../images/tiles/${suit.slice(0, 4)}_${type}.png`)
+			img = require(`../images/tiles/${suit}_${type}.png`)
 		} catch (e) {
 			// handle silently
 		}
@@ -15,13 +16,22 @@ const TileContent = ({ suit, type }) => {
 		return img;
 	};
 
-	const renderImg = (img_src) => (
-		<img
-			className='imgTile'
-			src={img_src}
-			alt={`${suit}_${type}`}
-		/>
-	);
+	const renderImg = (img_src) => {
+		let localClassName = 'imgTile';
+		if (!!className) {
+			localClassName += ` ${className}`;
+		}
+		if (selected) {
+			localClassName += ' imgTile--state-selected';
+		}
+		return (
+			<img
+				className={localClassName}
+				src={img_src}
+				alt={`${suit}_${type}`}
+			/>
+		);
+	};
 
 	const renderText = () => (
 		<div className='textTileDiv'>

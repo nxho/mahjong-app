@@ -1,6 +1,22 @@
+.div__player-container {
+	display: flex;
+	flex-direction: column;
+}
+
+.div__player-action-row {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.div__player-action-row--state-declare {
+	justify-content: flex-end;
+}
+
 .player-declare-row {
 	display: flex;
 	flex-direction: row;
+	align-items: center;
 }
 
 .player-declare-button--state-disabled {

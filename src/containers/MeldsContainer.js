@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 import { extendNewMeld, showMeldableTiles } from '../actions';
 import { ItemTypes } from '../Constants';
 import { useDrop } from 'react-dnd';
-import Melds from './Melds';
+import PlayerMelds from './PlayerMelds';
 
 import './MeldsContainer.css';
 
+// TODO: rename to PlayerMeldsContainer?
 const MeldsContainer = ({
 	currentState,
 	showMeldableTiles,
@@ -31,15 +32,15 @@ const MeldsContainer = ({
 
 	console.log('isOver', isOver);
 
-	let className = 'melds-container';
+	let className = 'player-melds-container';
 	if (canDrop && isOver) {
-		className += ' melds-container--state-hover';
+		className += ' player-melds-container--state-hover';
 	}
 
 	return (
 		<div ref={drop} className={className}>
-			<div className='melds-container-title'>Your Revealed Melds</div>
-			<Melds />
+			<div className='player-melds-container-title'>Your Revealed Melds</div>
+			<PlayerMelds />
 		</div>
 	);
 };

@@ -1,17 +1,21 @@
 .discarded-tile-container {
-	border: 2px solid black;
-	border-radius: 7.5px;
-	width: 20%;
-	text-align: center;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	align-self: flex-start;
 	align-items: center;
 	padding: 20px;
+	border: 2px solid black;
+	border-radius: 7.5px;
+	text-align: center;
 }
 
-.tile-container {
+.discarded-tile-container__tile {
 	display: block;
-	width: 29.1746%;
+	margin: 5px;
+	box-shadow: 2px 2px 2px 2px rgba(191, 191, 191, 1);
+	border: 0.5px solid grey;
+	border-radius: 5px;
+	background-color: rgba(255, 249, 242, 0.5);
 }
 

@@ -72,13 +72,20 @@ const PlayerTile = ({ index, selectedTileIndex, tileSuit, tileType, meldable, cu
 		opacity = 0;
 	}
 
+	const isSelected = index === selectedTileIndex;
 	let className = 'tileDiv';
-	if (currentState === 'DISCARD_TILE' && index === selectedTileIndex) {
+	if (currentState === 'DISCARD_TILE' && isSelected) {
 		className += ' selected';
 	}
 	if (currentState === 'REVEAL_MELD' && meldable) {
 		className += ' hoverTileDiv';
 	}
+
+	const handleMouseUp = () => {
+		if (currentState === 'DISCARD_TILE') {
+			selectTile(index);
+		}
+	};
 
 	return (
 		<div
@@ -88,11 +95,12 @@ const PlayerTile = ({ index, selectedTileIndex, tileSuit, tileType, meldable, cu
 				opacity,
 				cursor,
 			}}
-			onMouseUp={() => selectTile(index)}
+			onMouseUp={handleMouseUp}
 		>
 			<TileContent
 				suit={tileSuit}
 				type={tileType}
+				selected={isSelected}
 			/>
 		</div>
 	);

@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PlayerTile from './PlayerTile';
-import './TileRack.css';
+import './PlayerTileRack.css';
 
-const TileRack = function({ tiles }) {
+const PlayerTileRack = function({ tiles }) {
 	return (
-		<div className={'player-tile-rack player-tile-rack-row'}>
+		<div className='player-tile-rack'>
 			{
 				tiles.map(({ key, suit, type, meldable }, index) => (
 					<PlayerTile
@@ -28,5 +28,5 @@ const mapStateToProps = state => ({
 export default connect(
 	mapStateToProps,
 	null,
-)(TileRack);
+)(PlayerTileRack);
 

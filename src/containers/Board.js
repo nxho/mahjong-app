@@ -13,7 +13,6 @@ class Board extends Component {
 			username={player.username}
 			tiles={player.tiles}
 			tileRotation={0}
-			isCurrentTurn={player.isCurrentTurn}
 			selectedTileIndex={player.selectedTileIndex}
 			currentState={player.currentState}
 		/>;

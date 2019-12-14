@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import TileRack from './TileRack';
+import PlayerTileRack from './PlayerTileRack';
 import MeldsContainer from './MeldsContainer';
 import { drawTile, endTurn, claimTile } from '../actions';
 
 import './Player.css';
 
-const Player = ({username, tiles, isCurrentTurn, endTurn, selectedTileIndex, currentState, drawTile, claimTile}) => {
+const Player = ({username, tiles, endTurn, selectedTileIndex, currentState, drawTile, claimTile}) => {
 	const renderCurrentTurnButtons = () => {
 		switch (currentState) {
 			case 'DRAW_TILE':
@@ -41,31 +41,24 @@ const Player = ({username, tiles, isCurrentTurn, endTurn, selectedTileIndex, cur
 		);
 	};
 
-	let justifyContent = 'space-between';
+	let className = 'div__player-action-row';
 	if (currentState === 'DECLARE_CLAIM') {
-		justifyContent = 'flex-end';
+		className += ' div__player-action-row--state-declare';
 	}
 
 	const renderActionRow = () => (
-		<div style={{
-			display: 'flex',
-			flexDirection: 'row',
-			justifyContent,
-		}}>
+		<div className={className}>
 			{renderCurrentTurnButtons()}
 			{renderDeclareButtons()}
 		</div>
 	);
 
 	return (
-		<div style={{
-			display: 'flex',
-			flexDirection: 'column',
-		}}>
+		<div className='div__player-container'>
 			<MeldsContainer />
 			<h3>{username}</h3>
 			{renderActionRow()}
-			<TileRack tiles={tiles} />
+			<PlayerTileRack tiles={tiles} />
 		</div>
 	);
 };
