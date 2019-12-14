@@ -1,5 +1,5 @@
 import React from 'react';
-import BlankTile from './BlankTile';
+import HiddenTile from './HiddenTile';
 import Melds from './Melds';
 
 import './OpponentTileRack.css';
@@ -8,7 +8,7 @@ const OpponentTileRack = ({ revealedMelds, tileCount, position }) => {
 	let tiles = [];
 	for (let i = 0; i < tileCount; i++) {
 		tiles.push(
-			<BlankTile
+			<HiddenTile
 				key={i}
 				position={position}
 			/>
