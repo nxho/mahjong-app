@@ -28,11 +28,14 @@ const OpponentTileRack = ({ revealedMelds, tileCount, position }) => {
 	return (
 		<div className={`opponent-tile-rack opponent-tile-rack-${direction}`}>
 			{tiles}
-			<Melds
-				melds={revealedMelds}
-				direction={direction}
-				tileRotation={rotation}
-			/>
+			{
+				!!revealedMelds && revealedMelds.length > 0 &&
+					<Melds
+						melds={revealedMelds}
+						direction={direction}
+						tileRotation={rotation}
+					/>
+			}
 		</div>
 	);
 };
