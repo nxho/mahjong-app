@@ -19,6 +19,14 @@
 	margin: 5px 0px;
 }
 
+.meld-container-180 {
+	flex-direction: row-reverse;
+}
+
+.meld-container-ccw {
+	flex-direction: column-reverse;
+}
+
 .meld-tile-container {
 	background-color: rgba(255, 249, 242, 0.5);
 	border: 0.5px solid grey;

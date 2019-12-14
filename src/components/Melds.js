@@ -5,9 +5,11 @@ import './Melds.css';
 
 const Melds = ({ melds, children, direction, tileRotation }) => {
 	let tileContentClassName = '';
+	let meldContainerClassName = `meld-container-${direction}`;
 	let meldTileContainerClassName = 'meld-tile-container';
 	if (!!tileRotation && tileRotation !== 'none') {
 		tileContentClassName = `img--rotated-${tileRotation}`;
+		meldContainerClassName += ` meld-container-${tileRotation}`;
 		meldTileContainerClassName += ` meld-tile-container-${tileRotation}`;
 	}
 
@@ -15,7 +17,7 @@ const Melds = ({ melds, children, direction, tileRotation }) => {
 		<div className={`melds-container-${direction}`}>
 			{ !!melds && melds.length > 0
 				&& melds.map((meld, meldIndex) => (
-				<div className={`meld-container-${direction}`} key={meldIndex}>
+				<div className={meldContainerClassName} key={meldIndex}>
 					{ meld.length > 0 && meld.map(({ suit, type }, tileIndex) => (
 						<div className={meldTileContainerClassName} key={tileIndex}>
 							<TileContent
