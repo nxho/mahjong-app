@@ -6,6 +6,7 @@
 .melds-container-row,
 .melds-container-row .meld-container {
 	flex-direction: row;
+	align-self: flex-start;
 }
 
 .melds-container-column,
@@ -18,17 +19,36 @@
 	border: 0.5px solid black;
 	border-radius: 7.5px;
 	padding: 5px;
+	margin: 0px 5px;
+}
+
+.meld-tile-container {
+	box-shadow: 2px 2px 2px 2px rgba(191, 191, 191, 1);
+	border: 0.5px solid grey;
+	border-radius: 5px;
+	margin: 5px;
 }
 
 .meld-tile-container-row {
 	display: block;
-	margin: 6px;
 }
 
-.meld-tile-container-column {
+.meld-tile-container-180 {
+	box-shadow: -2px -2px 2px 2px rgba(191, 191, 191, 1);
+}
+
+.meld-tile-container-ccw,
+.meld-tile-container-cw {
 	position: relative;
-	width: 70.36px;
+	width: 66.79px;
 	height: 50px;
-	margin: 6px;
+}
+
+.meld-tile-container-ccw {
+	box-shadow: 2px -2px 2px 2px rgba(191, 191, 191, 1);
+}
+
+.meld-tile-container-cw {
+	box-shadow: -2px 2px 2px 2px rgba(191, 191, 191, 1);
 }
 

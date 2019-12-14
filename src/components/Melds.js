@@ -4,21 +4,24 @@ import TileContent from '../containers/TileContent';
 import './Melds.css';
 
 const Melds = ({ melds, children, direction, tileRotation }) => {
-	let tileClassName = '';
+	let tileContentClassName = '';
+	let meldTileContainerClassName = 'meld-tile-container';
 	if (!!tileRotation && tileRotation !== 'none') {
-		tileClassName = `img--rotated-${tileRotation}`;
+		tileContentClassName = `img--rotated-${tileRotation}`;
+		meldTileContainerClassName += ` meld-tile-container-${tileRotation}`;
 	}
 
 	return (
-		<div className={`melds-container melds-container-${direction}`}>
-			{ melds.map((meld, meldIndex) => (
+		<div className={`melds-container-${direction}`}>
+			{ !!melds && melds.length > 0
+				&& melds.map((meld, meldIndex) => (
 				<div className='meld-container' key={meldIndex}>
-					{ meld.map(({ suit, type }, tileIndex) => (
-						<div className={`meld-tile-container-${direction}`} key={tileIndex}>
+					{ meld.length > 0 && meld.map(({ suit, type }, tileIndex) => (
+						<div className={meldTileContainerClassName} key={tileIndex}>
 							<TileContent
 								suit={suit}
 								type={type}
-								className={tileClassName}
+								className={tileContentClassName}
 							/>
 						</div>
 					)) }

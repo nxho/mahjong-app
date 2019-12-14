@@ -8,7 +8,7 @@ class DiscardedTileContainer extends Component {
 		return (
 			<div className='discarded-tile-container'>
 				<p>Last Discarded Tile</p>
-				<div className='tile-container'>
+				<div className='discarded-tile-container__tile'>
 					{
 						tileProps &&
 							<TileContent
