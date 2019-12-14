@@ -16,6 +16,7 @@
 .player-declare-row {
 	display: flex;
 	flex-direction: row;
+	align-items: center;
 }
 
 .player-declare-button--state-disabled {

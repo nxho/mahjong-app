@@ -15,7 +15,7 @@ const Melds = ({ melds, children, direction, tileRotation }) => {
 		<div className={`melds-container-${direction}`}>
 			{ !!melds && melds.length > 0
 				&& melds.map((meld, meldIndex) => (
-				<div className='meld-container' key={meldIndex}>
+				<div className={`meld-container-${direction}`} key={meldIndex}>
 					{ meld.length > 0 && meld.map(({ suit, type }, tileIndex) => (
 						<div className={meldTileContainerClassName} key={tileIndex}>
 							<TileContent
