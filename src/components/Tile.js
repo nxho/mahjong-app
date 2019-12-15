@@ -1,8 +1,8 @@
 import React from 'react';
-import './TileContent.css'
+import './Tile.css'
 
 // TODO: move to components folder?
-const TileContent = ({ suit, type, selected, className }) => {
+const Tile = ({ suit, type, selected, className }) => {
 	const tryRequire = () => {
 		let img = null;
 
@@ -48,5 +48,5 @@ const TileContent = ({ suit, type, selected, className }) => {
 	}
 };
 
-export default TileContent;
+export default Tile;
 

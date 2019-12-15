@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import TileContent from './TileContent';
+import Tile from '../components/Tile';
 import { completeNewMeld } from '../actions';
 
 const NewMeld = ({ newMeld, newMeldTargetLength, completeNewMeld }) => {
@@ -17,7 +17,7 @@ const NewMeld = ({ newMeld, newMeldTargetLength, completeNewMeld }) => {
 		<div className='meld-container-row'>
 			{ newMeld.map(({ suit, type }, tileIndex) => (
 				<div className='meld-tile-container' key={tileIndex}>
-					<TileContent suit={suit} type={type} />
+					<Tile suit={suit} type={type} />
 				</div>
 			)) }
 		</div>

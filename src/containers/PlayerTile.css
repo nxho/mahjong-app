@@ -1,14 +1,11 @@
-/*
- * A lot of these properties are duplicated across other tile containers e.g. see src/components/Melds.css and src/containers/DiscardedTileContainer.css
- */
 .tileDiv {
-	display: block;
 	margin: 5px;
 	transition: transform 0.6s;
 }
 
 .selected {
 	box-shadow: 0px 0px 5px 5px rgba(66, 135, 245, .6);
+	border-radius: 5px;
 }
 
 .hoverTileDiv:hover {

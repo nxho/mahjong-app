@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Player from './Player';
 import Opponent from '../components/Opponent';
-import DiscardedTileContainer from './DiscardedTileContainer';
+import DiscardedTileContainer from '../components/DiscardedTileContainer';
 
 import './Board.css';
 

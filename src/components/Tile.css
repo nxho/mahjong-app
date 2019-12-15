@@ -34,14 +34,14 @@
 }
 
 .textTileDiv {
-	border: .75px solid black;
-	text-align: center;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	transform-origin: center;
-	padding: 5px;
-	width: 40px;
-	height: 60.98px;
+	background-color: rgba(255, 249, 242, 0.5);
+	border: .5px solid grey;
+	border-radius: 5px;
+	text-align: center;
+	width: 50px;
+	height: 66.79px;
 }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import TileContent from '../containers/TileContent';
+import Tile from './Tile';
 
 import './Melds.css';
 
@@ -20,7 +20,7 @@ const Melds = ({ melds, children, direction, tileRotation }) => {
 				<div className={meldContainerClassName} key={meldIndex}>
 					{ meld.length > 0 && meld.map(({ suit, type }, tileIndex) => (
 						<div className={meldTileContainerClassName} key={tileIndex}>
-							<TileContent
+							<Tile
 								suit={suit}
 								type={type}
 								className={tileContentClassName}

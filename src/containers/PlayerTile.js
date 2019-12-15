@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { connect } from 'react-redux';
 import { moveTile, selectTile } from '../actions';
-import TileContent from './TileContent';
+import Tile from '../components/Tile';
 import { ItemTypes } from '../Constants';
 import { useDrag, useDrop } from 'react-dnd';
 
@@ -97,7 +97,7 @@ const PlayerTile = ({ index, selectedTileIndex, tileSuit, tileType, meldable, cu
 			}}
 			onMouseUp={handleMouseUp}
 		>
-			<TileContent
+			<Tile
 				suit={tileSuit}
 				type={tileType}
 				selected={isSelected}
