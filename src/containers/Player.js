@@ -34,7 +34,7 @@ const Player = ({username, tiles, endTurn, selectedTileIndex, currentState, draw
 			<div className='player-declare-row'>
 				<label>Claim discard with </label>
 				<button className={buttonClass} disabled={isDisabled} onClick={() => claimTile('WIN')}>Win</button>
-				<button className={buttonClass} disabled={isDisabled} onClick={() => claimTile('PONG')}>Pong</button>
+				<button className={buttonClass} disabled={isDisabled} onClick={() => claimTile('PUNG')}>Pung</button>
 				<button className={buttonClass} disabled={isDisabled} onClick={() => claimTile('KONG')}>Kong</button>
 				<button className={buttonClass} disabled={isDisabled} onClick={() => claimTile('CHOW')}>Chow</button>
 			</div>
