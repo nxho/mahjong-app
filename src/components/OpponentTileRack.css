@@ -2,24 +2,26 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	/*
 	padding: 10px;
 	border: 2px solid black;
 	border-radius: 7.5px;
+	*/
 }
 
 .opponent-tile-rack-top {
 	flex-direction: row;
 	align-self: stretch;
-	margin: 10px 0px;
+	margin-top: 20px;
 }
 
-.opponent-tile-rack-left,
 .opponent-tile-rack-right {
 	flex-direction: column;
-	margin: 0px 10px;
+	margin-right: 10px;
 }
 
 .opponent-tile-rack-left {
 	flex-direction: column-reverse;
+	margin-left: 20px;
 }
 

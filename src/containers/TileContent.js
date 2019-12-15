@@ -7,7 +7,6 @@ const TileContent = ({ suit, type, selected, className }) => {
 		let img = null;
 
 		try {
-			// TODO: maybe we should just rename the images as the full suit+type name
 			img = require(`../images/tiles/${suit}_${type}.png`)
 		} catch (e) {
 			// handle silently
@@ -29,6 +28,7 @@ const TileContent = ({ suit, type, selected, className }) => {
 				className={localClassName}
 				src={img_src}
 				alt={`${suit}_${type}`}
+				draggable='false'
 			/>
 		);
 	};

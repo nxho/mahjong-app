@@ -9,6 +9,7 @@
 .meld-container-column {
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 }
 
 .meld-container-row {
@@ -21,36 +22,30 @@
 
 .meld-container-180 {
 	flex-direction: row-reverse;
+	margin: 0px 0px 0px 7.5px;
 }
 
 .meld-container-ccw {
 	flex-direction: column-reverse;
+	margin: 7.5px 0px 0px 0px;
+}
+
+.meld-container-cw {
+	flex-direction: column;
+	margin: 0px 0px 7.5px 0px;
 }
 
 .meld-tile-container {
-	background-color: rgba(255, 249, 242, 0.5);
-	border: 0.5px solid grey;
-	border-radius: 5px;
-	box-shadow: 2px 2px 2px 2px rgba(191, 191, 191, 1);
 	margin: 5px;
 }
 
 .meld-tile-container-180 {
-	box-shadow: -2px -2px 2px 2px rgba(191, 191, 191, 1);
 }
 
 .meld-tile-container-ccw,
 .meld-tile-container-cw {
 	position: relative;
-	width: 66.79px;
-	height: 50px;
-}
-
-.meld-tile-container-ccw {
-	box-shadow: 2px -2px 2px 2px rgba(191, 191, 191, 1);
-}
-
-.meld-tile-container-cw {
-	box-shadow: -2px 2px 2px 2px rgba(191, 191, 191, 1);
+	width: 67.79px;
+	height: 51px;
 }
 
