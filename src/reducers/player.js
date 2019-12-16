@@ -63,7 +63,7 @@ const player = (
 			case CLAIM_TILE:
 				return {
 					...player,
-					currentState: action.claimType ? 'CLAIM_TILE' : 'NO_ACTION',
+					currentState: 'NO_ACTION',
 				};
 			case SHOW_MELDABLE_TILES:
 				// Consolidate newValidMeldSubsets based on chosen or not chosen tile
@@ -119,6 +119,15 @@ const player = (
 					newMeld: { $push: [droppedTile] },
 				});
 			case COMPLETE_NEW_MELD:
+				player.newMeld.sort((t1, t2) => {
+					if (t1.type < t2.type) {
+						return -1;
+					} else if (t1.type > t2.type) {
+						return -1;
+					}
+
+					return 0;
+				});
 				return {
 					...player,
 					revealedMelds: update(player.revealedMelds, { $push: [player.newMeld] }),

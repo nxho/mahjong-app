@@ -6,16 +6,16 @@ import { drawTile, endTurn, claimTile } from '../actions';
 
 import './Player.css';
 
-const Player = ({username, tiles, endTurn, selectedTileIndex, currentState, drawTile, claimTile}) => {
+const Player = ({ username, selectedTileIndex, currentState, discardTile, drawTile, claimTile }) => {
 	const renderCurrentTurnButtons = () => {
 		switch (currentState) {
 			case 'DRAW_TILE':
 				return <button onClick={() => drawTile()}>Draw Tile</button>;
 			case 'DISCARD_TILE':
 				const handleClick = () => {
-					console.log(`Dispatching END_TURN for selectedTileIndex=${selectedTileIndex}`);
 					if (selectedTileIndex != null) {
-						endTurn(tiles[selectedTileIndex]);
+						console.log(`Dispatching END_TURN for selectedTileIndex=${selectedTileIndex}`);
+						discardTile();
 					}
 				};
 				return <button onClick={handleClick}>Discard Tile</button>;
@@ -58,19 +58,25 @@ const Player = ({username, tiles, endTurn, selectedTileIndex, currentState, draw
 			<MeldsContainer />
 			<h3>{username}</h3>
 			{renderActionRow()}
-			<PlayerTileRack tiles={tiles} />
+			<PlayerTileRack />
 		</div>
 	);
 };
 
+const mapStateToProps = state => ({
+	username: state.player.username,
+	selectedTileIndex: state.player.selectedTileIndex,
+	currentState: state.player.currentState,
+});
+
 const mapDispatchToProps = dispatch => ({
 	claimTile: (claimType) => dispatch(claimTile(claimType)),
-	endTurn: (discardedTile) => dispatch(endTurn(discardedTile)),
+	discardTile: () => dispatch(endTurn()),
 	drawTile: () => dispatch(drawTile()),
 });
 
 export default connect(
-	null,
+	mapStateToProps,
 	mapDispatchToProps,
 )(Player);
 

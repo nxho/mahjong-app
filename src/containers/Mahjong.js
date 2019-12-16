@@ -8,7 +8,7 @@ import WaitingRoom from '../components/WaitingRoom';
 
 import './Mahjong.css';
 
-function Mahjong({ opponents, player }) {
+function Mahjong({ opponentsLength, inGame }) {
 	const [width, setWidth] = useState(window.innerWidth);
 	const [height, setHeight] = useState(window.innerHeight);
 
@@ -35,34 +35,39 @@ function Mahjong({ opponents, player }) {
 	});
 
 	const isEnoughPlayers = () => {
-		return opponents.length >= 3;
+		return opponentsLength >= 3;
 	};
 
 	const containerStyle = {
 		height: window.innerHeight,
 	};
 
-	if (!player.inGame) {
-		return (
-			<div className='mahjong-container' style={containerStyle}>
-				<LandingPage />
-			</div>
-		);
-	}
+	const getInnerComponent = () => {
+		if (inGame) {
+			return (
+				<>
+					{
+						(isEnoughPlayers() && <Board />) || <WaitingRoom />
+					}
+					<Chatroom />
+				</>
+			);
+		}
+
+		return <LandingPage />
+	};
 
 	return (
 		<div className='mahjong-container' style={containerStyle}>
-			{
-				(isEnoughPlayers() && <Board />) || <WaitingRoom />
-			}
-			<Chatroom />
+			{ getInnerComponent() }
 		</div>
 	);
+
 }
 
 const mapStateToProps = state => ({
-	opponents: state.opponents,
-	player: state.player,
+	opponentsLength: state.opponents.length,
+	inGame: state.player.inGame,
 });
 
 export default connect(

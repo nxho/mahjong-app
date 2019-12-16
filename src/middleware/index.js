@@ -160,8 +160,8 @@ const createSocketMiddleware = (socket) => {
 					socket.emit('complete_new_meld', { new_meld });
 					break;
 				case END_TURN:
-					// Ignore 'key' prop on discardedTile
-					const { suit, type } = action.discardedTile;
+					const { tiles, selectedTileIndex } = store.getState().player;
+					const { suit, type } = tiles[selectedTileIndex];
 
 					console.log('Emitting event end_turn');
 					socket.emit('end_turn', {

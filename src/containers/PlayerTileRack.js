@@ -22,7 +22,7 @@ const PlayerTileRack = function({ tiles }) {
 }
 
 const mapStateToProps = state => ({
-	validMeldSubsets: state.player.validMeldSubsets,
+	tiles: state.player.tiles,
 });
 
 export default connect(

@@ -60,9 +60,8 @@ export const startTurn = () => ({
 	type: START_TURN,
 });
 
-export const endTurn = (discardedTile) => ({
+export const endTurn = () => ({
 	type: END_TURN,
-	discardedTile,
 });
 
 export const updateMessages = (message) => ({
