@@ -9,37 +9,10 @@ import WaitingRoom from '../components/WaitingRoom';
 import './Mahjong.css';
 
 function Mahjong({ opponentsLength, inGame }) {
-	const [width, setWidth] = useState(window.innerWidth);
-	const [height, setHeight] = useState(window.innerHeight);
-
 	console.log('Re-rendering Mahjong container')
-
-	const debounce = (fn, time) => {
-		let timeout;
-
-		return function() {
-			clearTimeout(timeout);
-			timeout = setTimeout(() => fn.apply(this, arguments), time);
-		};
-	};
-	const updateWidthAndHeight = () => {
-		console.log(`Resized: new width=${window.innerWidth} height=${window.innerHeight}`);
-
-		setWidth(window.innerWidth);
-		setHeight(window.innerHeight);
-	};
-
-	useEffect(() => {
-		window.addEventListener("resize", debounce(updateWidthAndHeight, 1000));
-		return () => window.removeEventListener("resize", debounce(updateWidthAndHeight));
-	});
 
 	const isEnoughPlayers = () => {
 		return opponentsLength >= 3;
-	};
-
-	const containerStyle = {
-		height: window.innerHeight,
 	};
 
 	const getInnerComponent = () => {
@@ -58,7 +31,7 @@ function Mahjong({ opponentsLength, inGame }) {
 	};
 
 	return (
-		<div className='mahjong-container' style={containerStyle}>
+		<div className='mahjong-container'>
 			{ getInnerComponent() }
 		</div>
 	);

@@ -84,10 +84,6 @@ const createSocketMiddleware = (socket) => {
 			console.log('Received "update_discarded_tile" event from server, updating discarded tile to:', tile);
 			store.dispatch(updateDiscardedTile(tile));
 		});
-		socket.on('start_turn', () => {
-			console.log('Received "start_turn" event from server, enabling tile movement for player');
-			store.dispatch(startTurn());
-		});
 		socket.on('update_room_id', (roomId) => {
 			console.log('Received "update_room_id" event from server, updating room ID to:', roomId);
 			store.dispatch(updateRoomId(roomId));

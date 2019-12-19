@@ -24,7 +24,7 @@ const Board = ({ opponents, discardedTile }) => {
 			</div>
 			<div className='middleColumn'>
 				{ renderOpponent(1, 'top') }
-				<DiscardedTileContainer tileProps={discardedTile} />;
+				<DiscardedTileContainer tileProps={discardedTile} />
 				<Player />
 			</div>
 			<div className='rightColumn'>

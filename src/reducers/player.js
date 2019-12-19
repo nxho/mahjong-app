@@ -37,11 +37,6 @@ const player = (
 	},
 	action) => {
 		switch (action.type) {
-			case START_TURN:
-				return {
-					...player,
-					isCurrentTurn: true,
-				};
 			// TODO: rename END_TURN and endTurn to discardTile
 			case END_TURN:
 				// Remove discarded tile from tiles

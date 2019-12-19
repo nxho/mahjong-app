@@ -8,9 +8,11 @@ import './Player.css';
 
 const Player = ({ username, selectedTileIndex, currentState, discardTile, drawTile, claimTile }) => {
 	const renderCurrentTurnButtons = () => {
+		let buttonEl = null;
 		switch (currentState) {
 			case 'DRAW_TILE':
-				return <button onClick={() => drawTile()}>Draw Tile</button>;
+				buttonEl = <button onClick={() => drawTile()}>Draw Tile</button>;
+				break;
 			case 'DISCARD_TILE':
 				const handleClick = () => {
 					if (selectedTileIndex != null) {
@@ -18,10 +20,16 @@ const Player = ({ username, selectedTileIndex, currentState, discardTile, drawTi
 						discardTile();
 					}
 				};
-				return <button onClick={handleClick}>Discard Tile</button>;
+				buttonEl = (
+					<>
+						<button onClick={handleClick}>Discard Tile</button>
+					</>
+				);
+				break;
 			default:
 		}
-		return <div></div>;
+
+		return <div>{buttonEl}</div>;
 	};
 
 	const renderDeclareButtons = () => {
