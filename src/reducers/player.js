@@ -3,6 +3,7 @@ import {
 	END_TURN,
 	JOIN_GAME,
 	REJOIN_GAME,
+	LEAVE_GAME,
 	UPDATE_ROOM_ID,
 	UPDATE_TILES,
 	UPDATE_CURRENT_STATE,
@@ -17,6 +18,9 @@ import {
 	SET_REVEALED_MELDS,
 	EXTEND_NEW_MELD,
 	COMPLETE_NEW_MELD,
+	UPDATE_CAN_DECLARE_WIN,
+	DECLARE_WIN,
+	END_GAME,
 } from '../actions';
 import update from 'immutability-helper';
 
@@ -34,6 +38,8 @@ const player = (
 		revealedMelds: [],
 		newMeld: [],
 		newMeldTargetLength: -1,
+		canDeclareWin: false,
+		isGameOver: false,
 	},
 	action) => {
 		switch (action.type) {
@@ -141,6 +147,22 @@ const player = (
 					...action.payload,
 					inGame: true,
 				};
+			case LEAVE_GAME:
+				return {
+					...player,
+					inGame: false,
+					roomId: null,
+					tiles: [],
+					discardedTile: null,
+					selectedTileIndex: null,
+					currentState: 'NO_ACTION',
+					validMeldSubsets: null,
+					revealedMelds: [],
+					newMeld: [],
+					newMeldTargetLength: -1,
+					canDeclareWin: false,
+					isGameOver: false,
+				};
 			case UPDATE_CURRENT_STATE:
 				return {
 					...player,
@@ -199,6 +221,21 @@ const player = (
 				return {
 					...player,
 					selectedTileIndex: action.tileIndex,
+				}
+			case UPDATE_CAN_DECLARE_WIN:
+				return {
+					...player,
+					canDeclareWin: action.canDeclareWin,
+				}
+			case DECLARE_WIN:
+				return {
+					...player,
+					currentState: 'NO_ACTION',
+				}
+			case END_GAME:
+				return {
+					...player,
+					isGameOver: true,
 				}
 			default:
 				return player;

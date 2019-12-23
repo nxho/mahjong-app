@@ -2,16 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PlayerTileRack from './PlayerTileRack';
 import MeldsContainer from './MeldsContainer';
-import { drawTile, endTurn, claimTile } from '../actions';
+import { drawTile, endTurn, claimTile, declareWin } from '../actions';
 
 import './Player.css';
 
-const Player = ({ username, selectedTileIndex, currentState, discardTile, drawTile, claimTile }) => {
+const Player = ({ username, selectedTileIndex, currentState, canDeclareWin, discardTile, drawTile, claimTile, declareWin }) => {
 	const renderCurrentTurnButtons = () => {
 		let buttonEl = null;
 		switch (currentState) {
 			case 'DRAW_TILE':
-				buttonEl = <button onClick={() => drawTile()}>Draw Tile</button>;
+				buttonEl = <button onClick={drawTile}>Draw Tile</button>;
 				break;
 			case 'DISCARD_TILE':
 				const handleClick = () => {
@@ -23,13 +23,14 @@ const Player = ({ username, selectedTileIndex, currentState, discardTile, drawTi
 				buttonEl = (
 					<>
 						<button onClick={handleClick}>Discard Tile</button>
+						{ canDeclareWin && <button onClick={declareWin}>Declare Win</button> }
 					</>
 				);
 				break;
 			default:
 		}
 
-		return <div>{buttonEl}</div>;
+		return <div className='player-current-row'>{buttonEl}</div>;
 	};
 
 	const renderDeclareButtons = () => {
@@ -75,10 +76,12 @@ const mapStateToProps = state => ({
 	username: state.player.username,
 	selectedTileIndex: state.player.selectedTileIndex,
 	currentState: state.player.currentState,
+	canDeclareWin: state.player.canDeclareWin,
 });
 
 const mapDispatchToProps = dispatch => ({
 	claimTile: (claimType) => dispatch(claimTile(claimType)),
+	declareWin: () => dispatch(declareWin()),
 	discardTile: () => dispatch(endTurn()),
 	drawTile: () => dispatch(drawTile()),
 });

@@ -23,6 +23,10 @@ export const RECEIVE_PENDING_EVENTS = 'RECEIVE_PENDING_EVENTS';
 export const SHOW_MELDABLE_TILES = 'SHOW_MELDABLE_TILES';
 export const EXTEND_NEW_MELD = 'EXTEND_NEW_MELD';
 export const COMPLETE_NEW_MELD = 'COMPLETE_NEW_MELD';
+export const UPDATE_CAN_DECLARE_WIN = 'UPDATE_CAN_DECLARE_WIN';
+export const DECLARE_WIN = 'DECLARE_WIN';
+export const END_GAME = 'END_GAME';
+export const LEAVE_GAME = 'LEAVE_GAME';
 
 export const moveTile = (srcIndex, dstIndex) => ({
 	type: MOVE_TILE,
@@ -132,5 +136,22 @@ export const extendNewMeld = (droppedTileIndex) => ({
 export const completeNewMeld = (newMeld) => ({
 	type: COMPLETE_NEW_MELD,
 	newMeld,
+});
+
+export const updateCanDeclareWin = (canDeclareWin) => ({
+	type: UPDATE_CAN_DECLARE_WIN,
+	canDeclareWin,
+});
+
+export const declareWin = () => ({
+	type: DECLARE_WIN,
+});
+
+export const endGame = () => ({
+	type: END_GAME,
+});
+
+export const leaveGame = () => ({
+	type: LEAVE_GAME,
 });
 

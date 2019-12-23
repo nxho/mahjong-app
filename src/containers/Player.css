@@ -13,6 +13,12 @@
 	justify-content: flex-end;
 }
 
+.player-current-row {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
 .player-declare-row {
 	display: flex;
 	flex-direction: row;

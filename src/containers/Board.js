@@ -3,10 +3,12 @@ import { connect } from 'react-redux';
 import Player from './Player';
 import Opponent from '../components/Opponent';
 import DiscardedTileContainer from '../components/DiscardedTileContainer';
+import Overlay from './Overlay';
 
 import './Board.css';
 
-const Board = ({ opponents, discardedTile }) => {
+const Board = ({ opponents, discardedTile, isGameOver }) => {
+	console.log('Re-rendering Board container')
 	const renderOpponent = (id, position) => {
 		const { name, revealedMelds, tileCount } = opponents[id];
 		return <Opponent
@@ -30,12 +32,14 @@ const Board = ({ opponents, discardedTile }) => {
 			<div className='rightColumn'>
 				{ renderOpponent(0, 'right') }
 			</div>
+			{ isGameOver && <Overlay /> }
 		</div>
 	)
 };
 
 const mapStateToProps = state => ({
 	discardedTile: state.player.discardedTile,
+	isGameOver: state.player.isGameOver,
 	opponents: state.opponents,
 });
 

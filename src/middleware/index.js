@@ -1,9 +1,11 @@
 import {
 	CLAIM_TILE,
 	COMPLETE_NEW_MELD,
+	DECLARE_WIN,
 	DRAW_TILE,
 	END_TURN,
 	JOIN_GAME,
+	LEAVE_GAME,
 	RECEIVE_PENDING_EVENTS,
 	SEND_MESSAGE,
 	claimTile,
@@ -20,6 +22,8 @@ import {
 	setRevealedMelds,
 	receivePendingEvents,
 	showMeldableTiles,
+	updateCanDeclareWin,
+	endGame,
 } from '../actions';
 
 import uuidv1 from 'uuid/v1';
@@ -121,6 +125,14 @@ const createSocketMiddleware = (socket) => {
 		socket.on('update_revealed_melds', (revealedMelds) => {
 			store.dispatch(setRevealedMelds(revealedMelds));
 		});
+		socket.on('update_can_declare_win', (canDeclareWin) => {
+			console.log('Received "update_can_declare_win" event from server, updating canDeclareWin to:', canDeclareWin);
+			store.dispatch(updateCanDeclareWin(canDeclareWin));
+		});
+		socket.on('end_game', () => {
+			console.log('Received "end_game" event from server');
+			store.dispatch(endGame());
+		});
 
 		// TODO: store messages on server?
 		// or at least update messages from server so that messages sent before
@@ -175,11 +187,19 @@ const createSocketMiddleware = (socket) => {
 						player_uuid: localStorage.getItem('mahjong-player-uuid'),
 					});
 					break;
+				case LEAVE_GAME:
+					console.log('Emitting event leave_game');
+					socket.emit('leave_game');
+					break;
 				case SEND_MESSAGE:
 					console.log('Emitting event text_message');
 					socket.emit('text_message', {
 						message: action.message,
 					});
+					break;
+				case DECLARE_WIN:
+					console.log('Emitting event declare_win');
+					socket.emit('declare_win');
 					break;
 				default:
 			}
