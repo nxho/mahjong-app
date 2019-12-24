@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PlayerTileRack from './PlayerTileRack';
-import MeldsContainer from './MeldsContainer';
+import PlayerMeldsContainer from './PlayerMeldsContainer';
 import { drawTile, endTurn, claimTile, declareWin } from '../actions';
 
 import './Player.css';
@@ -64,7 +64,7 @@ const Player = ({ username, selectedTileIndex, currentState, canDeclareWin, disc
 
 	return (
 		<div className='div__player-container'>
-			<MeldsContainer />
+			<PlayerMeldsContainer />
 			<h3>{username}</h3>
 			{renderActionRow()}
 			<PlayerTileRack />

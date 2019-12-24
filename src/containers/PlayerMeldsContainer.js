@@ -5,15 +5,15 @@ import { ItemTypes } from '../Constants';
 import { useDrop } from 'react-dnd';
 import PlayerMelds from './PlayerMelds';
 
-import './MeldsContainer.css';
+import './PlayerMeldsContainer.css';
 
 // TODO: rename to PlayerMeldsContainer?
-const MeldsContainer = ({
+const PlayerMeldsContainer = ({
 	currentState,
 	showMeldableTiles,
 	extendNewMeld,
 }) => {
-	console.log('Rendering <MeldsContainer />');
+	console.log('Rendering <PlayerMeldsContainer />');
 
 	const [{ canDrop, isOver }, drop] = useDrop({
 		accept: ItemTypes.PLAYER_TILE,
@@ -57,5 +57,5 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps,
-)(MeldsContainer);
+)(PlayerMeldsContainer);
 

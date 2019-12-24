@@ -2,17 +2,17 @@
 	display: flex;
 	flex-direction: column;
 	border: 1px solid black;
-	border-radius: 7.5px;
-	padding: 10px;
-	min-height: 105px;
+	border-radius: .8vh;
+	padding: 1.25vh;
+	min-height: 11.17vh;
 }
 
 .player-melds-container-title {
 	display: block;
-	margin-bottom: 10px;
+	margin-bottom: 1.06vh;
 }
 
 .player-melds-container--state-hover {
-	box-shadow: 0 0 10px rgba(252, 186, 3, 1);
+	box-shadow: 0 0 1.06vh rgba(252, 186, 3, 1);
 }
 
