@@ -1,6 +1,6 @@
 # Mahjong Web Application
 
-<img src="/src/images/gameplay_sample.png" width="200">
+<img src="/src/images/mahjong_sample.png">
 
 This is a multiplayer Mahjong game application built in ReactJS. For the backend code, see [mahjong-server](https://github.com/nxho/mahjong-server).
 
