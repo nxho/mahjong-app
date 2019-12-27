@@ -7,7 +7,6 @@ export const UPDATE_CURRENT_STATE = 'UPDATE_CURRENT_STATE';
 export const UPDATE_ROOM_ID = 'UPDATE_ROOM_ID';
 export const UPDATE_OPPONENTS = 'UPDATE_OPPONENTS';
 
-export const START_TURN = 'START_TURN';
 export const END_TURN = 'END_TURN';
 
 export const EXTEND_TILES = 'EXTEND_TILES';
@@ -24,7 +23,9 @@ export const SHOW_MELDABLE_TILES = 'SHOW_MELDABLE_TILES';
 export const EXTEND_NEW_MELD = 'EXTEND_NEW_MELD';
 export const COMPLETE_NEW_MELD = 'COMPLETE_NEW_MELD';
 export const UPDATE_CAN_DECLARE_WIN = 'UPDATE_CAN_DECLARE_WIN';
+export const UPDATE_CAN_DECLARE_KONG= 'UPDATE_CAN_DECLARE_KONG';
 export const DECLARE_WIN = 'DECLARE_WIN';
+export const DECLARE_KONG = 'DECLARE_KONG';
 export const END_GAME = 'END_GAME';
 export const LEAVE_GAME = 'LEAVE_GAME';
 
@@ -58,10 +59,6 @@ export const updateOpponents = (opponents) => ({
 export const updateTiles = (tiles) => ({
 	type: UPDATE_TILES,
 	tiles,
-});
-
-export const startTurn = () => ({
-	type: START_TURN,
 });
 
 export const endTurn = () => ({
@@ -145,6 +142,15 @@ export const updateCanDeclareWin = (canDeclareWin) => ({
 
 export const declareWin = () => ({
 	type: DECLARE_WIN,
+});
+
+export const updateCanDeclareKong = (canDeclareKong) => ({
+	type: UPDATE_CAN_DECLARE_KONG,
+	canDeclareKong,
+});
+
+export const declareKong = () => ({
+	type: DECLARE_KONG,
 });
 
 export const endGame = () => ({

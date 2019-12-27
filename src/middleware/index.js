@@ -1,6 +1,7 @@
 import {
 	CLAIM_TILE,
 	COMPLETE_NEW_MELD,
+	DECLARE_KONG,
 	DECLARE_WIN,
 	DRAW_TILE,
 	END_TURN,
@@ -16,13 +17,13 @@ import {
 	updateOpponents,
 	updateRoomId,
 	updateTiles,
-	startTurn,
 	rejoinGame,
 	updateValidMeldSubsets,
 	setRevealedMelds,
 	receivePendingEvents,
 	showMeldableTiles,
 	updateCanDeclareWin,
+	updateCanDeclareKong,
 	endGame,
 } from '../actions';
 
@@ -129,6 +130,10 @@ const createSocketMiddleware = (socket) => {
 			console.log('Received "update_can_declare_win" event from server, updating canDeclareWin to:', canDeclareWin);
 			store.dispatch(updateCanDeclareWin(canDeclareWin));
 		});
+		socket.on('update_can_declare_kong', (canDeclareKong) => {
+			console.log('Received "update_can_declare_kong" event from server, updating canDeclareKong to:', canDeclareKong);
+			store.dispatch(updateCanDeclareKong(canDeclareKong));
+		});
 		socket.on('end_game', () => {
 			console.log('Received "end_game" event from server');
 			store.dispatch(endGame());
@@ -200,6 +205,10 @@ const createSocketMiddleware = (socket) => {
 				case DECLARE_WIN:
 					console.log('Emitting event declare_win');
 					socket.emit('declare_win');
+					break;
+				case DECLARE_KONG:
+					console.log('Emitting event declare_concealed_kong');
+					socket.emit('declare_concealed_kong');
 					break;
 				default:
 			}

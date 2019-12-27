@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 import NewMeld from './NewMeld';
 import Melds from '../components/Melds';
 
-const PlayerMelds = ({ revealedMelds, currentState }) => {
+const PlayerMelds = ({ revealedMelds, concealedKongs, currentState }) => {
 	console.log(`Rendering <PlayerMelds /> with revealedMelds=${revealedMelds} and currentState=${currentState}`);
 
+	const melds = revealedMelds.concat(concealedKongs);
 	return (
 		<Melds
-			melds={revealedMelds}
+			melds={melds}
 			direction='row'
 		>
 			{ currentState === 'REVEAL_MELD' && <NewMeld /> }
@@ -18,6 +19,7 @@ const PlayerMelds = ({ revealedMelds, currentState }) => {
 
 const mapStateToProps = state => ({
 	revealedMelds: state.player.revealedMelds,
+	concealedKongs: state.player.concealedKongs,
 	currentState: state.player.currentState,
 });
 

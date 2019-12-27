@@ -1,5 +1,4 @@
 import {
-	START_TURN,
 	END_TURN,
 	JOIN_GAME,
 	REJOIN_GAME,
@@ -20,6 +19,8 @@ import {
 	COMPLETE_NEW_MELD,
 	UPDATE_CAN_DECLARE_WIN,
 	DECLARE_WIN,
+	UPDATE_CAN_DECLARE_KONG,
+	DECLARE_KONG,
 	END_GAME,
 } from '../actions';
 import update from 'immutability-helper';
@@ -36,9 +37,11 @@ const player = (
 		currentState: 'NO_ACTION',
 		validMeldSubsets: null,
 		revealedMelds: [],
+		concealedKongs: [],
 		newMeld: [],
 		newMeldTargetLength: -1,
 		canDeclareWin: false,
+		canDeclareKong: false,
 		isGameOver: false,
 	},
 	action) => {
@@ -124,7 +127,7 @@ const player = (
 					if (t1.type < t2.type) {
 						return -1;
 					} else if (t1.type > t2.type) {
-						return -1;
+						return 1;
 					}
 
 					return 0;
@@ -228,6 +231,16 @@ const player = (
 					canDeclareWin: action.canDeclareWin,
 				}
 			case DECLARE_WIN:
+				return {
+					...player,
+					currentState: 'NO_ACTION',
+				}
+			case UPDATE_CAN_DECLARE_KONG:
+				return {
+					...player,
+					canDeclareKong: action.canDeclareKong,
+				}
+			case DECLARE_KONG:
 				return {
 					...player,
 					currentState: 'NO_ACTION',

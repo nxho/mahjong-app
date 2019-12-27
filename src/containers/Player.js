@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PlayerTileRack from './PlayerTileRack';
 import PlayerMeldsContainer from './PlayerMeldsContainer';
-import { drawTile, endTurn, claimTile, declareWin } from '../actions';
+import { drawTile, endTurn, claimTile, declareWin, declareKong } from '../actions';
 
 import './Player.css';
 
-const Player = ({ username, selectedTileIndex, currentState, canDeclareWin, discardTile, drawTile, claimTile, declareWin }) => {
+const Player = ({ username, selectedTileIndex, currentState, canDeclareWin, canDeclareKong, discardTile, drawTile, claimTile, declareWin, declareKong }) => {
 	const renderCurrentTurnButtons = () => {
 		let buttonEl = null;
 		switch (currentState) {
@@ -24,6 +24,7 @@ const Player = ({ username, selectedTileIndex, currentState, canDeclareWin, disc
 					<>
 						<button onClick={handleClick}>Discard Tile</button>
 						{ canDeclareWin && <button onClick={declareWin}>Declare Win</button> }
+						{ canDeclareKong && <button onClick={declareKong}>Declare Kong</button> }
 					</>
 				);
 				break;
@@ -77,10 +78,12 @@ const mapStateToProps = state => ({
 	selectedTileIndex: state.player.selectedTileIndex,
 	currentState: state.player.currentState,
 	canDeclareWin: state.player.canDeclareWin,
+	canDeclareKong: state.player.canDeclareKong,
 });
 
 const mapDispatchToProps = dispatch => ({
 	claimTile: (claimType) => dispatch(claimTile(claimType)),
+	declareKong: () => dispatch(declareKong()),
 	declareWin: () => dispatch(declareWin()),
 	discardTile: () => dispatch(endTurn()),
 	drawTile: () => dispatch(drawTile()),
