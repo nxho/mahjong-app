@@ -25,6 +25,7 @@ import {
 	updateCanDeclareWin,
 	updateCanDeclareKong,
 	endGame,
+	updateConcealedKongs,
 } from '../actions';
 
 import uuidv1 from 'uuid/v1';
@@ -133,6 +134,9 @@ const createSocketMiddleware = (socket) => {
 		socket.on('update_can_declare_kong', (canDeclareKong) => {
 			console.log('Received "update_can_declare_kong" event from server, updating canDeclareKong to:', canDeclareKong);
 			store.dispatch(updateCanDeclareKong(canDeclareKong));
+		});
+		socket.on('update_concealed_kongs', (concealedKongs) => {
+			store.dispatch(updateConcealedKongs(concealedKongs));
 		});
 		socket.on('end_game', () => {
 			console.log('Received "end_game" event from server');

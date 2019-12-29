@@ -12,12 +12,24 @@
 	align-items: center;
 }
 
-.meld-container-row {
-	margin: 0 .53vh;
+.melds-container-row {
+	margin: 0 .8vh;
 }
 
-.meld-container-column {
-	margin: .53vh 0;
+.melds-container-column {
+	margin: .8vh 0;
+}
+
+.meld-container-column-last {
+	margin: .8vh 0 ;
+}
+
+.meld-container-row {
+	margin-left: .8vh;
+}
+
+.meld-container-row-last {
+	margin: 0 .8vh;
 }
 
 .meld-container-180 {

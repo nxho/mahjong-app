@@ -3,12 +3,13 @@ import OpponentTileRack from './OpponentTileRack';
 
 import './Opponent.css';
 
-const Opponent = ({ name, melds, tileCount, position }) => {
-	console.log(`Rendering <Opponent /> name=${name} with melds=${JSON.stringify(melds)}`);
+const Opponent = ({ name, revealedMelds, concealedKongs, tileCount, position }) => {
+	console.log(`Rendering <Opponent /> name=${name} with melds=${JSON.stringify(revealedMelds)}`);
 		return (
 			<div className={`div__opponent div__opponent-${position}`}>
 				<OpponentTileRack
-					revealedMelds={melds}
+					revealedMelds={revealedMelds}
+					concealedKongs={concealedKongs}
 					position={position}
 					tileCount={tileCount}
 				/>

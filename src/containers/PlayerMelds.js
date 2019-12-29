@@ -4,12 +4,13 @@ import NewMeld from './NewMeld';
 import Melds from '../components/Melds';
 
 const PlayerMelds = ({ revealedMelds, concealedKongs, currentState }) => {
-	console.log(`Rendering <PlayerMelds /> with revealedMelds=${revealedMelds} and currentState=${currentState}`);
+	console.log('Rendering <PlayerMelds /> with revealedMelds:', revealedMelds, 'concealedKongs:', concealedKongs, 'currentState:', currentState);
 
-	const melds = revealedMelds.concat(concealedKongs);
 	return (
 		<Melds
-			melds={melds}
+			melds={revealedMelds}
+			concealedKongs={concealedKongs}
+			position='bottom'
 			direction='row'
 		>
 			{ currentState === 'REVEAL_MELD' && <NewMeld /> }

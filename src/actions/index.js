@@ -28,6 +28,7 @@ export const DECLARE_WIN = 'DECLARE_WIN';
 export const DECLARE_KONG = 'DECLARE_KONG';
 export const END_GAME = 'END_GAME';
 export const LEAVE_GAME = 'LEAVE_GAME';
+export const UPDATE_CONCEALED_KONGS = 'UPDATE_CONCEALED_KONGS';
 
 export const moveTile = (srcIndex, dstIndex) => ({
 	type: MOVE_TILE,
@@ -159,5 +160,10 @@ export const endGame = () => ({
 
 export const leaveGame = () => ({
 	type: LEAVE_GAME,
+});
+
+export const updateConcealedKongs = (concealedKongs) => ({
+	type: UPDATE_CONCEALED_KONGS,
+	concealedKongs,
 });
 

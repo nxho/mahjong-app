@@ -22,6 +22,7 @@ import {
 	UPDATE_CAN_DECLARE_KONG,
 	DECLARE_KONG,
 	END_GAME,
+	UPDATE_CONCEALED_KONGS,
 } from '../actions';
 import update from 'immutability-helper';
 
@@ -62,7 +63,7 @@ const player = (
 			case DRAW_TILE:
 				return {
 					...player,
-					currentState: 'DISCARD_TILE',
+					currentState: 'NO_ACTION',
 				};
 			case CLAIM_TILE:
 				return {
@@ -249,6 +250,11 @@ const player = (
 				return {
 					...player,
 					isGameOver: true,
+				}
+			case UPDATE_CONCEALED_KONGS:
+				return {
+					...player,
+					concealedKongs: action.concealedKongs,
 				}
 			default:
 				return player;

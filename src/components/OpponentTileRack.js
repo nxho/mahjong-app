@@ -4,7 +4,7 @@ import Melds from './Melds';
 
 import './OpponentTileRack.css';
 
-const OpponentTileRack = ({ revealedMelds, tileCount, position }) => {
+const OpponentTileRack = ({ revealedMelds, concealedKongs, tileCount, position }) => {
 	let tiles = [];
 	for (let i = 0; i < tileCount; i++) {
 		tiles.push(
@@ -31,8 +31,8 @@ const OpponentTileRack = ({ revealedMelds, tileCount, position }) => {
 			{
 				<Melds
 					melds={revealedMelds}
-					direction={direction}
-					tileRotation={rotation}
+					concealedKongs={concealedKongs}
+					position={position}
 				/>
 			}
 		</div>

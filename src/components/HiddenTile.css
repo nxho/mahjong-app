@@ -11,6 +11,12 @@
 	box-shadow: -.21vh -.21vh .21vh .21vh rgba(191, 191, 191, 1);
 }
 
+.div__hidden-tile--bottom {
+	width: 5.2875vh;
+	height: 7.05vh;
+	box-shadow: .21vh .21vh .21vh .21vh rgba(191, 191, 191, 1);
+}
+
 .div__hidden-tile--left, .div__hidden-tile--right {
 	width: 7.05vh;
 	height: 5.2875vh;
