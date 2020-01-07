@@ -7,7 +7,7 @@ import Overlay from './Overlay';
 
 import './Board.css';
 
-const Board = ({ opponents, discardedTile, isGameOver }) => {
+const Board = ({ opponents, discardedTile, pastDiscardedTiles, isGameOver }) => {
 	console.log('Re-rendering Board container')
 	const renderOpponent = (id, position) => {
 		const { name, revealedMelds, concealedKongs, tileCount } = opponents[id];
@@ -27,7 +27,7 @@ const Board = ({ opponents, discardedTile, isGameOver }) => {
 			</div>
 			<div className='middleColumn'>
 				{ renderOpponent(1, 'top') }
-				<DiscardedTileContainer tileProps={discardedTile} />
+				<DiscardedTileContainer discardedTile={discardedTile} pastDiscardedTiles={pastDiscardedTiles} />
 				<Player />
 			</div>
 			<div className='rightColumn'>
@@ -40,6 +40,7 @@ const Board = ({ opponents, discardedTile, isGameOver }) => {
 
 const mapStateToProps = state => ({
 	discardedTile: state.player.discardedTile,
+	pastDiscardedTiles: state.player.pastDiscardedTiles,
 	isGameOver: state.player.isGameOver,
 	opponents: state.opponents,
 });

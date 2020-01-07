@@ -44,6 +44,7 @@ const player = (
 		canDeclareWin: false,
 		canDeclareKong: false,
 		isGameOver: false,
+		pastDiscardedTiles: [],
 	},
 	action) => {
 		switch (action.type) {
@@ -152,6 +153,7 @@ const player = (
 					inGame: true,
 				};
 			case LEAVE_GAME:
+				// FIXME: this needs to be in a more general place?
 				return {
 					...player,
 					inGame: false,
@@ -185,6 +187,9 @@ const player = (
 			case UPDATE_DISCARDED_TILE:
 				return {
 					...player,
+					pastDiscardedTiles: !!player.discardedTile ? update(player.pastDiscardedTiles, {
+						$push: [player.discardedTile],
+					}) : player.pastDiscardedTiles,
 					discardedTile: action.discardedTile,
 				};
 			case EXTEND_TILES:

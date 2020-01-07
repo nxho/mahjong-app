@@ -1,9 +1,12 @@
 .player-melds-container {
 	display: flex;
 	flex-direction: column;
+	justify-content: center;
+	/*
 	border: 1px solid black;
 	border-radius: .8vh;
 	padding: 1.25vh;
+	*/
 	min-height: 11.17vh;
 }
 

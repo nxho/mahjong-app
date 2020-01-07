@@ -15,16 +15,6 @@ const OpponentTileRack = ({ revealedMelds, concealedKongs, tileCount, position }
 		);
 	}
 
-	let rotation = '180';
-	let direction = 'row';
-	if (position === 'left') {
-		rotation = 'cw'
-		direction = 'column';
-	} else if (position === 'right') {
-		rotation = 'ccw'
-		direction = 'column';
-	}
-
 	return (
 		<div className={`opponent-tile-rack opponent-tile-rack-${position}`}>
 			{tiles}

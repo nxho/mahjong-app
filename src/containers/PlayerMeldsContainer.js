@@ -39,7 +39,9 @@ const PlayerMeldsContainer = ({
 
 	return (
 		<div ref={drop} className={className}>
+			{/*
 			<div className='player-melds-container-title'>Your Revealed Melds</div>
+			*/}
 			<PlayerMelds />
 		</div>
 	);
