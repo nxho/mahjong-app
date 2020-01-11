@@ -26,6 +26,11 @@ import {
 } from '../actions';
 import update from 'immutability-helper';
 
+const isPlayerInCurrentTurnState = (state) => {
+	const currentTurnStates = new Set(['DRAW_TILE', 'DISCARD_TILE', 'REVEAL_MELD']);
+	return currentTurnStates.has(state);
+}
+
 const player = (
 	player = {
 		inGame: false,
@@ -150,6 +155,7 @@ const player = (
 				return {
 					...player,
 					...action.payload,
+					isCurrentTurn: isPlayerInCurrentTurnState(action.payload.currentState),
 					inGame: true,
 				};
 			case LEAVE_GAME:
@@ -172,6 +178,7 @@ const player = (
 			case UPDATE_CURRENT_STATE:
 				return {
 					...player,
+					isCurrentTurn: isPlayerInCurrentTurnState(action.newState),
 					currentState: action.newState,
 				};
 			case UPDATE_ROOM_ID:

@@ -66,7 +66,7 @@ const Player = ({ username, selectedTileIndex, currentState, canDeclareWin, canD
 	return (
 		<div className='div__player-container'>
 			<PlayerMeldsContainer />
-			<h3>{username}</h3>
+			<h3 className={'h3__player-name'}>{username}</h3>
 			{renderActionRow()}
 			<PlayerTileRack />
 		</div>

@@ -4,7 +4,12 @@ import Melds from './Melds';
 
 import './OpponentTileRack.css';
 
-const OpponentTileRack = ({ revealedMelds, concealedKongs, tileCount, position }) => {
+const OpponentTileRack = ({ revealedMelds, concealedKongs, tileCount, position, isCurrentTurn }) => {
+	let opponentTileRackClassName = `opponent-tile-rack opponent-tile-rack-${position}`;
+	if (!isCurrentTurn) {
+		opponentTileRackClassName += ' opponent-tile-rack--half-opacity';
+	}
+
 	let tiles = [];
 	for (let i = 0; i < tileCount; i++) {
 		tiles.push(
@@ -16,7 +21,7 @@ const OpponentTileRack = ({ revealedMelds, concealedKongs, tileCount, position }
 	}
 
 	return (
-		<div className={`opponent-tile-rack opponent-tile-rack-${position}`}>
+		<div className={opponentTileRackClassName}>
 			{tiles}
 			{
 				<Melds

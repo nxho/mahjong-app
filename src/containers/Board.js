@@ -10,13 +10,14 @@ import './Board.css';
 const Board = ({ opponents, discardedTile, pastDiscardedTiles, isGameOver }) => {
 	console.log('Re-rendering Board container')
 	const renderOpponent = (id, position) => {
-		const { name, revealedMelds, concealedKongs, tileCount } = opponents[id];
+		const { name, revealedMelds, concealedKongs, tileCount, isCurrentTurn } = opponents[id];
 		return <Opponent
 			name={name}
 			revealedMelds={revealedMelds}
 			concealedKongs={concealedKongs}
 			tileCount={tileCount}
 			position={position}
+			isCurrentTurn={isCurrentTurn}
 		/>;
 	};
 

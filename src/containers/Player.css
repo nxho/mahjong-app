@@ -34,3 +34,7 @@
 	cursor: not-allowed;
 }
 
+.h3__player-name {
+	align-self: flex-start;
+}
+

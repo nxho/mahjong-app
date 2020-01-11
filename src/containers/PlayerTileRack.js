@@ -3,9 +3,13 @@ import { connect } from 'react-redux';
 import PlayerTile from './PlayerTile';
 import './PlayerTileRack.css';
 
-const PlayerTileRack = function({ tiles }) {
+const PlayerTileRack = function({ tiles, isCurrentTurn }) {
+	let playerTileRackClassName = 'player-tile-rack';
+	if (!isCurrentTurn) {
+		playerTileRackClassName += ' player-tile-rack--appear-disabled';
+	}
 	return (
-		<div className='player-tile-rack'>
+		<div className={playerTileRackClassName}>
 			{
 				tiles.map(({ key, suit, type, meldable }, index) => (
 					<PlayerTile
@@ -23,6 +27,7 @@ const PlayerTileRack = function({ tiles }) {
 
 const mapStateToProps = state => ({
 	tiles: state.player.tiles,
+	isCurrentTurn: state.player.isCurrentTurn,
 });
 
 export default connect(

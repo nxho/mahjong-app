@@ -9,3 +9,7 @@
 	*/
 }
 
+.player-tile-rack--appear-disabled {
+	opacity: 0.5;
+}
+
