@@ -1,62 +1,48 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import Player from './Player';
 import Opponent from '../components/Opponent';
 import DiscardedTileContainer from '../components/DiscardedTileContainer';
+import Overlay from './Overlay';
 
 import './Board.css';
 
-class Board extends Component {
-	renderPlayer() {
-		const player = this.props.player;
-		return <Player
-			username={player.username}
-			tiles={player.tiles}
-			tileRotation={0}
-			selectedTileIndex={player.selectedTileIndex}
-			currentState={player.currentState}
-		/>;
-	}
-
-	renderOpponent(id, position) {
-		const opponent = this.props.opponents[id];
+const Board = ({ opponents, discardedTile, pastDiscardedTiles, isGameOver }) => {
+	console.log('Re-rendering Board container')
+	const renderOpponent = (id, position) => {
+		const { name, revealedMelds, concealedKongs, tileCount, isCurrentTurn } = opponents[id];
 		return <Opponent
-			name={opponent.name}
-			melds={opponent.revealedMelds}
-			tileCount={opponent.tileCount}
+			name={name}
+			revealedMelds={revealedMelds}
+			concealedKongs={concealedKongs}
+			tileCount={tileCount}
 			position={position}
+			isCurrentTurn={isCurrentTurn}
 		/>;
-	}
+	};
 
-	renderDiscardedTile() {
-		// TODO: should discardedTile be here?? or in a different slice of state?
-		const discardedTile = this.props.player.discardedTile;
-		return <DiscardedTileContainer
-			tileProps={discardedTile}
-		/>;
-	}
-
-	render() {
-		return (
-			<div className='boardContainer' data-testid='board'>
-				<div className='leftColumn'>
-					{ this.renderOpponent(2, 'left') }
-				</div>
-				<div className='middleColumn'>
-					{ this.renderOpponent(1, 'top') }
-					{ this.renderDiscardedTile() }
-					{ this.renderPlayer() }
-				</div>
-				<div className='rightColumn'>
-					{ this.renderOpponent(0, 'right') }
-				</div>
+	return (
+		<div className='boardContainer' data-testid='board'>
+			<div className='leftColumn'>
+				{ renderOpponent(2, 'left') }
 			</div>
-		)
-	}
-}
+			<div className='middleColumn'>
+				{ renderOpponent(1, 'top') }
+				<DiscardedTileContainer discardedTile={discardedTile} pastDiscardedTiles={pastDiscardedTiles} />
+				<Player />
+			</div>
+			<div className='rightColumn'>
+				{ renderOpponent(0, 'right') }
+			</div>
+			{ isGameOver && <Overlay /> }
+		</div>
+	)
+};
 
 const mapStateToProps = state => ({
-	player: state.player,
+	discardedTile: state.player.discardedTile,
+	pastDiscardedTiles: state.player.pastDiscardedTiles,
+	isGameOver: state.player.isGameOver,
 	opponents: state.opponents,
 });
 

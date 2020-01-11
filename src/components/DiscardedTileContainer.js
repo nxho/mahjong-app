@@ -1,19 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Tile from './Tile';
 
 import './DiscardedTileContainer.css';
 
-const DiscardedTileContainer = ({ tileProps }) => (
+const DiscardedTileContainer = ({ discardedTile, pastDiscardedTiles }) => (
 	<div className='discarded-tile-container'>
-		<p>Last Discarded Tile</p>
-		{
-			tileProps &&
+		{ !!pastDiscardedTiles && discardedTile && pastDiscardedTiles.concat([discardedTile]).map((tile, index) => (
 				<div className='discarded-tile-container__tile'>
 					<Tile
-						suit={tileProps.suit}
-						type={tileProps.type}
+						suit={tile.suit}
+						type={tile.type}
 					/>
 				</div>
+			))
 		}
 	</div>
 );

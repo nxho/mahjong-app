@@ -1,11 +1,11 @@
 .tileDiv {
-	margin: 5px;
+	margin: .53vh;
 	transition: transform 0.6s;
 }
 
 .selected {
-	box-shadow: 0px 0px 5px 5px rgba(66, 135, 245, .6);
-	border-radius: 5px;
+	box-shadow: 0 0 .53vh .53vh rgba(66, 135, 245, .6);
+	border-radius: .75vh;
 }
 
 .hoverTileDiv:hover {

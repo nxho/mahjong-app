@@ -1,9 +1,12 @@
 import {
 	CLAIM_TILE,
 	COMPLETE_NEW_MELD,
+	DECLARE_KONG,
+	DECLARE_WIN,
 	DRAW_TILE,
 	END_TURN,
 	JOIN_GAME,
+	LEAVE_GAME,
 	RECEIVE_PENDING_EVENTS,
 	SEND_MESSAGE,
 	claimTile,
@@ -14,12 +17,15 @@ import {
 	updateOpponents,
 	updateRoomId,
 	updateTiles,
-	startTurn,
 	rejoinGame,
 	updateValidMeldSubsets,
 	setRevealedMelds,
 	receivePendingEvents,
 	showMeldableTiles,
+	updateCanDeclareWin,
+	updateCanDeclareKong,
+	endGame,
+	updateConcealedKongs,
 } from '../actions';
 
 import uuidv1 from 'uuid/v1';
@@ -84,10 +90,6 @@ const createSocketMiddleware = (socket) => {
 			console.log('Received "update_discarded_tile" event from server, updating discarded tile to:', tile);
 			store.dispatch(updateDiscardedTile(tile));
 		});
-		socket.on('start_turn', () => {
-			console.log('Received "start_turn" event from server, enabling tile movement for player');
-			store.dispatch(startTurn());
-		});
 		socket.on('update_room_id', (roomId) => {
 			console.log('Received "update_room_id" event from server, updating room ID to:', roomId);
 			store.dispatch(updateRoomId(roomId));
@@ -125,6 +127,21 @@ const createSocketMiddleware = (socket) => {
 		socket.on('update_revealed_melds', (revealedMelds) => {
 			store.dispatch(setRevealedMelds(revealedMelds));
 		});
+		socket.on('update_can_declare_win', (canDeclareWin) => {
+			console.log('Received "update_can_declare_win" event from server, updating canDeclareWin to:', canDeclareWin);
+			store.dispatch(updateCanDeclareWin(canDeclareWin));
+		});
+		socket.on('update_can_declare_kong', (canDeclareKong) => {
+			console.log('Received "update_can_declare_kong" event from server, updating canDeclareKong to:', canDeclareKong);
+			store.dispatch(updateCanDeclareKong(canDeclareKong));
+		});
+		socket.on('update_concealed_kongs', (concealedKongs) => {
+			store.dispatch(updateConcealedKongs(concealedKongs));
+		});
+		socket.on('end_game', () => {
+			console.log('Received "end_game" event from server');
+			store.dispatch(endGame());
+		});
 
 		// TODO: store messages on server?
 		// or at least update messages from server so that messages sent before
@@ -160,8 +177,8 @@ const createSocketMiddleware = (socket) => {
 					socket.emit('complete_new_meld', { new_meld });
 					break;
 				case END_TURN:
-					// Ignore 'key' prop on discardedTile
-					const { suit, type } = action.discardedTile;
+					const { tiles, selectedTileIndex } = store.getState().player;
+					const { suit, type } = tiles[selectedTileIndex];
 
 					console.log('Emitting event end_turn');
 					socket.emit('end_turn', {
@@ -179,11 +196,23 @@ const createSocketMiddleware = (socket) => {
 						player_uuid: localStorage.getItem('mahjong-player-uuid'),
 					});
 					break;
+				case LEAVE_GAME:
+					console.log('Emitting event leave_game');
+					socket.emit('leave_game');
+					break;
 				case SEND_MESSAGE:
 					console.log('Emitting event text_message');
 					socket.emit('text_message', {
 						message: action.message,
 					});
+					break;
+				case DECLARE_WIN:
+					console.log('Emitting event declare_win');
+					socket.emit('declare_win');
+					break;
+				case DECLARE_KONG:
+					console.log('Emitting event declare_concealed_kong');
+					socket.emit('declare_concealed_kong');
 					break;
 				default:
 			}

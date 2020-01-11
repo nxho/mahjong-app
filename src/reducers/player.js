@@ -1,8 +1,8 @@
 import {
-	START_TURN,
 	END_TURN,
 	JOIN_GAME,
 	REJOIN_GAME,
+	LEAVE_GAME,
 	UPDATE_ROOM_ID,
 	UPDATE_TILES,
 	UPDATE_CURRENT_STATE,
@@ -17,8 +17,19 @@ import {
 	SET_REVEALED_MELDS,
 	EXTEND_NEW_MELD,
 	COMPLETE_NEW_MELD,
+	UPDATE_CAN_DECLARE_WIN,
+	DECLARE_WIN,
+	UPDATE_CAN_DECLARE_KONG,
+	DECLARE_KONG,
+	END_GAME,
+	UPDATE_CONCEALED_KONGS,
 } from '../actions';
 import update from 'immutability-helper';
+
+const isPlayerInCurrentTurnState = (state) => {
+	const currentTurnStates = new Set(['DRAW_TILE', 'DISCARD_TILE', 'REVEAL_MELD']);
+	return currentTurnStates.has(state);
+}
 
 const player = (
 	player = {
@@ -32,16 +43,16 @@ const player = (
 		currentState: 'NO_ACTION',
 		validMeldSubsets: null,
 		revealedMelds: [],
+		concealedKongs: [],
 		newMeld: [],
 		newMeldTargetLength: -1,
+		canDeclareWin: false,
+		canDeclareKong: false,
+		isGameOver: false,
+		pastDiscardedTiles: [],
 	},
 	action) => {
 		switch (action.type) {
-			case START_TURN:
-				return {
-					...player,
-					isCurrentTurn: true,
-				};
 			// TODO: rename END_TURN and endTurn to discardTile
 			case END_TURN:
 				// Remove discarded tile from tiles
@@ -58,12 +69,12 @@ const player = (
 			case DRAW_TILE:
 				return {
 					...player,
-					currentState: 'DISCARD_TILE',
+					currentState: 'NO_ACTION',
 				};
 			case CLAIM_TILE:
 				return {
 					...player,
-					currentState: action.claimType ? 'CLAIM_TILE' : 'NO_ACTION',
+					currentState: 'NO_ACTION',
 				};
 			case SHOW_MELDABLE_TILES:
 				// Consolidate newValidMeldSubsets based on chosen or not chosen tile
@@ -119,6 +130,15 @@ const player = (
 					newMeld: { $push: [droppedTile] },
 				});
 			case COMPLETE_NEW_MELD:
+				player.newMeld.sort((t1, t2) => {
+					if (t1.type < t2.type) {
+						return -1;
+					} else if (t1.type > t2.type) {
+						return 1;
+					}
+
+					return 0;
+				});
 				return {
 					...player,
 					revealedMelds: update(player.revealedMelds, { $push: [player.newMeld] }),
@@ -135,11 +155,30 @@ const player = (
 				return {
 					...player,
 					...action.payload,
+					isCurrentTurn: isPlayerInCurrentTurnState(action.payload.currentState),
 					inGame: true,
+				};
+			case LEAVE_GAME:
+				// FIXME: this needs to be in a more general place?
+				return {
+					...player,
+					inGame: false,
+					roomId: null,
+					tiles: [],
+					discardedTile: null,
+					selectedTileIndex: null,
+					currentState: 'NO_ACTION',
+					validMeldSubsets: null,
+					revealedMelds: [],
+					newMeld: [],
+					newMeldTargetLength: -1,
+					canDeclareWin: false,
+					isGameOver: false,
 				};
 			case UPDATE_CURRENT_STATE:
 				return {
 					...player,
+					isCurrentTurn: isPlayerInCurrentTurnState(action.newState),
 					currentState: action.newState,
 				};
 			case UPDATE_ROOM_ID:
@@ -155,6 +194,9 @@ const player = (
 			case UPDATE_DISCARDED_TILE:
 				return {
 					...player,
+					pastDiscardedTiles: !!player.discardedTile ? update(player.pastDiscardedTiles, {
+						$push: [player.discardedTile],
+					}) : player.pastDiscardedTiles,
 					discardedTile: action.discardedTile,
 				};
 			case EXTEND_TILES:
@@ -195,6 +237,36 @@ const player = (
 				return {
 					...player,
 					selectedTileIndex: action.tileIndex,
+				}
+			case UPDATE_CAN_DECLARE_WIN:
+				return {
+					...player,
+					canDeclareWin: action.canDeclareWin,
+				}
+			case DECLARE_WIN:
+				return {
+					...player,
+					currentState: 'NO_ACTION',
+				}
+			case UPDATE_CAN_DECLARE_KONG:
+				return {
+					...player,
+					canDeclareKong: action.canDeclareKong,
+				}
+			case DECLARE_KONG:
+				return {
+					...player,
+					currentState: 'NO_ACTION',
+				}
+			case END_GAME:
+				return {
+					...player,
+					isGameOver: true,
+				}
+			case UPDATE_CONCEALED_KONGS:
+				return {
+					...player,
+					concealedKongs: action.concealedKongs,
 				}
 			default:
 				return player;

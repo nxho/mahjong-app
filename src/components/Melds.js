@@ -1,34 +1,87 @@
 import React from 'react';
 import Tile from './Tile';
+import HiddenTile from './HiddenTile';
 
 import './Melds.css';
 
-const Melds = ({ melds, children, direction, tileRotation }) => {
+const Melds = ({ melds, concealedKongs, children, position }) => {
+
+	let rotation = null;
+	let direction = 'row';
+	if (position === 'top') {
+		rotation = '180';
+	} else if (position === 'left') {
+		rotation = 'cw'
+		direction = 'column';
+	} else if (position === 'right') {
+		rotation = 'ccw'
+		direction = 'column';
+	}
+
 	let tileContentClassName = '';
 	let meldContainerClassName = `meld-container-${direction}`;
 	let meldTileContainerClassName = 'meld-tile-container';
-	if (!!tileRotation && tileRotation !== 'none') {
-		tileContentClassName = `img--rotated-${tileRotation}`;
-		meldContainerClassName += ` meld-container-${tileRotation}`;
-		meldTileContainerClassName += ` meld-tile-container-${tileRotation}`;
+	if (!!rotation) {
+		tileContentClassName = `img--rotated-${rotation}`;
+		meldContainerClassName += ` meld-container-${rotation}`;
+		meldTileContainerClassName += ` meld-tile-container-${rotation}`;
 	}
+
+	const numOfMelds = !!melds ? melds.length : 0;
+	const numOfConcealedKongs= !!concealedKongs ? concealedKongs.length : 0;
+
+	const renderMelds = () => (
+		<>
+			{ numOfMelds > 0
+					&& melds.map((meld, meldIndex) => (
+						<div className={meldContainerClassName + (meldIndex === numOfMelds - 1 ? ` meld-container-${direction}-last`: '')} key={meldIndex}>
+							{ meld.length > 0 && meld.map(({ suit, type }, tileIndex) => (
+								<div className={meldTileContainerClassName} key={tileIndex}>
+									<Tile
+										suit={suit}
+										type={type}
+										className={tileContentClassName}
+									/>
+								</div>
+							)) }
+						</div>
+			)) }
+		</>
+	);
+
+	const renderConcealedKongs = () => (
+		<>
+			{ numOfConcealedKongs > 0
+					&& concealedKongs.map((kong, kongIndex) => (
+						<div className={meldContainerClassName + (kongIndex === numOfConcealedKongs - 1 ? ` meld-container-${direction}-last`: '')} key={kongIndex}>
+							{ kong.length > 0 && kong.map(({ suit, type }, tileIndex) => {
+								if (tileIndex === 0 || tileIndex === 3){
+									return (
+										<HiddenTile
+											key={tileIndex}
+											position={position}
+										/>
+									);
+								}
+								return (
+									<div className={meldTileContainerClassName} key={tileIndex}>
+										<Tile
+											suit={suit}
+											type={type}
+											className={tileContentClassName}
+										/>
+									</div>
+								);
+							}) }
+						</div>
+			)) }
+		</>
+	);
 
 	return (
 		<div className={`melds-container-${direction}`}>
-			{ !!melds && melds.length > 0
-				&& melds.map((meld, meldIndex) => (
-				<div className={meldContainerClassName} key={meldIndex}>
-					{ meld.length > 0 && meld.map(({ suit, type }, tileIndex) => (
-						<div className={meldTileContainerClassName} key={tileIndex}>
-							<Tile
-								suit={suit}
-								type={type}
-								className={tileContentClassName}
-							/>
-						</div>
-					)) }
-				</div>
-			)) }
+			{ renderMelds() }
+			{ renderConcealedKongs() }
 			{ children }
 		</div>
 	);

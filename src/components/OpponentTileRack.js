@@ -4,7 +4,12 @@ import Melds from './Melds';
 
 import './OpponentTileRack.css';
 
-const OpponentTileRack = ({ revealedMelds, tileCount, position }) => {
+const OpponentTileRack = ({ revealedMelds, concealedKongs, tileCount, position, isCurrentTurn }) => {
+	let opponentTileRackClassName = `opponent-tile-rack opponent-tile-rack-${position}`;
+	if (!isCurrentTurn) {
+		opponentTileRackClassName += ' opponent-tile-rack--half-opacity';
+	}
+
 	let tiles = [];
 	for (let i = 0; i < tileCount; i++) {
 		tiles.push(
@@ -15,24 +20,14 @@ const OpponentTileRack = ({ revealedMelds, tileCount, position }) => {
 		);
 	}
 
-	let rotation = '180';
-	let direction = 'row';
-	if (position === 'left') {
-		rotation = 'cw'
-		direction = 'column';
-	} else if (position === 'right') {
-		rotation = 'ccw'
-		direction = 'column';
-	}
-
 	return (
-		<div className={`opponent-tile-rack opponent-tile-rack-${position}`}>
+		<div className={opponentTileRackClassName}>
 			{tiles}
 			{
 				<Melds
 					melds={revealedMelds}
-					direction={direction}
-					tileRotation={rotation}
+					concealedKongs={concealedKongs}
+					position={position}
 				/>
 			}
 		</div>

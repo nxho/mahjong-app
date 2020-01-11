@@ -1,27 +1,37 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PlayerTileRack from './PlayerTileRack';
-import MeldsContainer from './MeldsContainer';
-import { drawTile, endTurn, claimTile } from '../actions';
+import PlayerMeldsContainer from './PlayerMeldsContainer';
+import { drawTile, endTurn, claimTile, declareWin, declareKong } from '../actions';
 
 import './Player.css';
 
-const Player = ({username, tiles, endTurn, selectedTileIndex, currentState, drawTile, claimTile}) => {
+const Player = ({ username, selectedTileIndex, currentState, canDeclareWin, canDeclareKong, discardTile, drawTile, claimTile, declareWin, declareKong }) => {
 	const renderCurrentTurnButtons = () => {
+		let buttonEl = null;
 		switch (currentState) {
 			case 'DRAW_TILE':
-				return <button onClick={() => drawTile()}>Draw Tile</button>;
+				buttonEl = <button onClick={drawTile}>Draw Tile</button>;
+				break;
 			case 'DISCARD_TILE':
 				const handleClick = () => {
-					console.log(`Dispatching END_TURN for selectedTileIndex=${selectedTileIndex}`);
 					if (selectedTileIndex != null) {
-						endTurn(tiles[selectedTileIndex]);
+						console.log(`Dispatching END_TURN for selectedTileIndex=${selectedTileIndex}`);
+						discardTile();
 					}
 				};
-				return <button onClick={handleClick}>Discard Tile</button>;
+				buttonEl = (
+					<>
+						<button onClick={handleClick}>Discard Tile</button>
+						{ canDeclareWin && <button onClick={declareWin}>Declare Win</button> }
+						{ canDeclareKong && <button onClick={declareKong}>Declare Kong</button> }
+					</>
+				);
+				break;
 			default:
 		}
-		return <div></div>;
+
+		return <div className='player-current-row'>{buttonEl}</div>;
 	};
 
 	const renderDeclareButtons = () => {
@@ -34,7 +44,7 @@ const Player = ({username, tiles, endTurn, selectedTileIndex, currentState, draw
 			<div className='player-declare-row'>
 				<label>Claim discard with </label>
 				<button className={buttonClass} disabled={isDisabled} onClick={() => claimTile('WIN')}>Win</button>
-				<button className={buttonClass} disabled={isDisabled} onClick={() => claimTile('PONG')}>Pong</button>
+				<button className={buttonClass} disabled={isDisabled} onClick={() => claimTile('PUNG')}>Pung</button>
 				<button className={buttonClass} disabled={isDisabled} onClick={() => claimTile('KONG')}>Kong</button>
 				<button className={buttonClass} disabled={isDisabled} onClick={() => claimTile('CHOW')}>Chow</button>
 			</div>
@@ -55,22 +65,32 @@ const Player = ({username, tiles, endTurn, selectedTileIndex, currentState, draw
 
 	return (
 		<div className='div__player-container'>
-			<MeldsContainer />
-			<h3>{username}</h3>
+			<PlayerMeldsContainer />
+			<h3 className={'h3__player-name'}>{username}</h3>
 			{renderActionRow()}
-			<PlayerTileRack tiles={tiles} />
+			<PlayerTileRack />
 		</div>
 	);
 };
 
+const mapStateToProps = state => ({
+	username: state.player.username,
+	selectedTileIndex: state.player.selectedTileIndex,
+	currentState: state.player.currentState,
+	canDeclareWin: state.player.canDeclareWin,
+	canDeclareKong: state.player.canDeclareKong,
+});
+
 const mapDispatchToProps = dispatch => ({
 	claimTile: (claimType) => dispatch(claimTile(claimType)),
-	endTurn: (discardedTile) => dispatch(endTurn(discardedTile)),
+	declareKong: () => dispatch(declareKong()),
+	declareWin: () => dispatch(declareWin()),
+	discardTile: () => dispatch(endTurn()),
 	drawTile: () => dispatch(drawTile()),
 });
 
 export default connect(
-	null,
+	mapStateToProps,
 	mapDispatchToProps,
 )(Player);
 

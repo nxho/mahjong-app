@@ -7,7 +7,6 @@ export const UPDATE_CURRENT_STATE = 'UPDATE_CURRENT_STATE';
 export const UPDATE_ROOM_ID = 'UPDATE_ROOM_ID';
 export const UPDATE_OPPONENTS = 'UPDATE_OPPONENTS';
 
-export const START_TURN = 'START_TURN';
 export const END_TURN = 'END_TURN';
 
 export const EXTEND_TILES = 'EXTEND_TILES';
@@ -23,6 +22,13 @@ export const RECEIVE_PENDING_EVENTS = 'RECEIVE_PENDING_EVENTS';
 export const SHOW_MELDABLE_TILES = 'SHOW_MELDABLE_TILES';
 export const EXTEND_NEW_MELD = 'EXTEND_NEW_MELD';
 export const COMPLETE_NEW_MELD = 'COMPLETE_NEW_MELD';
+export const UPDATE_CAN_DECLARE_WIN = 'UPDATE_CAN_DECLARE_WIN';
+export const UPDATE_CAN_DECLARE_KONG= 'UPDATE_CAN_DECLARE_KONG';
+export const DECLARE_WIN = 'DECLARE_WIN';
+export const DECLARE_KONG = 'DECLARE_KONG';
+export const END_GAME = 'END_GAME';
+export const LEAVE_GAME = 'LEAVE_GAME';
+export const UPDATE_CONCEALED_KONGS = 'UPDATE_CONCEALED_KONGS';
 
 export const moveTile = (srcIndex, dstIndex) => ({
 	type: MOVE_TILE,
@@ -56,13 +62,8 @@ export const updateTiles = (tiles) => ({
 	tiles,
 });
 
-export const startTurn = () => ({
-	type: START_TURN,
-});
-
-export const endTurn = (discardedTile) => ({
+export const endTurn = () => ({
 	type: END_TURN,
-	discardedTile,
 });
 
 export const updateMessages = (message) => ({
@@ -133,5 +134,36 @@ export const extendNewMeld = (droppedTileIndex) => ({
 export const completeNewMeld = (newMeld) => ({
 	type: COMPLETE_NEW_MELD,
 	newMeld,
+});
+
+export const updateCanDeclareWin = (canDeclareWin) => ({
+	type: UPDATE_CAN_DECLARE_WIN,
+	canDeclareWin,
+});
+
+export const declareWin = () => ({
+	type: DECLARE_WIN,
+});
+
+export const updateCanDeclareKong = (canDeclareKong) => ({
+	type: UPDATE_CAN_DECLARE_KONG,
+	canDeclareKong,
+});
+
+export const declareKong = () => ({
+	type: DECLARE_KONG,
+});
+
+export const endGame = () => ({
+	type: END_GAME,
+});
+
+export const leaveGame = () => ({
+	type: LEAVE_GAME,
+});
+
+export const updateConcealedKongs = (concealedKongs) => ({
+	type: UPDATE_CONCEALED_KONGS,
+	concealedKongs,
 });
 

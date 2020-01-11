@@ -15,6 +15,10 @@
 	align-items: center;
 }
 
+.h3__opponent-name {
+	padding: .5vh 1.32vh;
+}
+
 .h3__opponent-name-top {
 	margin: 0.5em 0em;
 	align-self: flex-end;
@@ -30,5 +34,10 @@
 	margin: 1.25em -0.5em;
 	align-self: flex-end;
 	transform: rotate(-90deg);
+}
+
+.h3__opponent-name--current {
+	border-radius: 2.11vh;
+	background-color: rgba(235, 64, 52, .75);
 }
 
