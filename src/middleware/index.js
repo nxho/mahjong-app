@@ -151,6 +151,8 @@ const createSocketMiddleware = (socket) => {
 			store.dispatch(updateMessages(message));
 		});
 
+		socket.emit('ready');
+
 		return next => action => {
 			switch (action.type) {
 				case RECEIVE_PENDING_EVENTS:

@@ -67,41 +67,49 @@ function LandingPage({ onSubmit, joinGame }) {
 		joinGame(username, roomId);
 	};
 
-	if (isFormVisible) {
-		const inputs = [];
+	const getInnerComponent = () => {
+		if (isFormVisible) {
+			const inputs = [];
 
-		if (isRoomInputVisible) {
+			if (isRoomInputVisible) {
+				inputs.push(
+					<LandingPageInput
+						key='room-id-input'
+						labelText='Room ID:'
+						value={roomId}
+						onChange={(e) => setRoomId(e.target.value)}
+					/>
+				);
+			}
+
 			inputs.push(
 				<LandingPageInput
-					key='room-id-input'
-					labelText='Room ID:'
-					value={roomId}
-					onChange={(e) => setRoomId(e.target.value)}
+					key='username-input'
+					labelText='Username:'
+					value={username}
+					onChange={(e) => setUsername(e.target.value)}
 				/>
+			);
+
+			return (
+				<LandingPageForm onSubmit={handleSubmit} onHide={hideForm}>
+					{inputs}
+				</LandingPageForm>
 			);
 		}
 
-		inputs.push(
-			<LandingPageInput
-				key='username-input'
-				labelText='Username:'
-				value={username}
-				onChange={(e) => setUsername(e.target.value)}
-			/>
-		);
-
 		return (
-			<LandingPageForm onSubmit={handleSubmit} onHide={hideForm}>
-				{inputs}
-			</LandingPageForm>
+			<>
+				<button className='create-btn' type="button" onClick={createGame}>Create New Game</button>
+				<button className='random-btn' type="button" onClick={joinRandomGame}>Join Random Game</button>
+				<button className='join-btn' type="button" onClick={joinRoomId}>Join Game with Room ID</button>
+			</>
 		);
 	}
 
 	return (
 		<div className='landing-page'>
-			<button className='create-btn' type="button" onClick={createGame}>Create New Game</button>
-			<button className='random-btn' type="button" onClick={joinRandomGame}>Join Random Game</button>
-			<button className='join-btn' type="button" onClick={joinRoomId}>Join Game with Room ID</button>
+			{ getInnerComponent() }
 		</div>
 	);
 }
