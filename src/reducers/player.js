@@ -23,34 +23,38 @@ import {
 	DECLARE_KONG,
 	END_GAME,
 	UPDATE_CONCEALED_KONGS,
+	UPDATE_PLAYER,
 } from '../actions';
 import update from 'immutability-helper';
+import uuidv1 from 'uuid/v1';
 
 const isPlayerInCurrentTurnState = (state) => {
 	const currentTurnStates = new Set(['DRAW_TILE', 'DISCARD_TILE', 'REVEAL_MELD']);
 	return currentTurnStates.has(state);
 }
 
+const initPlayer = () => ({
+	inGame: false,
+	roomId: null,
+	username: '',
+	tiles: [],
+	isCurrentTurn: false,
+	discardedTile: null,
+	selectedTileIndex: null,
+	currentState: 'NO_ACTION',
+	validMeldSubsets: null,
+	revealedMelds: [],
+	concealedKongs: [],
+	newMeld: [],
+	newMeldTargetLength: -1,
+	canDeclareWin: false,
+	canDeclareKong: false,
+	isGameOver: false,
+	pastDiscardedTiles: [],
+});
+
 const player = (
-	player = {
-		inGame: false,
-		roomId: null,
-		username: '',
-		tiles: [],
-		isCurrentTurn: false,
-		discardedTile: null,
-		selectedTileIndex: null,
-		currentState: 'NO_ACTION',
-		validMeldSubsets: null,
-		revealedMelds: [],
-		concealedKongs: [],
-		newMeld: [],
-		newMeldTargetLength: -1,
-		canDeclareWin: false,
-		canDeclareKong: false,
-		isGameOver: false,
-		pastDiscardedTiles: [],
-	},
+	player = initPlayer(),
 	action) => {
 		switch (action.type) {
 			// TODO: rename END_TURN and endTurn to discardTile
@@ -159,22 +163,7 @@ const player = (
 					inGame: true,
 				};
 			case LEAVE_GAME:
-				// FIXME: this needs to be in a more general place?
-				return {
-					...player,
-					inGame: false,
-					roomId: null,
-					tiles: [],
-					discardedTile: null,
-					selectedTileIndex: null,
-					currentState: 'NO_ACTION',
-					validMeldSubsets: null,
-					revealedMelds: [],
-					newMeld: [],
-					newMeldTargetLength: -1,
-					canDeclareWin: false,
-					isGameOver: false,
-				};
+				return initPlayer();
 			case UPDATE_CURRENT_STATE:
 				return {
 					...player,
@@ -268,11 +257,29 @@ const player = (
 					...player,
 					concealedKongs: action.concealedKongs,
 				}
+			case UPDATE_PLAYER:
+				const actionPlayer = action.player;
+
+				// Do additional processing for a property if object to be merged contains specified prop
+				if (actionPlayer.hasOwnProperty('tiles')) {
+					// Assign key to each tile for stable rendering
+					actionPlayer.tiles.forEach((tile) => {
+						tile.key = uuidv1();
+					});
+				}
+
+				console.log("Updating/merging server's player data with:", actionPlayer);
+
+				return {
+					...update(player, { $merge: actionPlayer }),
+					// TODO: move setting of this property to server-side code? I know this is used for client-specific
+					// logic but maybe it makes more sense on server side, since server knows when it should be updated
+					isCurrentTurn: isPlayerInCurrentTurnState(actionPlayer.currentState),
+				};
 			default:
 				return player;
 		}
 	}
 
 export default player;
-
 

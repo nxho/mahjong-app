@@ -6,6 +6,7 @@ export const SEND_MESSAGE = 'SEND_MESSAGE';
 export const UPDATE_CURRENT_STATE = 'UPDATE_CURRENT_STATE';
 export const UPDATE_ROOM_ID = 'UPDATE_ROOM_ID';
 export const UPDATE_OPPONENTS = 'UPDATE_OPPONENTS';
+export const UPDATE_PLAYER = 'UPDATE_PLAYER';
 
 export const END_TURN = 'END_TURN';
 
@@ -165,5 +166,10 @@ export const leaveGame = () => ({
 export const updateConcealedKongs = (concealedKongs) => ({
 	type: UPDATE_CONCEALED_KONGS,
 	concealedKongs,
+});
+
+export const updatePlayer = (player) => ({
+	type: UPDATE_PLAYER,
+	player,
 });
 
