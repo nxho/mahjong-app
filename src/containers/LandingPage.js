@@ -48,8 +48,8 @@ function LandingPage({ onSubmit, joinGame }) {
 
 		return (
 			<>
-				<button className='landing-page-btn' type="button" onClick={showCreateGameForm}>Host a New Game</button>
-				<button className='landing-page-btn' type="button" onClick={showJoinGameForm}>Join a Game</button>
+				<button className='landing-page-btn landing-page__create-btn' type="button" onClick={showCreateGameForm}>Host a New Game</button>
+				<button className='landing-page-btn landing-page__join-btn' type="button" onClick={showJoinGameForm}>Join a Game</button>
 			</>
 		);
 	}
