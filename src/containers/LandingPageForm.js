@@ -17,7 +17,7 @@ export default function LandingPageForm({ onHide, onSubmit, showRoomIdInput }) {
 	return (
 		<form className='landing-page-form' onSubmit={onSubmit}>
 			<LandingPageInput
-				key='username-input'
+				className='landing-page-input__username'
 				placeholderText='Username'
 				value={username}
 				onChange={(e) => setUsername(e.target.value)}
@@ -26,7 +26,7 @@ export default function LandingPageForm({ onHide, onSubmit, showRoomIdInput }) {
 			{
 				showRoomIdInput &&
 					<LandingPageInput
-						key='room-id-input'
+						className='landing-page-input__room-id'
 						placeholderText='Room ID (optional)'
 						value={roomId}
 						onChange={(e) => setRoomId(e.target.value)}

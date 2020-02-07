@@ -6,7 +6,7 @@ import React, {
 
 import './LandingPageInput.css';
 
-export default function LandingPageInput({ labelText, placeholderText, value, onChange, onKeyDown, focusOnRender}) {
+export default function LandingPageInput({ className, placeholderText, value, onChange, focusOnRender }) {
 	const inputRef = useRef(null);
 	const [focused, setFocused] = useState(false);
 
@@ -18,17 +18,13 @@ export default function LandingPageInput({ labelText, placeholderText, value, on
 	}, [focusOnRender, focused]);
 
 	return (
-		<label>
-			{ !!labelText && labelText }
-			<input
-				className='landing-page-input'
-				ref={inputRef}
-				type="text"
-				value={value}
-				onChange={onChange}
-				onKeyDown={onKeyDown}
-				placeholder={placeholderText}
-			/>
-		</label>
+		<input
+			className={'landing-page-input' + (!!className ? ` ${className}` : '')}
+			ref={inputRef}
+			type="text"
+			value={value}
+			onChange={onChange}
+			placeholder={placeholderText}
+		/>
 	);
 }
