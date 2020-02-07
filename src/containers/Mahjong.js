@@ -16,18 +16,16 @@ function Mahjong({ opponentsLength, inGame }) {
 	};
 
 	const getInnerComponent = () => {
-		if (inGame) {
-			return (
-				<>
+		return (
+			<>
+				<div className='mahjong-inner-container'>
 					{
-						(isEnoughPlayers() && <Board />) || <WaitingRoom />
+						(inGame && ((isEnoughPlayers() && <Board />) || <WaitingRoom />)) || <LandingPage />
 					}
-					<Chatroom />
-				</>
-			);
-		}
-
-		return <LandingPage />
+				</div>
+				<Chatroom />
+			</>
+		);
 	};
 
 	return (

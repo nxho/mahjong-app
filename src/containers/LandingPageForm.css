@@ -1,8 +1,19 @@
 .landing-page-form {
-	flex: 1;
 	display: flex;
-	justify-content: center;
-	align-items: center;
+	flex-direction: column;
+}
+
+.landing-page-form__btn-row {
+	display: flex;
 	flex-direction: row;
+	justify-content: space-between;
+}
+
+.landing-page-form__submit-btn {
+	flex-grow: 1;
+}
+
+.landing-page-form__back-btn {
+	flex-grow: 1;
 }
 

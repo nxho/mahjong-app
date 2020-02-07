@@ -11,7 +11,6 @@
 	border-bottom: 1px solid black;
 	padding: 5px;
 	display: flex;
-	flex-shrink: 0;
 	flex-direction: row;
 	justify-content: space-between;
 }
@@ -22,7 +21,8 @@
 
 .div__message-container {
 	display: flex;
-	flex-grow: 1;
+	flex: 1 1 auto;
+	min-height: 0px;
 	flex-direction: column;
 	justify-content: space-between;
 }

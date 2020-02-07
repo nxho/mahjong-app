@@ -4,3 +4,12 @@
 	overflow-y: auto;
 }
 
+.server-msg {
+	display: block;
+	font-style: italic;
+}
+
+.player-msg {
+	display: block;
+}
+

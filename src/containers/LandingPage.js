@@ -4,110 +4,65 @@ import React, {
 import { connect } from 'react-redux';
 
 import { joinGame } from '../actions';
-import LandingPageInput from './LandingPageInput';
 import LandingPageForm from './LandingPageForm';
 import './LandingPage.css';
 
 function LandingPage({ onSubmit, joinGame }) {
+	console.log('rendering landing page');
 	const [isFormVisible, setFormVisible] = useState(false);
 	const [isRoomInputVisible, setRoomInputVisible] = useState(false);
-	const [roomId, setRoomId] = useState('');
-	const [username, setUsername] = useState('');
+	const [shouldCreateRoom, setShouldCreateRoom] = useState(false);
 
 	const hideForm = () => {
 		setFormVisible(false);
 		setRoomInputVisible(false);
-		setRoomId('');
-		setUsername('');
+		setShouldCreateRoom(false);
 	};
 
 	const showForm = () => {
 		setFormVisible(true);
 	};
 
-	const createGame = (e) => {
-		showForm();
-
-		// Generate random 6-char room id
-		let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'.split('');
-		const charsLength = chars.length;
-
-		// Shuffle chars first
-		for (let i = 0; i < chars.length - 1; i++) {
-			const j = Math.floor(Math.random() * (chars.length - 1 - i))
-			if (j > 0) {
-				[chars[i], chars[i + j]] = [chars[i + j], chars[i]]
-			}
-		}
-		chars = chars.join('');
-		console.log('shuffled chars:', chars);
-
-		let res = '';
-		for (let i = 0; i < 8; i++) {
-			res += chars.charAt(Math.floor(Math.random() * charsLength));
-		}
-		console.log('generated room id:', res);
-
-		setRoomId(res);
-	};
-
-	const joinRandomGame = (e) => {
+	const showCreateGameForm = (e) => {
+		setShouldCreateRoom(true);
 		showForm();
 	};
 
-	const joinRoomId = (e) => {
-		showForm();
+	const showJoinGameForm = (e) => {
+		setShouldCreateRoom(false);
 		setRoomInputVisible(true);
+		showForm();
 	};
 
-	const handleSubmit = (e) => {
-		e.preventDefault();
-
+	const handleSubmit = (username, roomId) => {
 		console.log(`handleSubmit called, need to submit username=${username} and roomId=${roomId}`);
-		joinGame(username, roomId);
+		joinGame(username, roomId, shouldCreateRoom);
 	};
 
-	if (isFormVisible) {
-		const inputs = [];
-
-		if (isRoomInputVisible) {
-			inputs.push(
-				<LandingPageInput
-					key='room-id-input'
-					labelText='Room ID:'
-					value={roomId}
-					onChange={(e) => setRoomId(e.target.value)}
-				/>
+	const getInnerComponent = () => {
+		if (isFormVisible) {
+			return (
+				<LandingPageForm onHide={hideForm} onSubmit={handleSubmit} showRoomIdInput={isRoomInputVisible} />
 			);
 		}
 
-		inputs.push(
-			<LandingPageInput
-				key='username-input'
-				labelText='Username:'
-				value={username}
-				onChange={(e) => setUsername(e.target.value)}
-			/>
-		);
-
 		return (
-			<LandingPageForm onSubmit={handleSubmit} onHide={hideForm}>
-				{inputs}
-			</LandingPageForm>
+			<>
+				<button className='landing-page-btn' type="button" onClick={showCreateGameForm}>Host a New Game</button>
+				<button className='landing-page-btn' type="button" onClick={showJoinGameForm}>Join a Game</button>
+			</>
 		);
 	}
 
 	return (
 		<div className='landing-page'>
-			<button className='create-btn' type="button" onClick={createGame}>Create New Game</button>
-			<button className='random-btn' type="button" onClick={joinRandomGame}>Join Random Game</button>
-			<button className='join-btn' type="button" onClick={joinRoomId}>Join Game with Room ID</button>
+			{ getInnerComponent() }
 		</div>
 	);
 }
 
 const mapDispatchToProps = dispatch => ({
-	joinGame: (username, roomId) => dispatch(joinGame(username, roomId)),
+	joinGame: (username, roomId, shouldCreateRoom) => dispatch(joinGame(username, roomId, shouldCreateRoom)),
 });
 
 export default connect(

@@ -11,8 +11,12 @@ function Chatroom({ messages, player }) {
 			<div className='header'>
 				<div>Chatroom</div>
 				<div style={{ display: 'flex', flexDirection: 'row' }}>
-					<div className='room-id-title'>Room ID:</div>
-					<div id='room-id'>{player.roomId}</div>
+					{ (!!player.roomId &&
+						<>
+							<div className='room-id-title'>Room ID:</div>
+							<div id='room-id'>{player.roomId}</div>
+						</>) || <div className='room-id-title'>Lobby</div>
+					}
 				</div>
 			</div>
 			<div className='div__message-container'>

@@ -1,8 +1,23 @@
 .landing-page {
-	flex: 1;
 	display: flex;
+	flex-grow: 1;
 	justify-content: center;
 	align-items: center;
-	flex-direction: row;
+	flex-direction: column;
+}
+
+.landing-page-form {
+	flex-direction: column;
+}
+
+.landing-page-btn {
+	margin: .3em;
+	padding: .5em .75em;
+	border-radius: .85em;
+	font-size: 1.1em;
+}
+
+.landing-page-btn:focus {
+	outline: thin dotted;
 }
 
