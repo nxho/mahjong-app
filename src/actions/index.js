@@ -37,10 +37,11 @@ export const moveTile = (srcIndex, dstIndex) => ({
 	dstIndex,
 });
 
-export const joinGame = (username, roomId) => ({
+export const joinGame = (username, roomId, shouldCreateRoom) => ({
 	type: JOIN_GAME,
 	username,
 	roomId,
+	shouldCreateRoom,
 });
 
 export const rejoinGame = (payload) => ({

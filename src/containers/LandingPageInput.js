@@ -1,26 +1,33 @@
 import React, {
 	useEffect,
 	useRef,
+	useState,
 } from 'react';
 
-export default function LandingPageInput({ labelText, value, onChange, onKeyDown }) {
+import './LandingPageInput.css';
+
+export default function LandingPageInput({ labelText, placeholderText, value, onChange, onKeyDown, focusOnRender}) {
 	const inputRef = useRef(null);
+	const [focused, setFocused] = useState(false);
 
 	useEffect(() => {
-		if (inputRef.current) {
+		if (!!focusOnRender && !focused) {
 			inputRef.current.focus();
+			setFocused(true);
 		}
-	});
+	}, [focusOnRender, focused]);
 
 	return (
 		<label>
-			{labelText}
+			{ !!labelText && labelText }
 			<input
+				className='landing-page-input'
 				ref={inputRef}
 				type="text"
 				value={value}
 				onChange={onChange}
 				onKeyDown={onKeyDown}
+				placeholder={placeholderText}
 			/>
 		</label>
 	);

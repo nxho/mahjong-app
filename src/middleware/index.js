@@ -156,7 +156,7 @@ const createSocketMiddleware = (socket) => {
 		// or at least update messages from server so that messages sent before
 		// a user joins can be seen as well
 		socket.on('text_message', (message) => {
-			console.log(`Received "message" event from server, message='${message}'`);
+			console.log('Received "message" event from server:', message);
 			store.dispatch(updateMessages(message));
 		});
 
@@ -208,6 +208,7 @@ const createSocketMiddleware = (socket) => {
 					socket.emit('enter_game', {
 						username: action.username,
 						room_id: action.roomId,
+						should_create_room: action.shouldCreateRoom,
 						player_uuid: localStorage.getItem('mahjong-player-uuid'),
 					});
 					break;

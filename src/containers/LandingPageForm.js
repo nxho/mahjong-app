@@ -1,44 +1,42 @@
 import React, {
 	useState,
 } from 'react';
+import LandingPageInput from './LandingPageInput';
 
 import './LandingPageForm.css';
 
-export default function LandingPageForm({ children, onHide, onSubmit }) {
-	const [currentStepIndex, setCurrentStepIndex] = useState(0);
-	const numOfSteps = children.length;
-	if (!numOfSteps) {
-		return null;
-	}
+export default function LandingPageForm({ onHide, onSubmit, showRoomIdInput }) {
+	const [roomId, setRoomId] = useState('');
+	const [username, setUsername] = useState('');
 
-	const handleNext = (e) => {
+	const handleClickSubmit = (e) => {
 		e.preventDefault();
-
-		setCurrentStepIndex(currentStepIndex + 1);
+		onSubmit(username, roomId);
 	};
-
-	const handleBack = () => {
-		if (currentStepIndex > 0) {
-			setCurrentStepIndex(currentStepIndex - 1);
-		} else {
-			onHide();
-		}
-	};
-
-	let btnText = 'Submit';
-	let className = 'submit-btn';
-	let submitFunc = onSubmit;
-	if (currentStepIndex >= 0 && currentStepIndex < numOfSteps - 1) {
-		btnText = 'Next';
-		className = 'next-btn';
-		submitFunc = handleNext;
-	}
 
 	return (
-		<form className='landing-page-form' onSubmit={submitFunc}>
-			{children[currentStepIndex]}
-			<button className={className} type="submit" onClick={submitFunc}>{btnText}</button>
-			<button className='back-btn' type="button" onClick={handleBack}>Back</button>
+		<form className='landing-page-form' onSubmit={onSubmit}>
+			<LandingPageInput
+				key='username-input'
+				placeholderText='Username'
+				value={username}
+				onChange={(e) => setUsername(e.target.value)}
+				focusOnRender={true}
+			/>
+			{
+				showRoomIdInput &&
+					<LandingPageInput
+						key='room-id-input'
+						placeholderText='Room ID (optional)'
+						value={roomId}
+						onChange={(e) => setRoomId(e.target.value)}
+					/>
+			}
+			<div className='landing-page-form__btn-row'>
+				<button className='landing-page-form__back-btn' type="button" onClick={onHide}>Back</button>
+				<button className='landing-page-form__submit-btn' type="submit" onClick={handleClickSubmit}>Submit</button>
+			</div>
 		</form>
 	);
 }
+
