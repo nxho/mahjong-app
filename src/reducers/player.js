@@ -35,6 +35,8 @@ const isPlayerInCurrentTurnState = (state) => {
 
 const initPlayer = () => ({
 	inGame: false,
+	isGameInProgress: false,
+	isGameOver: false,
 	roomId: null,
 	username: '',
 	tiles: [],
@@ -49,7 +51,6 @@ const initPlayer = () => ({
 	newMeldTargetLength: -1,
 	canDeclareWin: false,
 	canDeclareKong: false,
-	isGameOver: false,
 	pastDiscardedTiles: [],
 });
 
@@ -274,7 +275,8 @@ const player = (
 					...update(player, { $merge: actionPlayer }),
 					// TODO: move setting of this property to server-side code? I know this is used for client-specific
 					// logic but maybe it makes more sense on server side, since server knows when it should be updated
-					isCurrentTurn: isPlayerInCurrentTurnState(actionPlayer.currentState),
+					// FIXME: PLEASE FIX THIS THIS IS SO BAD
+					isCurrentTurn: isPlayerInCurrentTurnState(!!actionPlayer.currentState ? actionPlayer.currentState : player.currentState),
 				};
 			default:
 				return player;

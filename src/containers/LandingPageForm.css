@@ -9,11 +9,16 @@
 	justify-content: space-between;
 }
 
-.landing-page-form__submit-btn {
-	flex-grow: 1;
-}
-
+.landing-page-form__submit-btn,
 .landing-page-form__back-btn {
 	flex-grow: 1;
+	margin: .3em;
+	padding: .3em .7em;
+	border-radius: .2em;
+}
+
+.landing-page-form__submit-btn:focus,
+.landing-page-form__back-btn:focus {
+	outline: thin dotted;
 }
 

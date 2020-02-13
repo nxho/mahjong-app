@@ -4,5 +4,12 @@
 	padding: .4em .75em;
 	margin: 0.15em;
 	border: 0.08em solid #CCCCCC;
+	border-radius: .25em;
+}
+
+.landing-page-input:focus {
+	outline: none;
+	margin: .13em;
+	border: .1em solid gray;
 }
 

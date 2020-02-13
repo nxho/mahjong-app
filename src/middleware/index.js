@@ -9,6 +9,7 @@ import {
 	LEAVE_GAME,
 	RECEIVE_PENDING_EVENTS,
 	SEND_MESSAGE,
+	START_GAME,
 	claimTile,
 	extendTiles,
 	updateCurrentState,
@@ -229,6 +230,10 @@ const createSocketMiddleware = (socket) => {
 				case DECLARE_KONG:
 					console.log('Emitting event declare_concealed_kong');
 					socket.emit('declare_concealed_kong');
+					break;
+				case START_GAME:
+					console.log('Emitting event start_game');
+					socket.emit('start_game');
 					break;
 				default:
 			}

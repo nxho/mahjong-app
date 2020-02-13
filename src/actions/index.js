@@ -30,6 +30,7 @@ export const DECLARE_KONG = 'DECLARE_KONG';
 export const END_GAME = 'END_GAME';
 export const LEAVE_GAME = 'LEAVE_GAME';
 export const UPDATE_CONCEALED_KONGS = 'UPDATE_CONCEALED_KONGS';
+export const START_GAME = 'START_GAME';
 
 export const moveTile = (srcIndex, dstIndex) => ({
 	type: MOVE_TILE,
@@ -172,5 +173,9 @@ export const updateConcealedKongs = (concealedKongs) => ({
 export const updatePlayer = (player) => ({
 	type: UPDATE_PLAYER,
 	player,
+});
+
+export const startGame = () => ({
+	type: START_GAME,
 });
 

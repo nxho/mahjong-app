@@ -8,19 +8,15 @@ import WaitingRoom from '../components/WaitingRoom';
 
 import './Mahjong.css';
 
-function Mahjong({ opponentsLength, inGame }) {
+function Mahjong({ inGame, isGameInProgress }) {
 	console.log('Re-rendering Mahjong container')
-
-	const isEnoughPlayers = () => {
-		return opponentsLength >= 3;
-	};
 
 	const getInnerComponent = () => {
 		return (
 			<>
 				<div className='mahjong-inner-container'>
 					{
-						(inGame && ((isEnoughPlayers() && <Board />) || <WaitingRoom />)) || <LandingPage />
+						(inGame && ((isGameInProgress && <Board />) || <WaitingRoom />)) || <LandingPage />
 					}
 				</div>
 				<Chatroom />
@@ -37,8 +33,8 @@ function Mahjong({ opponentsLength, inGame }) {
 }
 
 const mapStateToProps = state => ({
-	opponentsLength: state.opponents.length,
 	inGame: state.player.inGame,
+	isGameInProgress: state.player.isGameInProgress,
 });
 
 export default connect(
