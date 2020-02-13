@@ -18,6 +18,8 @@
 }
 
 .landing-page-btn:focus {
-	outline: thin dotted;
+	outline: none;
+	border: 0.08em dotted #7a7a7a;
+	margin: 0.37em;
 }
 

@@ -9,6 +9,7 @@
 	justify-content: space-between;
 }
 
+/* similarities to LandingPage.css */
 .landing-page-form__submit-btn,
 .landing-page-form__back-btn {
 	flex-grow: 1;
@@ -19,6 +20,8 @@
 
 .landing-page-form__submit-btn:focus,
 .landing-page-form__back-btn:focus {
-	outline: thin dotted;
+	outline: none;
+	border: 0.08em dotted #7a7a7a;
+	margin: 0.37em;
 }
 
