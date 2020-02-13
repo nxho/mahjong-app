@@ -16,12 +16,18 @@
 	margin: .3em;
 	padding: .3em .7em;
 	border-radius: .2em;
+	outline: none;
 }
 
 .landing-page-form__submit-btn:focus,
 .landing-page-form__back-btn:focus {
-	outline: none;
-	border: 0.08em dotted #7a7a7a;
-	margin: 0.37em;
+	border: 0.1em dotted #7a7a7a;
+	margin: 0.35em;
+}
+
+.landing-page-form__submit-btn:hover,
+.landing-page-form__back-btn:hover {
+	border: 0.15em solid #7a7a7a;
+	margin: 0.3em;
 }
 
