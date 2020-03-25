@@ -7,7 +7,6 @@ import PlayerMelds from './PlayerMelds';
 
 import './PlayerMeldsContainer.css';
 
-// TODO: rename to PlayerMeldsContainer?
 const PlayerMeldsContainer = ({
 	currentState,
 	showMeldableTiles,
@@ -17,7 +16,7 @@ const PlayerMeldsContainer = ({
 
 	const [{ canDrop, isOver }, drop] = useDrop({
 		accept: ItemTypes.PLAYER_TILE,
-		canDrop: (item) => currentState === 'REVEAL_MELD',
+		canDrop: (item) => currentState === 'DISCARD_TILE',
 		drop(item, monitor) {
 			console.log('Dispatching showMeldableTiles');
 			showMeldableTiles(item.index);
@@ -34,6 +33,7 @@ const PlayerMeldsContainer = ({
 
 	let className = 'player-melds-container';
 	if (canDrop && isOver) {
+		console.log('hovering melds container');
 		className += ' player-melds-container--state-hover';
 	}
 
