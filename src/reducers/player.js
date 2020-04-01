@@ -182,6 +182,12 @@ const player = (
 					tiles: action.tiles,
 				};
 			case UPDATE_DISCARDED_TILE:
+				if (!action.discardedTile) {
+					return {
+						...player,
+						discardedTile: null
+					};
+				}
 				return {
 					...player,
 					pastDiscardedTiles: !!player.discardedTile ? update(player.pastDiscardedTiles, {
