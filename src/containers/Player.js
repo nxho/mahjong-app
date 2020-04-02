@@ -11,7 +11,7 @@ const Player = ({ username, selectedTileIndex, currentState, canDeclareWin, canD
 		let buttonEl = null;
 		switch (currentState) {
 			case 'DRAW_TILE':
-				buttonEl = <button onClick={drawTile}>Draw Tile</button>;
+				buttonEl = <button className='player-action-button' onClick={drawTile}>Draw Tile</button>;
 				break;
 			case 'DISCARD_TILE':
 				const handleClick = () => {
@@ -22,9 +22,9 @@ const Player = ({ username, selectedTileIndex, currentState, canDeclareWin, canD
 				};
 				buttonEl = (
 					<>
-						<button onClick={handleClick}>Discard Tile</button>
-						{ canDeclareWin && <button onClick={declareWin}>Declare Win</button> }
-						{ canDeclareKong && <button onClick={declareKong}>Declare Kong</button> }
+						<button className='player-action-button' onClick={handleClick}>Discard Tile</button>
+						{ canDeclareWin && <button className='player-action-button' onClick={declareWin}>Declare Win</button> }
+						{ canDeclareKong && <button className='player-action-button' onClick={declareKong}>Declare Kong</button> }
 					</>
 				);
 				break;
@@ -34,15 +34,14 @@ const Player = ({ username, selectedTileIndex, currentState, canDeclareWin, canD
 		return <div className='player-current-row'>{buttonEl}</div>;
 	};
 
+	const isDisabled = currentState !== 'DECLARE_CLAIM';
 	const renderDeclareButtons = () => {
-		const isDisabled = currentState !== 'DECLARE_CLAIM';
-		let buttonClass = '';
+		let buttonClass = 'player-action-button';
 		if (isDisabled) {
-			buttonClass = 'player-declare-button--state-disabled';
+			buttonClass += ' player-declare-button--state-disabled';
 		}
 		return (
 			<div className='player-declare-row'>
-				<label>Claim discard with </label>
 				<button className={buttonClass} disabled={isDisabled} onClick={() => claimTile('WIN')}>Win</button>
 				<button className={buttonClass} disabled={isDisabled} onClick={() => claimTile('PUNG')}>Pung</button>
 				<button className={buttonClass} disabled={isDisabled} onClick={() => claimTile('KONG')}>Kong</button>
@@ -63,10 +62,18 @@ const Player = ({ username, selectedTileIndex, currentState, canDeclareWin, canD
 		</div>
 	);
 
+	let h4ClassName = 'h4__claim-discard';
+	if (isDisabled) {
+		h4ClassName += ' h4__claim-discard--state-disabled';
+	}
+
 	return (
 		<div className='div__player-container'>
 			<PlayerMeldsContainer />
-			<h3 className={'h3__player-name'}>{username}</h3>
+			<div className='div__player-header-row'>
+				<h3 className={'h3__player-name'}>{username}</h3>
+				<h4 className={h4ClassName}>Claim discard with </h4>
+			</div>
 			{renderActionRow()}
 			<PlayerTileRack />
 		</div>

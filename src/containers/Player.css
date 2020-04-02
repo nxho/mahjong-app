@@ -13,6 +13,12 @@
 	justify-content: flex-end;
 }
 
+.div__player-header-row {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
 .player-current-row {
 	display: flex;
 	flex-direction: row;
@@ -23,6 +29,13 @@
 	display: flex;
 	flex-direction: row;
 	align-items: center;
+}
+
+.player-action-button {
+	border-radius: .25em;
+	padding: .25em 1.3em;
+	margin: .15em .25em;
+	font-size: calc(11px + .2vw);
 }
 
 .player-declare-button--state-disabled {
@@ -36,5 +49,9 @@
 
 .h3__player-name {
 	align-self: flex-start;
+}
+
+.h4__claim-discard--state-disabled {
+	opacity: 0.5;
 }
 
