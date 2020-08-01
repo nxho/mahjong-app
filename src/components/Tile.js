@@ -1,13 +1,12 @@
 import React from 'react';
 import './Tile.css'
 
-// TODO: move to components folder?
 const Tile = ({ suit, type, selected, className }) => {
 	const tryRequire = () => {
 		let img = null;
 
 		try {
-			img = require(`../images/tiles/${suit}_${type}.png`)
+			img = require(`../svgs/${suit}_${type}.svg`)
 		} catch (e) {
 			// handle silently
 		}
