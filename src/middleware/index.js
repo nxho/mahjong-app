@@ -22,7 +22,7 @@ import {
 	updatePlayer,
 } from '../actions';
 
-import uuidv1 from 'uuid/v1';
+import { v4 as uuidv4 } from 'uuid';
 
 const createSocketMiddleware = (socket) => {
 	let declareClaimTimer = null;
@@ -69,31 +69,30 @@ const createSocketMiddleware = (socket) => {
 		});
 		socket.on('update_tiles', (tiles) => {
 			console.log('Received "update_tiles" event from server, updating tiles to:', tiles);
-			/*
-			store.dispatch(updateTiles(tiles));
-			*/
+
 			store.dispatch(updatePlayer({ tiles }));
 		});
 		socket.on('extend_tiles', (tile) => {
 			console.log('Received "extend_tiles" event from server, adding tile:', tile);
 
 			// Assign key to new tile for stable rendering
-			tile.key = uuidv1();
+			tile.key = uuidv4();
 
 			store.dispatch(extendTiles(tile));
 		});
 		socket.on('update_discarded_tile', (discardedTile) => {
 			console.log('Received "update_discarded_tile" event from server, updating discarded tile to:', discardedTile);
+
 			store.dispatch(updateDiscardedTile(discardedTile));
 		});
 		socket.on('update_room_id', (roomId) => {
 			console.log('Received "update_room_id" event from server, updating room ID to:', roomId);
-			// store.dispatch(updateRoomId(roomId));
+
 			store.dispatch(updatePlayer({ roomId }));
 		});
 		socket.on('update_current_state', (currentState) => {
 			console.log('Received "update_state" event from server, updating player action state to:', currentState);
-			// store.dispatch(updateCurrentState(currentState));
+
 			store.dispatch(updatePlayer({ currentState }));
 		});
 		socket.on('declare_claim_with_timer', (payload) => {
@@ -117,31 +116,36 @@ const createSocketMiddleware = (socket) => {
 		socket.on('valid_tile_sets_for_meld', (payload) => {
 			let { validMeldSubsets, newMeld, newMeldTargetLength } = payload;
 			validMeldSubsets = validMeldSubsets.map((subset) => (subset.map(({suit, type}) => `${suit.slice(0, 4)}_${type}`)));
+
 			console.log('Dispatching updateValidMeldSubsets');
 			store.dispatch(updateValidMeldSubsets(validMeldSubsets, newMeld, newMeldTargetLength));
+
 			console.log('Dispatching showMeldableTiles');
 			store.dispatch(showMeldableTiles(null));
 		});
 		socket.on('update_revealed_melds', (revealedMelds) => {
-			// store.dispatch(setRevealedMelds(revealedMelds));
+			console.log('Received "update_revealed_melds" event from server, updating revealedMelds to:', revealedMelds);
+
 			store.dispatch(updatePlayer({ revealedMelds }));
 		});
 		socket.on('update_can_declare_win', (canDeclareWin) => {
 			console.log('Received "update_can_declare_win" event from server, updating canDeclareWin to:', canDeclareWin);
-			// store.dispatch(updateCanDeclareWin(canDeclareWin));
+
 			store.dispatch(updatePlayer({ canDeclareWin }));
 		});
 		socket.on('update_can_declare_kong', (canDeclareKong) => {
 			console.log('Received "update_can_declare_kong" event from server, updating canDeclareKong to:', canDeclareKong);
-			// store.dispatch(updateCanDeclareKong(canDeclareKong));
+
 			store.dispatch(updatePlayer({ canDeclareKong }));
 		});
 		socket.on('update_concealed_kongs', (concealedKongs) => {
-			// store.dispatch(updateConcealedKongs(concealedKongs));
+			console.log('Received "update_concealed_kongs" event from server, updating concealedKongs to:', concealedKongs);
+
 			store.dispatch(updatePlayer({ concealedKongs }));
 		});
 		socket.on('end_game', () => {
 			console.log('Received "end_game" event from server');
+
 			store.dispatch(endGame());
 		});
 
