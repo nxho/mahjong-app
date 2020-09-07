@@ -1,11 +1,23 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { startGame } from '../actions';
 
 import './WaitingRoom.css';
 
-// TODO: move this to containers/ folder because we're using redux for this component
-const WaitingRoom = ({ isHost, opponents, playerName, startGame }) => {
+export const WaitingRoom = () => {
+	const { opponents, isHost, playerName } = useSelector(
+		({ player, opponents }: { player: any; opponents: any[] }) => ({
+			opponents,
+			isHost: player.isHost,
+			playerName: player.username,
+		})
+	);
+
+	const dispatch = useDispatch();
+	const handleClick = () => {
+		dispatch(startGame());
+	};
+
 	let aiOpponents = [];
 	for (let i = 0; i < 3 - opponents.length; i++) {
 		aiOpponents.push(
@@ -38,26 +50,10 @@ const WaitingRoom = ({ isHost, opponents, playerName, startGame }) => {
 							</tr>
 						))
 					}
-					{ aiOpponents }
+					{aiOpponents}
 				</tbody>
 			</table>
-			{ (!!isHost && <button className='waiting-room__start-game-btn' onClick={startGame}>Start Game</button>) || <div className='waiting-room__waiting-message'>Waiting for host to start game...</div> }
+			{ (!!isHost && <button className='waiting-room__start-game-btn' onClick={handleClick}>Start Game</button>) || <div className='waiting-room__waiting-message'>Waiting for host to start game...</div>}
 		</div>
 	);
 };
-
-const mapStateToProps = state => ({
-	opponents: state.opponents,
-	isHost: state.player.isHost,
-	playerName: state.player.username,
-});
-
-const mapDispatchToProps = dispatch => ({
-	startGame: () => dispatch(startGame()),
-});
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(WaitingRoom);
-

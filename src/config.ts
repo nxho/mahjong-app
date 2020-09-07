@@ -1,3 +1,9 @@
+type Config = {
+	socket: {
+		SERVER_URL: string;
+	},
+};
+
 const local = {
 	socket: {
 		SERVER_URL: 'http://localhost:5000',
@@ -17,7 +23,7 @@ const prod = {
 	}
 }
 
-let config;
+let config: Config;
 switch(process.env.REACT_APP_STAGE) {
 	case 'dev':
 		config = dev;

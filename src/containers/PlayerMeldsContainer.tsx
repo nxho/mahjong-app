@@ -1,30 +1,30 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { extendNewMeld, showMeldableTiles } from '../actions';
 import { ItemTypes } from '../Constants';
 import { useDrop } from 'react-dnd';
-import PlayerMelds from './PlayerMelds';
+import { PlayerMelds } from './PlayerMelds';
 
 import './PlayerMeldsContainer.css';
+import { MahjongState } from '../reducers';
 
-// TODO: rename to PlayerMeldsContainer?
-const PlayerMeldsContainer = ({
-	currentState,
-	showMeldableTiles,
-	extendNewMeld,
-}) => {
+export const PlayerMeldsContainer = () => {
 	console.log('Rendering <PlayerMeldsContainer />');
+
+	const { currentState } = useSelector(({ player }: MahjongState) => player);
+
+	const dispatch = useDispatch();
 
 	const [{ canDrop, isOver }, drop] = useDrop({
 		accept: ItemTypes.PLAYER_TILE,
-		canDrop: (item) => currentState === 'REVEAL_MELD',
-		drop(item, monitor) {
+		canDrop: () => currentState === 'REVEAL_MELD',
+		drop(item: any) {
 			console.log('Dispatching showMeldableTiles');
-			showMeldableTiles(item.index);
+			dispatch(showMeldableTiles(item.index));
 			console.log('Dispatching extendNewMeld');
-			extendNewMeld(item.index);
+			dispatch(extendNewMeld(item.index));
 		},
-		collect: monitor => ({
+		collect: (monitor) => ({
 			isOver: !!monitor.isOver(),
 			canDrop: !!monitor.canDrop(),
 		}),
@@ -46,18 +46,3 @@ const PlayerMeldsContainer = ({
 		</div>
 	);
 };
-
-const mapStateToProps = state => ({
-	currentState: state.player.currentState,
-});
-
-const mapDispatchToProps = dispatch => ({
-	showMeldableTiles: (tileIndex) => dispatch(showMeldableTiles(tileIndex)),
-	extendNewMeld: (tileIndex) => dispatch(extendNewMeld(tileIndex)),
-});
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(PlayerMeldsContainer);
-

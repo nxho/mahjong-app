@@ -1,18 +1,31 @@
 import React, { useRef } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { moveTile, selectTile } from '../actions';
-import Tile from '../components/Tile';
+import { Tile } from '../components/Tile';
 import { ItemTypes } from '../Constants';
 import { useDrag, useDrop } from 'react-dnd';
 
-import './PlayerTile.css'
+import './PlayerTile.css';
+import { MahjongState } from '../reducers';
 
-const PlayerTile = ({ index, selectedTileIndex, tileSuit, tileType, meldable, currentState, selectTile, moveTile }) => {
-	const ref = useRef(null);
+type Props = {
+	index: number;
+	tileSuit: string;
+	tileType: string;
+	meldable: boolean;
+};
+
+export const PlayerTile = ({ index, tileSuit, tileType, meldable }: Props) => {
+	const { selectedTileIndex, currentState } = useSelector(
+		({ player }: MahjongState) => player,
+	);
+	const dispatch = useDispatch();
+
+	const ref = useRef<HTMLDivElement>(null);
 
 	const [, drop] = useDrop({
 		accept: ItemTypes.PLAYER_TILE,
-		hover(item, monitor) {
+		hover(item: any, monitor) {
 			// Disable hover if player is supposed to drag tiles to revealed melds
 			if (currentState === 'REVEAL_MELD') {
 				return;
@@ -21,25 +34,30 @@ const PlayerTile = ({ index, selectedTileIndex, tileSuit, tileType, meldable, cu
 			const dragIndex = item.index;
 			const hoverIndex = index;
 			if (!ref.current || dragIndex === hoverIndex) {
-				return
+				return;
 			}
 
 			const hoverBoundingRect = ref.current.getBoundingClientRect();
 
-			const hoverMiddleX = (hoverBoundingRect.right - hoverBoundingRect.left) / 2
+			const hoverMiddleX =
+				(hoverBoundingRect.right - hoverBoundingRect.left) / 2;
 
-			const clientOffset = monitor.getClientOffset()
+			const clientOffset = monitor.getClientOffset();
 
-			const hoverClientX = clientOffset.x - hoverBoundingRect.left
+			if (clientOffset) {
+				const hoverClientX = clientOffset.x - hoverBoundingRect.left;
 
-			if ((dragIndex < hoverIndex && hoverClientX < hoverMiddleX)
-				|| (dragIndex > hoverIndex && hoverClientX > hoverMiddleX)) {
-				return
+				if (
+					(dragIndex < hoverIndex && hoverClientX < hoverMiddleX) ||
+					(dragIndex > hoverIndex && hoverClientX > hoverMiddleX)
+				) {
+					return;
+				}
 			}
 
-			moveTile(dragIndex, hoverIndex);
+			dispatch(moveTile(dragIndex, hoverIndex));
 
-			item.index = hoverIndex
+			item.index = hoverIndex;
 		},
 	});
 
@@ -52,7 +70,7 @@ const PlayerTile = ({ index, selectedTileIndex, tileSuit, tileType, meldable, cu
 			meldable,
 		},
 		canDrag: () => currentState !== 'REVEAL_MELD' || meldable,
-		collect: monitor => ({
+		collect: (monitor) => ({
 			isDragging: monitor.isDragging(),
 		}),
 	});
@@ -83,7 +101,7 @@ const PlayerTile = ({ index, selectedTileIndex, tileSuit, tileType, meldable, cu
 
 	const handleMouseUp = () => {
 		if (currentState === 'DISCARD_TILE') {
-			selectTile(index);
+			dispatch(selectTile(index));
 		}
 	};
 
@@ -97,27 +115,7 @@ const PlayerTile = ({ index, selectedTileIndex, tileSuit, tileType, meldable, cu
 			}}
 			onMouseUp={handleMouseUp}
 		>
-			<Tile
-				suit={tileSuit}
-				type={tileType}
-				selected={isSelected}
-			/>
+			<Tile suit={tileSuit} type={tileType} selected={isSelected} />
 		</div>
 	);
 };
-
-const mapStateToProps = state => ({
-	selectedTileIndex: state.player.selectedTileIndex,
-	currentState: state.player.currentState,
-});
-
-const mapDispatchToProps = dispatch => ({
-	moveTile: (dragIndex, hoverIndex) => dispatch(moveTile(dragIndex, hoverIndex)),
-	selectTile: (index) => dispatch(selectTile(index)),
-});
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(PlayerTile);
-
