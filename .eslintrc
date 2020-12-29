@@ -24,6 +24,7 @@
 	"rules": {
 		"no-console": "warn",
 		"no-eval": "error",
-		"prettier/prettier": "error"
+		"prettier/prettier": "error",
+		"@typescript-eslint/explicit-module-boundary-types": "off"
 	}
 }
