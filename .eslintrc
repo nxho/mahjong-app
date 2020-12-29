@@ -4,9 +4,15 @@
 		"jest": true,
 		"es6": true
 	},
+	"parser": "@typescript-eslint/parser",
+	"plugins": ["prettier", "@typescript-eslint"],
 	"extends": [
 		"eslint:recommended",
-		"plugin:react/recommended"
+		"plugin:react/recommended",
+		"plugin:@typescript-eslint/recommended",
+		"plugin:prettier/recommended",
+		"prettier/@typescript-eslint",
+		"prettier/react"
 	],
 	"parserOptions": {
 		"ecmaVersion": 2018,
@@ -18,5 +24,6 @@
 	"rules": {
 		"no-console": "warn",
 		"no-eval": "error",
+		"prettier/prettier": "error"
 	}
 }
