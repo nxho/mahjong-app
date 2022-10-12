@@ -1,13 +1,32 @@
-# Mahjong Web Application
+# Mahjong App
 
-<img src="/src/images/mahjong_sample_1.png">
+<img src="/client/src/images/mahjong_sample_1.png">
 
-This is a multiplayer Mahjong game application built in ReactJS. For the backend code, see [mahjong-server](https://github.com/nxho/mahjong-server).
+This is a multiplayer Mahjong game application built in ReactJS/Python.
 
-Run `yarn start` to run the frontend application.<br>
+## Client
+Built in ReactJS.
+
+### Local dev
+Run:
+```
+cd client
+yarn
+yarn start
+```
+
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-By default, this application will point to [http://localhost:5000](http://localhost:5000) as the location of the backend service.
+## Server
+Uses Socket.IO for sending/receiving messages to/from client. Served with Gunicorn.
 
-Run `yarn test` to run tests.
+### Local dev
+Run:
+```
+cd server
+pip3 install -r requirements.txt
+./start.sh
+```
+
+By default, server will be running at http://localhost:5000.
 
