@@ -22,9 +22,12 @@
 		"sourceType": "module"
 	},
 	"rules": {
-		"no-console": "warn",
+		"no-console": "off",
 		"no-eval": "error",
 		"prettier/prettier": "error",
-		"@typescript-eslint/explicit-module-boundary-types": "off"
-	}
+		"@typescript-eslint/explicit-module-boundary-types": "off",
+		"@typescript-eslint/no-explicit-any": "off",
+		"@typescript-eslint/no-unused-vars": "off"
+	},
+	"ignorePatterns": ["build/**"]
 }
