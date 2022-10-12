@@ -1,6 +1,6 @@
 # Mahjong App
 
-<img src="/client/src/images/mahjong_sample_1.png">
+<img src="/mahjong_sample_1.png">
 
 This is a multiplayer Mahjong game application built in ReactJS/Python.
 
