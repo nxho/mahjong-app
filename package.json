@@ -56,5 +56,9 @@
     "eslint-plugin-prettier": "^3.3.0",
     "eslint-plugin-react": "^7.20.5",
     "react-test-renderer": "^16.8.6"
+  },
+  "volta": {
+    "node": "12.22.12",
+    "yarn": "1.22.19"
   }
 }
