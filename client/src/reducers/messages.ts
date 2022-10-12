@@ -10,7 +10,6 @@ const messages = (messages: Message[] = [], action: any) => {
 		default:
 			return messages;
 	}
-}
+};
 
 export default messages;
-

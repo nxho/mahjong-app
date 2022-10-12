@@ -10,7 +10,7 @@ export const WaitingRoom = () => {
 			opponents,
 			isHost: player.isHost,
 			playerName: player.username,
-		})
+		}),
 	);
 
 	const dispatch = useDispatch();
@@ -18,19 +18,19 @@ export const WaitingRoom = () => {
 		dispatch(startGame());
 	};
 
-	let aiOpponents = [];
+	const aiOpponents = [];
 	for (let i = 0; i < 3 - opponents.length; i++) {
 		aiOpponents.push(
 			<tr key={`ai-player-${i}`}>
 				<td>AI-Player-{i}</td>
 				<td>AI</td>
-			</tr>
+			</tr>,
 		);
 	}
 
 	return (
-		<div className='div__waiting-room' data-testid='waiting-room'>
-			<table className='waiting-room__opponents-table'>
+		<div className="div__waiting-room" data-testid="waiting-room">
+			<table className="waiting-room__opponents-table">
 				<thead>
 					<tr>
 						<th>Player Name</th>
@@ -42,18 +42,24 @@ export const WaitingRoom = () => {
 						<td>{playerName} (You)</td>
 						<td>Human</td>
 					</tr>
-					{
-						opponents.map((opponent, idx) => (
-							<tr key={`player-${idx}`}>
-								<td>{opponent.name}</td>
-								<td>Human</td>
-							</tr>
-						))
-					}
+					{opponents.map((opponent, idx) => (
+						<tr key={`player-${idx}`}>
+							<td>{opponent.name}</td>
+							<td>Human</td>
+						</tr>
+					))}
 					{aiOpponents}
 				</tbody>
 			</table>
-			{ (!!isHost && <button className='waiting-room__start-game-btn' onClick={handleClick}>Start Game</button>) || <div className='waiting-room__waiting-message'>Waiting for host to start game...</div>}
+			{(!!isHost && (
+				<button className="waiting-room__start-game-btn" onClick={handleClick}>
+					Start Game
+				</button>
+			)) || (
+				<div className="waiting-room__waiting-message">
+					Waiting for host to start game...
+				</div>
+			)}
 		</div>
 	);
 };

@@ -1,4 +1,4 @@
-import { Message } from "../reducers/messages";
+import { Message } from '../reducers/messages';
 
 export const JOIN_GAME = 'JOIN_GAME';
 export const REJOIN_GAME = 'REJOIN_GAME';
@@ -43,7 +43,7 @@ export const moveTile = (srcIndex: number, dstIndex: number) => ({
 export const joinGame = (
 	username: string,
 	roomId: string,
-	shouldCreateRoom: boolean
+	shouldCreateRoom: boolean,
 ) => ({
 	type: JOIN_GAME,
 	username,
@@ -114,7 +114,11 @@ export const claimTile = (claimType: any) => ({
 	claimType,
 });
 
-export const updateValidMeldSubsets = (validMeldSubsets: any[], newMeld: any, newMeldTargetLength: number) => ({
+export const updateValidMeldSubsets = (
+	validMeldSubsets: any[],
+	newMeld: any,
+	newMeldTargetLength: number,
+) => ({
 	type: PRE_REVEAL_MELD,
 	validMeldSubsets,
 	newMeld,

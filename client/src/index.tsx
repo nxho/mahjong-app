@@ -23,7 +23,7 @@ if (!localStorage.getItem(uuidKey)) {
 const socket = io(config.socket.SERVER_URL);
 const store = createStore(
 	rootReducer,
-	applyMiddleware(createSocketMiddleware(socket))
+	applyMiddleware(createSocketMiddleware(socket)),
 );
 
 ReactDOM.render(
@@ -32,5 +32,5 @@ ReactDOM.render(
 			<Mahjong />
 		</DndProvider>
 	</Provider>,
-	document.getElementById('root')
+	document.getElementById('root'),
 );

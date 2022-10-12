@@ -28,7 +28,7 @@ import { Message } from '../reducers/messages';
 
 const createSocketMiddleware = (socket: SocketIOClient.Socket): Middleware => {
 	let declareClaimTimer: NodeJS.Timeout | null = null;
-	return store => {
+	return (store) => {
 		// Initialize socketio listeners
 		socket.on('connect', () => {
 			// Data to retrieve from server once socket connection is established
@@ -44,14 +44,18 @@ const createSocketMiddleware = (socket: SocketIOClient.Socket): Middleware => {
 					if (!roomId) {
 						console.log('No game in progress, display landing page');
 					} else {
-						console.log(`Player ${username} is in active room_id=${roomId}, rejoining game in progress`);
+						console.log(
+							`Player ${username} is in active room_id=${roomId}, rejoining game in progress`,
+						);
 
 						console.log('Player data:', playerData);
 
-						store.dispatch(updatePlayer({
-							...playerData,
-							inGame: true,
-						}));
+						store.dispatch(
+							updatePlayer({
+								...playerData,
+								inGame: true,
+							}),
+						);
 						store.dispatch(receivePendingEvents());
 					}
 				} else {
@@ -66,16 +70,25 @@ const createSocketMiddleware = (socket: SocketIOClient.Socket): Middleware => {
 		});
 
 		socket.on('update_opponents', (opponents: any[]) => {
-			console.log('Received "update_opponents" event from server, updating opponents to:', opponents);
+			console.log(
+				'Received "update_opponents" event from server, updating opponents to:',
+				opponents,
+			);
 			store.dispatch(updateOpponents(opponents));
 		});
 		socket.on('update_tiles', (tiles: any[]) => {
-			console.log('Received "update_tiles" event from server, updating tiles to:', tiles);
+			console.log(
+				'Received "update_tiles" event from server, updating tiles to:',
+				tiles,
+			);
 
 			store.dispatch(updatePlayer({ tiles }));
 		});
 		socket.on('extend_tiles', (tile: any) => {
-			console.log('Received "extend_tiles" event from server, adding tile:', tile);
+			console.log(
+				'Received "extend_tiles" event from server, adding tile:',
+				tile,
+			);
 
 			// Assign key to new tile for stable rendering
 			tile.key = uuidv4();
@@ -83,17 +96,26 @@ const createSocketMiddleware = (socket: SocketIOClient.Socket): Middleware => {
 			store.dispatch(extendTiles(tile));
 		});
 		socket.on('update_discarded_tile', (discardedTile: any) => {
-			console.log('Received "update_discarded_tile" event from server, updating discarded tile to:', discardedTile);
+			console.log(
+				'Received "update_discarded_tile" event from server, updating discarded tile to:',
+				discardedTile,
+			);
 
 			store.dispatch(updateDiscardedTile(discardedTile));
 		});
 		socket.on('update_room_id', (roomId: string) => {
-			console.log('Received "update_room_id" event from server, updating room ID to:', roomId);
+			console.log(
+				'Received "update_room_id" event from server, updating room ID to:',
+				roomId,
+			);
 
 			store.dispatch(updatePlayer({ roomId }));
 		});
 		socket.on('update_current_state', (currentState: any) => {
-			console.log('Received "update_state" event from server, updating player action state to:', currentState);
+			console.log(
+				'Received "update_state" event from server, updating player action state to:',
+				currentState,
+			);
 
 			store.dispatch(updatePlayer({ currentState }));
 		});
@@ -117,31 +139,50 @@ const createSocketMiddleware = (socket: SocketIOClient.Socket): Middleware => {
 		});
 		socket.on('valid_tile_sets_for_meld', (payload: any) => {
 			let { validMeldSubsets, newMeld, newMeldTargetLength } = payload;
-			validMeldSubsets = validMeldSubsets.map((subset: any) => (subset.map(({ suit, type }: { suit: string; type: string }) => `${suit.slice(0, 4)}_${type}`)));
+			validMeldSubsets = validMeldSubsets.map((subset: any) =>
+				subset.map(
+					({ suit, type }: { suit: string; type: string }) =>
+						`${suit.slice(0, 4)}_${type}`,
+				),
+			);
 
 			console.log('Dispatching updateValidMeldSubsets');
-			store.dispatch(updateValidMeldSubsets(validMeldSubsets, newMeld, newMeldTargetLength));
+			store.dispatch(
+				updateValidMeldSubsets(validMeldSubsets, newMeld, newMeldTargetLength),
+			);
 
 			console.log('Dispatching showMeldableTiles');
 			store.dispatch(showMeldableTiles(null));
 		});
 		socket.on('update_revealed_melds', (revealedMelds: any[]) => {
-			console.log('Received "update_revealed_melds" event from server, updating revealedMelds to:', revealedMelds);
+			console.log(
+				'Received "update_revealed_melds" event from server, updating revealedMelds to:',
+				revealedMelds,
+			);
 
 			store.dispatch(updatePlayer({ revealedMelds }));
 		});
 		socket.on('update_can_declare_win', (canDeclareWin: boolean) => {
-			console.log('Received "update_can_declare_win" event from server, updating canDeclareWin to:', canDeclareWin);
+			console.log(
+				'Received "update_can_declare_win" event from server, updating canDeclareWin to:',
+				canDeclareWin,
+			);
 
 			store.dispatch(updatePlayer({ canDeclareWin }));
 		});
 		socket.on('update_can_declare_kong', (canDeclareKong: boolean) => {
-			console.log('Received "update_can_declare_kong" event from server, updating canDeclareKong to:', canDeclareKong);
+			console.log(
+				'Received "update_can_declare_kong" event from server, updating canDeclareKong to:',
+				canDeclareKong,
+			);
 
 			store.dispatch(updatePlayer({ canDeclareKong }));
 		});
 		socket.on('update_concealed_kongs', (concealedKongs: boolean) => {
-			console.log('Received "update_concealed_kongs" event from server, updating concealedKongs to:', concealedKongs);
+			console.log(
+				'Received "update_concealed_kongs" event from server, updating concealedKongs to:',
+				concealedKongs,
+			);
 
 			store.dispatch(updatePlayer({ concealedKongs }));
 		});
@@ -165,7 +206,7 @@ const createSocketMiddleware = (socket: SocketIOClient.Socket): Middleware => {
 			'player-uuid': localStorage.getItem('mahjong-player-uuid'),
 		});
 
-		return next => action => {
+		return (next) => (action) => {
 			switch (action.type) {
 				case RECEIVE_PENDING_EVENTS:
 					console.log('Emitting event reemit_events');
@@ -194,8 +235,12 @@ const createSocketMiddleware = (socket: SocketIOClient.Socket): Middleware => {
 						key: string;
 					} & Tile;
 
-					const new_meld = action.newMeld.map(({ suit, type }: TileWithKey): Tile => ({ suit, type }));
-					console.log(`Emitting event complete_new_meld with new_meld=${new_meld}`);
+					const new_meld = action.newMeld.map(
+						({ suit, type }: TileWithKey): Tile => ({ suit, type }),
+					);
+					console.log(
+						`Emitting event complete_new_meld with new_meld=${new_meld}`,
+					);
 					socket.emit('complete_new_meld', { new_meld });
 					break;
 				case END_TURN:
@@ -244,9 +289,8 @@ const createSocketMiddleware = (socket: SocketIOClient.Socket): Middleware => {
 				default:
 			}
 			return next(action);
-		}
-	}
-}
+		};
+	};
+};
 
 export default createSocketMiddleware;
-

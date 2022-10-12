@@ -1,7 +1,12 @@
 import React from 'react';
-import { createStore, applyMiddleware } from 'redux'
-import { Provider } from 'react-redux'
-import { render, fireEvent, cleanup, waitForElement } from 'react-testing-library'
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import {
+	render,
+	fireEvent,
+	cleanup,
+	waitForElement,
+} from 'react-testing-library';
 import io from 'socket.io-client';
 import config from '../../config';
 import createSocketMiddleware from '../../middleware';
@@ -26,14 +31,14 @@ const initSocket = () => {
 		});
 
 		setTimeout(() => {
-      reject(new Error("Failed to connect within 5 seconds."));
-    }, 5000);
+			reject(new Error('Failed to connect within 5 seconds.'));
+		}, 5000);
 	});
-}
+};
 
 const renderWithRedux = (
-  ui,
-  { initialState, store = createStore(reducer, initialState) } = {}
+	ui,
+	{ initialState, store = createStore(reducer, initialState) } = {},
 ) => ({
 	...render(<Provider store={store}>{ui}</Provider>, {
 		// this will make the wrapping div the baseElement instead of the whole document body
@@ -43,24 +48,32 @@ const renderWithRedux = (
 	// to reference it in our tests (just try to avoid using
 	// this to test implementation details).
 	store,
-})
+});
 
 const renderMahjongWithUsername = async (username) => {
 	const socket = await initSocket();
-	const store = createStore(reducer, applyMiddleware(createSocketMiddleware(socket)))
-	const { getByLabelText, getAllByTestId, getByTestId, debug } = renderWithRedux(<Mahjong />, {
+	const store = createStore(
+		reducer,
+		applyMiddleware(createSocketMiddleware(socket)),
+	);
+	const {
+		getByLabelText,
+		getAllByTestId,
+		getByTestId,
+		debug,
+	} = renderWithRedux(<Mahjong />, {
 		store,
 	});
 	const usernameInput = getByLabelText('Name:', {
 		selector: 'input',
-	})
+	});
 	fireEvent.change(usernameInput, { target: { value: username } });
 	fireEvent.submit(getByTestId('username-form'));
 
 	await waitForElement(() => getByTestId('waiting-room'));
 
 	return { getByLabelText, getAllByTestId, getByTestId };
-}
+};
 
 describe('Mahjong component', () => {
 	afterEach(() => {
@@ -68,12 +81,15 @@ describe('Mahjong component', () => {
 	});
 
 	it('should show Board component when enough players have joined', async () => {
-		const { getByLabelText, getAllByTestId, getByTestId } = await renderMahjongWithUsername('main_player');
-		for(let i = 0; i < 3; i++) {
+		const {
+			getByLabelText,
+			getAllByTestId,
+			getByTestId,
+		} = await renderMahjongWithUsername('main_player');
+		for (let i = 0; i < 3; i++) {
 			await renderMahjongWithUsername(`opponent_${i}`);
 		}
 
 		await waitForElement(() => getByTestId('board'));
 	});
 });
-
