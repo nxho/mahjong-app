@@ -1,3 +1,5 @@
+/* eslint-disable prefer-const */
+/* eslint-disable no-case-declarations */
 import {
 	CLAIM_TILE,
 	COMPLETE_NEW_MELD,

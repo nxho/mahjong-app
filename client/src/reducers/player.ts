@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import {
 	END_TURN,
 	JOIN_GAME,
@@ -308,7 +309,7 @@ const player = (player: Player = initPlayer(), action: any) => {
 			const actionPlayer = action.player;
 
 			// Do additional processing for a property if object to be merged contains specified prop
-			if (actionPlayer.hasOwnProperty('tiles')) {
+			if ('tiles' in actionPlayer) {
 				// Assign key to each tile for stable rendering
 				actionPlayer.tiles.forEach((tile: any) => {
 					tile.key = v4();
