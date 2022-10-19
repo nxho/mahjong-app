@@ -1,1 +1,1 @@
-web: MAHJONG_ENV=heroku gunicorn server:app -k eventlet -w 1
+web: MAHJONG_ENV=prod gunicorn server:app -k eventlet -w 1
