@@ -20,7 +20,8 @@ if (!localStorage.getItem(uuidKey)) {
 	localStorage.setItem(uuidKey, v4());
 }
 
-const socket = io(config.socket.SERVER_URL);
+const serverUrl = process.env.REACT_APP_SERVER_URL ?? config.socket.SERVER_URL;
+const socket = io(serverUrl);
 const store = createStore(
 	rootReducer,
 	applyMiddleware(createSocketMiddleware(socket)),
