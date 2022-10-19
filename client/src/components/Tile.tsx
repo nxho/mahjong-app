@@ -9,47 +9,22 @@ type Props = {
 };
 
 export const Tile = ({ suit, type, selected, className }: Props) => {
-	const tryRequire = () => {
-		let img = null;
-
-		try {
-			img = require(`../svgs/${suit}_${type}.svg`);
-		} catch (e) {
-			// handle silently
-		}
-
-		return img;
-	};
-
-	const renderImg = (img_src: string) => {
-		let localClassName = 'imgTile';
-		if (className) {
-			localClassName += ` ${className}`;
-		}
-		if (selected) {
-			localClassName += ' imgTile--state-selected';
-		}
-		return (
-			<img
-				className={localClassName}
-				src={img_src}
-				alt={`${suit}_${type}`}
-				draggable="false"
-			/>
-		);
-	};
-
-	const renderText = () => (
-		<div className="textTileDiv">
-			<div>{suit.slice(0, 4)}</div>
-			<div>{type}</div>
-		</div>
-	);
-
-	const img_src = tryRequire();
-	if (img_src) {
-		return renderImg(img_src);
-	} else {
-		return renderText();
+	let localClassName = 'imgTile';
+	if (className) {
+		localClassName += ` ${className}`;
 	}
+	if (selected) {
+		localClassName += ' imgTile--state-selected';
+	}
+
+	const imgSrc = `${process.env.PUBLIC_URL}/assets/images/${suit}_${type}.svg`;
+
+	return (
+		<img
+			className={localClassName}
+			src={imgSrc}
+			alt={`${suit}_${type}`}
+			draggable="false"
+		/>
+	);
 };
